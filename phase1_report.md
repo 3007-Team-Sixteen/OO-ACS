@@ -12,98 +12,53 @@
 - Muhammad Qureshi (23976415)
 - Kelly Snow (23614821)
 
-Player authentication – Ensuring that only registered players can log in. **Kelly**
-wasteland wanderers to elite plutocratic overlords with access to game-altering financial
-instruments - **Prem, Kai**
-•Session management – Handling login sessions, preventing unauthorized access, and
-dealing with connection timeouts or suspicious activity. **Mo**
-•Admin and operations access – Providing secure tools for Enjjin's staff to manage
-accounts, enforce bans, and troubleshoot authentication issues. **Steve** 
-
-Although Roles have been assigned, as a group we believe that all participants should be conversant in all roles.
-
-How will the group ensure accountability and track progress.
-
-GitHub for deadlines, sprints, Project management.
-
-Meetings - minutes are kept. Assigned roles tracked. Progress is assessed and evaluated.
-
-Version Control Strategy
-
-Agile Strategies in GitHub for versioning.
-Ensure merging contributions are managed with Pull Requests.
-
-Pull requests are ideally evaluated but collaborators can merge their own branches if necessary due to time constraints or other factors.
-
-Main Branch -- Feature Branch
-
-Examples of good naming conventions:
-/feature-feature-name
-/bugfix-bug-name
-
-Find good convetions
-
-**Development Tools**
-EC2 Aws Server for dev environment
-IDE is whichever the user is comfortable with
-CI/CD pipeline setup for Monday
-GDB, AFL++Clang - I'll research the others. Ensure choices are well justified.
-Cloud Development Pipeline for uniformity.
-git and GitHub Repos
-Communication tools as already discussed.
-
-**Key Secure Coding Issues**
-Ensuring all keys remain unpublished (.gitignore)
-Principle of least privileges. As it pertains to linux users.
-Clear demarcation between players, ,game administrators, developers, anyone else.
-Password hashing pracitces - md5, others?
-This is important.
-why it is relevant to the project
-•how it will be applied during development, and
-•how the group will ensure it is effectively used.
-
-
-**Risk Management and Quality Assurance**
-Redundancy and backups. 
-Ensure that CI/CD pipeline is robustly configured.
-Time Machine Backups
-Research windows backups.
-
-**Standards**
-C11 standards.
-Peer Reviews
-Pull requests are ideally evaluated but collaborators can merge their own branches if necessary due to time constraints or other factors.
-Find good, explicit, publically available style guides.
-
-**Optional**
-Team-16. 
-
-
 # Phase 1 Report: Project Planning and Setup
 
 ## 0. Project Scope
 
-### Core Responsibilities
-- **Player Authentication** (Kelly)
-  - Ensuring that only registered players can log in
-  - Implementing secure login mechanisms
-  - Managing player credentials and access control
+### 0.1 Core Responsibilities
 
-- **Game Economy Management** (Prem, Kai)
-  - Handling player progression from wasteland wanderers to elite plutocratic overlords
-  - Managing game-altering financial instruments
-  - Implementing secure economic transactions
+Based on the assignment specification and team members' expertise, we have allocated the following core responsibilities for the Access Control System (ACS):
 
-- **Session Management** (Mo)
-  - Handling login sessions
-  - Preventing unauthorized access
-  - Managing connection timeouts
-  - Monitoring suspicious activity
+1. **Player Authentication System** (Kelly Snow)
+   - Implementation of secure login mechanisms
+   - Password management and hashing
+   - Account recovery procedures
+   - Multi-factor authentication support
+   - Integration with game client
+   - Ensuring only registered players can log in
 
-- **Admin and Operations Access** (Steve)
-  - Providing secure tools for Enjjin's staff
-  - Managing accounts and enforcing bans
-  - Troubleshooting authentication issues
+2. **Role-Based Access Control (RBAC)** (Prem Patel, Kai Fletcher)
+   - Design and implementation of role hierarchy
+   - Privilege management system
+   - Access control list implementation
+   - Financial instrument access control
+   - Role-based permission verification
+   - Managing player progression from wasteland wanderers to elite plutocratic overlords
+
+3. **Session Management** (Muhammad Qureshi)
+   - Secure session handling and validation
+   - Session timeout management
+   - Concurrent session control
+   - Suspicious activity detection
+   - Connection timeout handling
+   - Preventing unauthorized access
+   - Dealing with connection timeouts or suspicious activity
+
+4. **Administrative Tools** (Stephen Beaver)
+   - Account management interface
+   - Security monitoring dashboard
+   - Audit logging system
+   - Ban enforcement mechanisms
+   - Authentication troubleshooting tools
+   - Providing secure tools for Enjjin's staff to manage accounts
+   - Enforcing bans and troubleshooting authentication issues
+
+Each responsibility aligns with the core ACS requirements specified in the assignment:
+- Player authentication for secure login
+- RBAC for managing in-game privileges
+- Session management for secure access control
+- Admin tools for Enjjin's operations staff
 
 ### Cross-Training Strategy
 Although roles have been assigned, the team believes in cross-training:
