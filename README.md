@@ -1,4 +1,5 @@
 # CITS3007 Secure Coding - Group Project
+## Oblivionaire Online (OO) - Access Control System (ACS)
 
 This repository contains the materials and deliverables for the CITS3007 Secure Coding group project at The University of Western Australia.
 
@@ -10,12 +11,43 @@ The project involves developing an Access Control System (ACS) for Oblivionaire 
 - Session management
 - Admin and operations access
 
+## Team Information
+
+**Team Name:** 3007-Team-Sixteen
+
+**Group Number:** 16
+
+**Team Members:**
+- Stephen Beaver (10423362)
+- Kai Fletcher (23808253)
+- Prem Patel (23775211)
+- Muhammad Qureshi (23976415)
+- Kelly Snow (23614821)
+
 ## Repository Structure
 
 - `ASSIGNMENT_SPEC.md` - Detailed project specification and requirements
 - `phase1_report.md` - Phase 1 planning report
-- `Assignment_Material/` - Original assignment materials
+- `Assignment_Material/` - Course materials and lecture notes
+- `.github/workflows/` - CI/CD pipeline configuration
 - `.gitignore` - Git ignore rules for the project
+
+## Development Environment
+
+### Core Tools
+- AWS EC2 Ubuntu 20.04 LTS
+- C11 with strict compiler flags
+- Git and GitHub for version control
+- CI/CD pipeline with GitHub Actions
+
+### Security Tools
+- Clang Static Analyser
+- Cppcheck
+- Valgrind
+- AFL++
+- Address Sanitiser
+- Thread Sanitiser
+- Undefined Behaviour Sanitiser
 
 ## Project Phases
 
@@ -34,20 +66,21 @@ The project involves developing an Access Control System (ACS) for Oblivionaire 
    - Worth: 10 marks
    - Deliverable: Project demonstration and presentation
 
-## Development Environment
+## Quality Assurance
 
-The project can be developed using:
-- Any modern code editor or IDE
-- Standard C development tools (gcc, make, etc.)
-- Version control system (Git)
-- Secure coding analysis tools
+### Testing Requirements
+- Unit tests: >90% coverage
+- Integration tests: >80% coverage
+- Security tests: >95% coverage
+- Memory leak checks
+- Fuzzing for input functions
 
-## Group Project Information
-
-- This is a group project worth 30% of the final mark
-- Groups consist of 4-6 people
-- Total marks: 60
-- Group Contribution Factor (GCF) will be applied to phases 2 and 3
+### Code Review Process
+- Pull requests require:
+  - Passing CI/CD checks
+  - Security scan clearance
+  - Code review approval
+  - Updated documentation
 
 ## Academic Integrity
 
