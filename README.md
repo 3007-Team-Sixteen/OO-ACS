@@ -1,77 +1,57 @@
-# CITS3007 Secure Coding - Assignment 1
-## Oblivionaire Online (OO) - Access Control System (ACS)
+# CITS3007 Development Environment for UTM (Apple Silicon)
 
-### Project Overview
-This project involves developing a critical subsystem for Oblivionaire Online (OO), a new MMORPG by Enjjin Media. The Access Control System (ACS) is responsible for:
-- Player authentication
-- Role-based access control (RBAC)
-- Session management
-- Admin and operations access
+This repository contains the configuration and scripts needed to run the CITS3007 development environment using UTM on Apple Silicon Macs.
 
-### Project Structure
-This repository contains the planning phase (Phase 1) of the CITS3007 group project. The project is divided into three phases:
-1. **Phase 1 (Planning)** - Due Week 8
-   - Worth 10 marks
-   - Focuses on establishing collaboration, tooling, and quality considerations
-2. **Phase 2 (Implementation)** - Due Week 11
-   - Worth 40 marks
-   - Implementation of the ACS system
-3. **Phase 3 (Demo/Presentation)** - Weeks 11-12
-   - Worth 10 marks
-   - Final demonstration and presentation
+## Prerequisites
 
-### Getting Started
-1. Clone this repository
-2. Review the project requirements in `secure_coding_assignment1.pdf`
-3. Check the project groups in `project_groups.xlsx`
+1. Install UTM from the Mac App Store
+2. Install Vagrant:
+   ```bash
+   brew install vagrant
+   ```
 
-### Project Requirements
-The ACS system must handle:
-- Player authentication
-- Role-based access control (RBAC)
-- Session management
-- Admin and operations access
+## Setup Instructions
 
-### Development Guidelines
-- Follow secure coding practices
-- Maintain code quality through peer reviews
-- Use version control effectively
-- Document all major decisions and changes
+1. Run the setup script:
+   ```bash
+   ./setup.sh
+   ```
+   This will:
+   - Download the Ubuntu 20.04 base image
+   - Copy the provisioning scripts
+   - Create the UTM configuration
 
-### Important Dates
-- Phase 1 Submission: Wednesday 16 April 2025 (11:59 pm)
-- Phase 2 Submission: Friday 9 May 2025 (11:59 pm)
-- Phase 3 Demo/Presentation: Week 11-12 (19-30 May 2025)
-  - Demo: During your assigned lab session
-  - Presentation: During your assigned tutorial session
+2. Open UTM and import the configuration:
+   - Open UTM
+   - Click "Import"
+   - Select the `cits3007.utm/config.plist` file
 
-### Group Information
-- Group Name: [To be determined]
-- Group Members: [To be added]
-- Group Number: [To be added]
+3. Start the VM in UTM
 
-### Repository Structure
-```
-.
-├── README.md
-├── secure_coding_assignment1.pdf
-└── project_groups.xlsx
-```
+4. Once the VM is running, apply the provisioning:
+   ```bash
+   ./apply-provisioning.sh
+   ```
 
-### Contributing
-1. Create a new branch for your feature
-2. Make your changes
-3. Submit a pull request
-4. Wait for review and approval
+## Environment Details
 
-### Security Considerations
-- Follow secure coding practices
-- Implement proper authentication
-- Use secure session management
-- Follow the principle of least privilege
+- Base Image: Ubuntu 20.04 (generic/ubuntu2004 version 4.1.0)
+- Architecture: x86_64 (emulated)
+- Memory: 8GB
+- CPU: 4 cores
+- Storage: 60GB
 
-### License
-This project is part of CITS3007 Secure Coding assignment and should be used according to university guidelines.
+## Development Tools
 
-### Contact
-For any questions or concerns, please contact the group members or the course coordinator.
+The environment includes:
+- gcc and GNU make
+- clang and related tools
+- gdb for debugging
+- valgrind for memory checking
+- Various development utilities
+
+## Notes
+
+- The environment is configured to use x86_64 emulation to ensure compatibility with the original CITS3007 environment
+- Shared folders are enabled for easy file transfer between host and guest
+- Network is configured in shared mode for internet access

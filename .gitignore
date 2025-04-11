@@ -77,4 +77,11 @@ site/
 
 # Project Specific
 project_groups.xlsx
-secure_coding_assignment1.pdf 
+secure_coding_assignment1.pdf
+
+# Sensitive credentials and keys
+rootkey.csv
+cits3007-key.pem
+*.pem
+*.key
+*.csv 
