@@ -91,22 +91,27 @@ We've divided our core responsibilities based on team members' strengths and int
    - Multi-factor authentication support
 
 2. **Role-Based Access Control** (Prem, Kai)
-   - Player role hierarchy
+   - Player role hierarchy (from wasteland wanderers to elite plutocratic overlords)
    - Privilege management
    - Access control lists
    - Permission verification
+   - Financial instrument access control
 
 3. **Session Management** (Muhammad)
    - Secure session handling
    - Timeout management
    - Concurrent session control
    - Session security measures
+   - Connection timeout handling
+   - Suspicious activity detection
 
 4. **Admin and Operations** (Stephen)
    - Administrative tools
    - Account management
    - Security monitoring
    - Audit logging
+   - Ban enforcement
+   - Authentication troubleshooting
 
 ### 0.2 Pre-mortem Analysis
 
@@ -311,6 +316,46 @@ We've divided our core responsibilities based on team members' strengths and int
    - Peer review
    - Security review
    - Technical review 
+
+### 0.2 Team Collaboration
+
+#### Cross-Training
+- All team members will be conversant in all roles
+- Regular knowledge sharing sessions
+- Documentation of key processes
+- Pair programming for critical features
+
+#### Progress Tracking
+1. **GitHub Integration**
+   - Sprint planning and tracking
+   - Deadline management
+   - Project management tools
+   - Progress assessment and evaluation
+
+2. **Meeting Structure**
+   - Regular team meetings
+   - Minutes documentation
+   - Role tracking
+   - Progress evaluation
+
+### 0.3 Version Control Strategy
+
+#### Branch Management
+1. **Branch Structure**
+   - Main branch for production-ready code
+   - Feature branches for development
+   - Bugfix branches for fixes
+
+2. **Branch Naming Conventions**
+   - `feature/ACS-<ticket>-description`
+   - `bugfix/ACS-<ticket>-description`
+   - `security/ACS-<ticket>-description`
+
+3. **Pull Request Process**
+   - Code review required
+   - CI/CD checks must pass
+   - Documentation updates
+   - Emergency merges allowed with justification
 
 ## 1. Team Communication & Responsibilities
 
