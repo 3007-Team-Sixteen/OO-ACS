@@ -5,6 +5,8 @@
 
 **Group Number:** 16
 
+**Organization:** 3007-Team-Sixteen
+
 **Group Members:**
 - Stephen Beaver (10423362)
 - Kai Fletcher (23808253)
@@ -20,8 +22,17 @@
 
 Based on the assignment specification and team members' expertise, we have allocated the following core responsibilities for the Access Control System (ACS):
 
+**Area of Responsibility** | **Primary Contributor(s)**    | **Supporting Contributors**
+---------------------------|-------------------------------|--------------------------
+Authentication System      | Kelly Snow                    | All team members
+RBAC Implementation        | Prem Patel, Kai Fletcher      | All team members
+Session Management         | Muhammad Qureshi              | All team members
+Admin Tools                | Stephen Beaver                | All team members
+Security Testing           | All team members              | All team members
+User Interface             | All team members              | All team members
+
 1. **Player Authentication System** (Kelly Snow)
-   - Implementation of secure login mechanisms
+   - Implementation  f secure login mechanisms
    - Password management and hashing
    - Account recovery procedures
    - Multi-factor authentication support
@@ -146,14 +157,14 @@ Rather than fixed roles, we will:
 - Encourage skill development in new areas
 
 #### Task Distribution Matrix
-| Area of Responsibility | Primary Contributors | Supporting Contributors |
-|----------------------|---------------------|----------------------|
-| Authentication System | Kelly Snow | All team members |
-| RBAC Implementation | Prem Patel, Kai Fletcher | All team members |
-| Session Management | Muhammad Qureshi | All team members |
-| Admin Tools | Stephen Beaver | All team members |
-| Security Testing | All team members | All team members |
-| User Interface | All team members | All team members |
+| Area of Responsibility | Primary Contributor(s)   | Supporting Contributors |
+|------------------------|--------------------------|-------------------------|
+| Authentication System  | Kelly Snow               | All team members        |
+| RBAC Implementation    | Prem Patel, Kai Fletcher | All team members        |
+| Session Management     | Muhammad Qureshi         | All team members        |
+| Admin Tools            | Stephen Beaver           | All team members        |
+| Security Testing       | All team members         | All team members        |
+| User Interface         | All team members         | All team members        |
 
 ### 1.3 Progress Tracking & Accountability
 
