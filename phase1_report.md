@@ -79,290 +79,45 @@ Find good, explicit, publically available style guides.
 Team-16. 
 
 
+# Phase 1 Report: Project Planning and Setup
+
 ## 0. Project Scope
 
-### 0.1 Core Responsibilities
-We've divided our core responsibilities based on team members' strengths and interests:
+### Core Responsibilities
+- **Player Authentication** (Kelly)
+  - Ensuring that only registered players can log in
+  - Implementing secure login mechanisms
+  - Managing player credentials and access control
 
-1. **Player Authentication** (Kelly)
-   - Secure login system
-   - Password management
-   - Account recovery
-   - Multi-factor authentication support
+- **Game Economy Management** (Prem, Kai)
+  - Handling player progression from wasteland wanderers to elite plutocratic overlords
+  - Managing game-altering financial instruments
+  - Implementing secure economic transactions
 
-2. **Role-Based Access Control** (Prem, Kai)
-   - Player role hierarchy (from wasteland wanderers to elite plutocratic overlords)
-   - Privilege management
-   - Access control lists
-   - Permission verification
-   - Financial instrument access control
+- **Session Management** (Mo)
+  - Handling login sessions
+  - Preventing unauthorized access
+  - Managing connection timeouts
+  - Monitoring suspicious activity
 
-3. **Session Management** (Muhammad)
-   - Secure session handling
-   - Timeout management
-   - Concurrent session control
-   - Session security measures
-   - Connection timeout handling
-   - Suspicious activity detection
+- **Admin and Operations Access** (Steve)
+  - Providing secure tools for Enjjin's staff
+  - Managing accounts and enforcing bans
+  - Troubleshooting authentication issues
 
-4. **Admin and Operations** (Stephen)
-   - Administrative tools
-   - Account management
-   - Security monitoring
-   - Audit logging
-   - Ban enforcement
-   - Authentication troubleshooting
-
-### 0.2 Pre-mortem Analysis
-
-#### Potential Failure Points
-1. **Technical Challenges**
-   - Complex RBAC implementation
-   - Session security vulnerabilities
-   - Performance under load
-   - Integration issues
-
-2. **Team Challenges**
-   - Knowledge gaps in security
-   - Uneven workload distribution
-   - Communication breakdowns
-   - Time management issues
-
-3. **Resource Challenges**
-   - AWS service limitations
-   - Development environment issues
-   - Tool integration problems
-   - Documentation maintenance
-
-#### Mitigation Strategies
-1. **Technical Mitigations**
-   - Regular security reviews
-   - Performance testing
-   - Integration testing
-   - Documentation updates
-
-2. **Team Mitigations**
-   - Regular knowledge sharing
-   - Workload monitoring
-   - Clear communication channels
-   - Time tracking
-
-3. **Resource Mitigations**
-   - Regular AWS monitoring
-   - Environment documentation
-   - Tool evaluation
-   - Documentation automation
-
-### 0.3 Task Tracking
-
-#### Individual Contribution Tracking
-1. **GitHub Integration**
-   - Commit history analysis
-   - Pull request tracking
-   - Code review participation
-   - Issue resolution tracking
-
-2. **Progress Measurement**
-   - Sprint velocity tracking
-   - Burn-down charts
-   - Milestone completion
-   - Quality metrics
-
-3. **Task Redistribution**
-   - Workload monitoring
-   - Skill assessment
-   - Knowledge transfer
-   - Documentation updates
-
-### 0.4 Security Implementation
-
-#### RBAC System
-1. **Role Hierarchy**
-   - Player roles
-   - Admin roles
-   - System roles
-   - Custom roles
-
-2. **Permission Management**
-   - Permission types
-   - Access levels
-   - Inheritance rules
-   - Override mechanisms
-
-#### Session Management
-1. **Session Security**
-   - Token generation
-   - Session validation
-   - Timeout handling
-   - Concurrent control
-
-2. **Authentication**
-   - Password policies
-   - MFA implementation
-   - Account recovery
-   - Security questions
-
-#### Admin Tools
-1. **Account Management**
-   - User creation
-   - Role assignment
-   - Permission management
-   - Account suspension
-
-2. **Security Monitoring**
-   - Audit logging
-   - Security alerts
-   - Incident response
-   - Reporting tools
-
-### 0.5 Knowledge Sharing
-
-#### Cross-Training
-1. **Technical Skills**
-   - Security practices
-   - Development tools
-   - Testing methods
-   - Documentation
-
-2. **Project Knowledge**
-   - Architecture
-   - Security features
-   - Admin tools
-   - Testing procedures
-
-#### Documentation Maintenance
-1. **Code Documentation**
-   - Function documentation
-   - Security notes
-   - Testing requirements
-   - Performance considerations
-
-2. **Project Documentation**
-   - Architecture decisions
-   - Security policies
-   - Admin procedures
-   - Testing strategies
-
-### 0.6 Testing Strategy
-
-#### Test Cases
-1. **Authentication Tests**
-   - Login procedures
-   - Password policies
-   - Account recovery
-   - MFA implementation
-
-2. **RBAC Tests**
-   - Role assignment
-   - Permission checks
-   - Access control
-   - Inheritance rules
-
-3. **Session Tests**
-   - Session creation
-   - Timeout handling
-   - Concurrent access
-   - Security measures
-
-4. **Admin Tests**
-   - User management
-   - Role management
-   - Security monitoring
-   - Audit logging
-
-#### Security Testing
-1. **Penetration Testing**
-   - Authentication bypass
-   - Session hijacking
-   - Privilege escalation
-   - Data exposure
-
-2. **Vulnerability Scanning**
-   - Code analysis
-   - Dependency checking
-   - Configuration review
-   - Security headers
-
-### 0.7 Documentation Standards
-
-#### Security Documentation
-1. **Decision Records**
-   - Security choices
-   - Implementation details
-   - Risk assessments
-   - Mitigation strategies
-
-2. **Code Documentation**
-   - Security considerations
-   - Input validation
-   - Error handling
-   - Performance impact
-
-3. **Maintenance Procedures**
-   - Update processes
-   - Review procedures
-   - Testing requirements
-   - Deployment steps
-
-#### Documentation Maintenance
-1. **Automation**
-   - Documentation generation
-   - Code analysis
-   - Test reporting
-   - Security scanning
-
-2. **Review Process**
-   - Regular updates
-   - Peer review
-   - Security review
-   - Technical review 
-
-### 0.2 Team Collaboration
-
-#### Cross-Training
-- All team members will be conversant in all roles
+### Cross-Training Strategy
+Although roles have been assigned, the team believes in cross-training:
+- All participants should be conversant in all roles
 - Regular knowledge sharing sessions
-- Documentation of key processes
-- Pair programming for critical features
-
-#### Progress Tracking
-1. **GitHub Integration**
-   - Sprint planning and tracking
-   - Deadline management
-   - Project management tools
-   - Progress assessment and evaluation
-
-2. **Meeting Structure**
-   - Regular team meetings
-   - Minutes documentation
-   - Role tracking
-   - Progress evaluation
-
-### 0.3 Version Control Strategy
-
-#### Branch Management
-1. **Branch Structure**
-   - Main branch for production-ready code
-   - Feature branches for development
-   - Bugfix branches for fixes
-
-2. **Branch Naming Conventions**
-   - `feature/ACS-<ticket>-description`
-   - `bugfix/ACS-<ticket>-description`
-   - `security/ACS-<ticket>-description`
-
-3. **Pull Request Process**
-   - Code review required
-   - CI/CD checks must pass
-   - Documentation updates
-   - Emergency merges allowed with justification
+- Documentation of all processes
+- Peer review of critical components
 
 ## 1. Team Communication & Responsibilities
 
 ### 1.1 Communication Strategy
 
 #### Meeting Schedule
-- Weekly: Monday 10:00 AM at UWA
+- Weekly: Monday 10:00 at UWA
 - Sprint planning: Fortnightly
 - Emergency: Discord/WhatsApp
 
@@ -373,7 +128,7 @@ We've divided our core responsibilities based on team members' strengths and int
 
 #### Communication Tools
 - **Discord**: Primary platform for team communication
-  - Dedicated channels for:
+  - Dedicated channels:
     - #general-discussion
     - #technical-issues
     - #code-reviews
@@ -382,7 +137,7 @@ We've divided our core responsibilities based on team members' strengths and int
 - **WhatsApp**: Quick updates and urgent communications
 - **Google Calendar**: Meeting scheduling and deadline tracking
 - **GitHub Projects**: Task tracking and project management
-  - Kanban board for task visualization
+  - Kanban board for task visualisation
   - Issue tracking integrated with code
   - Milestone tracking for deliverables
   - Automated project updates via commits and PRs
@@ -399,7 +154,7 @@ All team members will contribute across different areas based on their strengths
    - Documentation maintenance
    
 2. **Security Implementation**
-   - Threat modeling and security reviews
+   - Threat modelling and security reviews
    - RBAC design and implementation
    - Security testing and validation
    - Security documentation
@@ -939,34 +694,35 @@ Types:
    ```yaml
    build:
      - Install dependencies
-     - Compile with security flags
-     - Run static analysis
+     - Compile with security flags (-std=c11 -pedantic -Wall -Wextra -Werror)
+     - Run static analysis (Clang Static Analyzer, Cppcheck)
      - Generate documentation
    ```
 
 2. **Test Stage**
    ```yaml
    test:
-     - Run unit tests
+     - Run unit tests (Google Test)
      - Run integration tests
-     - Run security tests
-     - Generate coverage report
+     - Run security tests (AFL++, LibFuzzer)
+     - Generate coverage report (gcov/gcovr)
    ```
 
 3. **Analysis Stage**
    ```yaml
    analysis:
      - Run Valgrind for memory analysis
-     - Run AFL++ for fuzzing
-     - Run Clang Static Analyser
+     - Run AddressSanitizer
+     - Run ThreadSanitizer
+     - Run Clang Static Analyzer
      - Run Cppcheck
-     - Run Splint
    ```
 
 4. **Security Stage**
    ```yaml
    security:
-     - Run STRIDE analysis
+     - Run AFL++ fuzzing
+     - Run LibFuzzer tests
      - Check for common vulnerabilities
      - Verify security headers
      - Scan for sensitive data
@@ -974,29 +730,25 @@ Types:
 
 #### Integration with Security Tools
 1. **Static Analysis Integration**
-   - Clang Static Analyser
-   - Cppcheck
-   - Splint
-   - Coverity Scan
+   - Clang Static Analyzer (daily)
+   - Cppcheck (weekly)
+   - Zero high-priority warnings
 
 2. **Dynamic Analysis Integration**
-   - Valgrind
-   - AFL++
-   - Address Sanitiser
-   - Thread Sanitiser
-   - Undefined Behaviour Sanitiser
+   - Valgrind (memory safety)
+   - AddressSanitizer (quick checks)
+   - ThreadSanitizer (concurrency)
+   - Zero memory leaks
 
 3. **Security Analysis Integration**
-   - STRIDE threat modeling
-   - Security scanning
-   - Penetration testing
-   - Vulnerability assessment
+   - AFL++ (fuzzing)
+   - LibFuzzer (unit testing)
+   - Regular security reviews
 
-4. **Performance Analysis Integration**
-   - Profiling with perf
-   - Load testing
-   - Resource monitoring
-   - Bottleneck identification
+4. **Code Quality Integration**
+   - Clang-tidy (style)
+   - Flawfinder (security)
+   - Style consistency
 
 ### 5.5 Style Guides
 
@@ -1193,3 +945,106 @@ Types:
    - Session management
    - Password policies
    - Audit requirements
+
+## 6. Reference Documentation
+
+### Style Guides and Standards
+1. **Google C++ Style Guide (adapted for C)**
+   - Link: https://google.github.io/styleguide/cppguide.html
+   - Used for: Code formatting, naming conventions, and general coding practices
+
+2. **CERT C Secure Coding Standard**
+   - Link: https://wiki.sei.cmu.edu/confluence/display/c/SEI+CERT+C+Coding+Standard
+   - Key rules implemented:
+     - INT30-C: Ensure operations on unsigned integers cannot wrap
+     - STR31-C: Guarantee null termination for string operations
+     - MEM35-C: Allocate sufficient memory for an object
+     - ERR33-C: Detect and handle errors
+
+3. **MISRA C:2012 Guidelines**
+   - Link: https://www.misra.org.uk/misra-c/
+   - Used for: Mandatory and advisory coding rules compliance
+
+4. **Doxygen Documentation Style**
+   - Link: https://www.doxygen.nl/manual/docblocks.html
+   - Used for: Code documentation format and standards
+
+### Testing Frameworks
+1. **Google Test Framework**
+   - Link: https://google.github.io/googletest/
+   - Used for: Unit testing structure and implementation
+
+### Version Control Standards
+1. **Conventional Commits**
+   - Link: https://www.conventionalcommits.org/
+   - Used for: Commit message formatting and standardization
+
+### Security Tools Documentation
+1. **AFL++ (American Fuzzy Lop)**
+   - Link: https://github.com/AFLplusplus/AFLplusplus
+   - Used for: Fuzzing and security testing
+
+2. **Clang Static Analyzer**
+   - Link: https://clang-analyzer.llvm.org/
+   - Used for: Static code analysis
+
+3. **Cppcheck**
+   - Link: https://cppcheck.sourceforge.io/
+   - Used for: Static analysis of C/C++ code
+
+4. **Valgrind**
+   - Link: https://valgrind.org/
+   - Used for: Memory debugging and profiling
+
+5. **Coverity Scan**
+   - Link: https://scan.coverity.com/
+   - Used for: Static analysis and security scanning
+
+### Development Tools
+1. **GDB (GNU Debugger)**
+   - Link: https://www.gnu.org/software/gdb/
+   - Used for: Debugging and code analysis
+
+2. **Gcov/Gcovr**
+   - Link: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html
+   - Used for: Code coverage analysis
+
+3. **Splint**
+   - Link: https://splint.org/
+   - Used for: Static analysis of C programs
+
+### AWS Documentation
+1. **AWS EC2 Documentation**
+   - Link: https://docs.aws.amazon.com/ec2/
+   - Used for: Development environment setup and management
+
+2. **AWS IAM Documentation**
+   - Link: https://docs.aws.amazon.com/IAM/
+   - Used for: Access management and security
+
+### CI/CD Tools
+1. **GitHub Actions**
+   - Link: https://docs.github.com/en/actions
+   - Used for: Continuous integration and deployment
+
+2. **CMake Documentation**
+   - Link: https://cmake.org/documentation/
+   - Used for: Build system configuration
+
+### Security Standards
+1. **STRIDE Threat Modeling**
+   - Link: https://docs.microsoft.com/en-us/azure/security/develop/threat-modeling-tool-threats
+   - Used for: Security threat analysis
+
+2. **OWASP Security Guidelines**
+   - Link: https://owasp.org/www-project-secure-coding-practices-quick-reference-guide/
+   - Used for: Secure coding practices
+
+### Backup Solutions
+1. **Time Machine Documentation**
+   - Link: https://support.apple.com/en-us/HT201250
+   - Used for: macOS backup configuration
+
+2. **Windows Backup and Restore**
+   - Link: https://support.microsoft.com/en-us/windows/backup-and-restore-in-windows-10-352091d2-bb9d-3ea3-ed18-52ef2b88cbef
+   - Used for: Windows backup configuration
