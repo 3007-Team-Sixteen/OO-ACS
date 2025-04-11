@@ -1,0 +1,23 @@
+{
+    "name": "cits3007-dev-environment",
+    "description": "CITS3007 development environment based on Ubuntu 20.04 LTS",
+    "semanticVersion": "1.0.1",
+    "components": [
+        {
+            "componentArn": "arn:aws:imagebuilder:ap-southeast-2:546415430351:component/cits3007-dev-environment/1.0.1/1"
+        }
+    ],
+    "parentImage": "ami-0faf08c281162e7aa",
+    "blockDeviceMappings": [
+        {
+            "deviceName": "/dev/sda1",
+            "ebs": {
+                "volumeSize": 32,
+                "volumeType": "gp3",
+                "deleteOnTermination": true,
+                "iops": 3000,
+                "throughput": 125
+            }
+        }
+    ]
+} 

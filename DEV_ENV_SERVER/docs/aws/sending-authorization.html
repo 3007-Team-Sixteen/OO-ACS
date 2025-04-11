@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+    <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Using sending authorization with Amazon SES - Amazon Simple Email Service</title><meta name="viewport" content="width=device-width,initial-scale=1" /><meta name="assets_root" content="/assets" /><meta name="target_state" content="sending-authorization" /><meta name="default_state" content="sending-authorization" /><link rel="icon" type="image/ico" href="/assets/images/favicon.ico" /><link rel="shortcut icon" type="image/ico" href="/assets/images/favicon.ico" /><link rel="canonical" href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html" /><meta name="description" content="Describes how to use Amazon SES sending authorization." /><meta name="deployment_region" content="IAD" /><meta name="product" content="Amazon Simple Email Service" /><meta name="guide" content="Developer Guide" /><meta name="abstract" content="Create a highly-scalable and flexible email sending and receiving platform using Amazon SES. This Developer Guide provides information and procedures for configuring your Amazon SES account to send and receive email." /><meta name="guide-locale" content="en_us" /><meta name="tocs" content="toc-contents.json" /><link rel="canonical" href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html" /><link rel="alternative" href="https://docs.aws.amazon.com/id_id/ses/latest/dg/sending-authorization.html" hreflang="id-id" /><link rel="alternative" href="https://docs.aws.amazon.com/id_id/ses/latest/dg/sending-authorization.html" hreflang="id" /><link rel="alternative" href="https://docs.aws.amazon.com/de_de/ses/latest/dg/sending-authorization.html" hreflang="de-de" /><link rel="alternative" href="https://docs.aws.amazon.com/de_de/ses/latest/dg/sending-authorization.html" hreflang="de" /><link rel="alternative" href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html" hreflang="en-us" /><link rel="alternative" href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html" hreflang="en" /><link rel="alternative" href="https://docs.aws.amazon.com/es_es/ses/latest/dg/sending-authorization.html" hreflang="es-es" /><link rel="alternative" href="https://docs.aws.amazon.com/es_es/ses/latest/dg/sending-authorization.html" hreflang="es" /><link rel="alternative" href="https://docs.aws.amazon.com/fr_fr/ses/latest/dg/sending-authorization.html" hreflang="fr-fr" /><link rel="alternative" href="https://docs.aws.amazon.com/fr_fr/ses/latest/dg/sending-authorization.html" hreflang="fr" /><link rel="alternative" href="https://docs.aws.amazon.com/it_it/ses/latest/dg/sending-authorization.html" hreflang="it-it" /><link rel="alternative" href="https://docs.aws.amazon.com/it_it/ses/latest/dg/sending-authorization.html" hreflang="it" /><link rel="alternative" href="https://docs.aws.amazon.com/ja_jp/ses/latest/dg/sending-authorization.html" hreflang="ja-jp" /><link rel="alternative" href="https://docs.aws.amazon.com/ja_jp/ses/latest/dg/sending-authorization.html" hreflang="ja" /><link rel="alternative" href="https://docs.aws.amazon.com/ko_kr/ses/latest/dg/sending-authorization.html" hreflang="ko-kr" /><link rel="alternative" href="https://docs.aws.amazon.com/ko_kr/ses/latest/dg/sending-authorization.html" hreflang="ko" /><link rel="alternative" href="https://docs.aws.amazon.com/pt_br/ses/latest/dg/sending-authorization.html" hreflang="pt-br" /><link rel="alternative" href="https://docs.aws.amazon.com/pt_br/ses/latest/dg/sending-authorization.html" hreflang="pt" /><link rel="alternative" href="https://docs.aws.amazon.com/zh_cn/ses/latest/dg/sending-authorization.html" hreflang="zh-cn" /><link rel="alternative" href="https://docs.aws.amazon.com/zh_tw/ses/latest/dg/sending-authorization.html" hreflang="zh-tw" /><link rel="alternative" href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html" hreflang="x-default" /><meta name="feedback-item" content="SES" /><meta name="this_doc_product" content="Amazon Simple Email Service" /><meta name="this_doc_guide" content="Developer Guide" /><script defer="" src="/assets/r/vendor4.js?version=2021.12.02"></script><script defer="" src="/assets/r/vendor3.js?version=2021.12.02"></script><script defer="" src="/assets/r/vendor1.js?version=2021.12.02"></script><script defer="" src="/assets/r/awsdocs-common.js?version=2021.12.02"></script><script defer="" src="/assets/r/awsdocs-doc-page.js?version=2021.12.02"></script><link href="/assets/r/vendor4.css?version=2021.12.02" rel="stylesheet" /><link href="/assets/r/awsdocs-common.css?version=2021.12.02" rel="stylesheet" /><link href="/assets/r/awsdocs-doc-page.css?version=2021.12.02" rel="stylesheet" /><script async="" id="awsc-panorama-bundle" type="text/javascript" src="https://prod.pa.cdn.uis.awsstatic.com/panorama-nav-init.js" data-config="{'appEntity':'aws-documentation','region':'us-east-1','service':'ses'}"></script><meta id="panorama-serviceSubSection" value="Developer Guide" /><meta id="panorama-serviceConsolePage" value="Using sending authorization with Amazon SES" /></head><body class="awsdocs awsui"><div class="awsdocs-container"><awsdocs-header></awsdocs-header><awsui-app-layout id="app-layout" class="awsui-util-no-gutters" ng-controller="ContentController as $ctrl" header-selector="awsdocs-header" navigation-hide="false" navigation-width="$ctrl.navWidth" navigation-open="$ctrl.navOpen" navigation-change="$ctrl.onNavChange($event)" tools-hide="$ctrl.hideTools" tools-width="$ctrl.toolsWidth" tools-open="$ctrl.toolsOpen" tools-change="$ctrl.onToolsChange($event)"><div id="guide-toc" dom-region="navigation"><awsdocs-toc></awsdocs-toc></div><div id="main-column" dom-region="content" tabindex="-1"><awsdocs-view class="awsdocs-view"><div id="awsdocs-content"><head><title>Using sending authorization with Amazon SES - Amazon Simple Email Service</title><meta name="pdf" content="/pdfs/ses/latest/dg/ses-dg.pdf#sending-authorization" /><meta name="forums" content="https://repost.aws/tags/TAAR3LByLsRUCXpQk5biG7FQ" /><meta name="feedback" content="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=SES&amp;topic_url=https://docs.aws.amazon.com/en_us/ses/latest/dg/sending-authorization.html" /><meta name="feedback-yes" content="feedbackyes.html?topic_url=https://docs.aws.amazon.com/en_us/ses/latest/dg/sending-authorization.html" /><meta name="feedback-no" content="feedbackno.html?topic_url=https://docs.aws.amazon.com/en_us/ses/latest/dg/sending-authorization.html" /><meta name="keywords" content="SES,Amazon SES,SES v2,Amazon Simple Email Service,email" /><script type="application/ld+json">
+{
+    "@context" : "https://schema.org",
+    "@type" : "BreadcrumbList",
+    "itemListElement" : [
+      {
+        "@type" : "ListItem",
+        "position" : 1,
+        "name" : "AWS",
+        "item" : "https://aws.amazon.com"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 2,
+        "name" : "Amazon Simple Email Service",
+        "item" : "https://docs.aws.amazon.com/ses/index.html"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 3,
+        "name" : "Developer Guide",
+        "item" : "https://docs.aws.amazon.com/ses/latest/dg"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 4,
+        "name" : "Verified identities in Amazon SES",
+        "item" : "https://docs.aws.amazon.com/ses/latest/dg/verify-addresses-and-domains.html"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 5,
+        "name" : "Configuring identities in Amazon SES",
+        "item" : "https://docs.aws.amazon.com/ses/latest/dg/configure-identities.html"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 6,
+        "name" : "Using sending authorization with Amazon SES",
+        "item" : "https://docs.aws.amazon.com/ses/latest/dg/configure-identities.html"
+      }
+    ]
+}
+</script></head><body><div id="main"><div style="display: none"><a href="/pdfs/ses/latest/dg/ses-dg.pdf#sending-authorization" target="_blank" rel="noopener noreferrer" title="Open PDF"></a></div><div id="breadcrumbs" class="breadcrumb"><a href="/index.html">Documentation</a><a href="/ses/index.html">Amazon Simple Email Service</a><a href="Welcome.html">Developer Guide</a></div><div id="page-toc-src"><a href="#sending-authorization-cross-account-sunsetting">Cross-account notifications legacy support</a></div><div id="main-content" class="awsui-util-container"><div id="main-col-body"><awsdocs-language-banner data-service="$ctrl.pageService"></awsdocs-language-banner><h1 class="topictitle" id="sending-authorization">Using sending authorization with Amazon SES</h1><div class="awsdocs-page-header-container"><awsdocs-page-header></awsdocs-page-header><awsdocs-filter-selector id="awsdocs-filter-selector"></awsdocs-filter-selector></div><p>You can configure Amazon SES to authorize other users to send emails from the identities that
+        you own (domains or email addresses) using their own Amazon SES accounts. With the
+            <em>sending authorization</em> feature, you can maintain control over your
+        identities so that you can change or revoke permissions at any time. For example, if you're
+        a business owner, you can use sending authorization to enable a third party (such as an
+        email marketing company) to send email from a domain you own.</p><p>This chapter covers the specifics of sending authorization which replaces the legacy
+        cross-account notifications feature. You should first understand the basics of identity
+        based authorization using authorization policies as explained in <a href="./identity-authorization-policies.html">Using identity authorization in
+            Amazon SES</a> which covers important topics such as
+        the anatomy of an authorization policy and how to manage your polices.</p>
+        <h2 id="sending-authorization-cross-account-sunsetting">Cross-account
+                notifications legacy support</h2>
+
+        <p>Feedback notifications for bounces, complaints, and deliveries associated with email
+            sent from a delegate sender that's been authorized by an identity owner to send from one
+            of his verified identities, have traditionally been configured using cross-account
+            notifications  where the delegate sender would
+            associate a topic with an identity they didn't own (that’s the cross-account). However,
+            cross-account notifications have been replaced by using configuration sets and verified
+            identities in association with delegate sending where the delegate sender has been
+            authorized by the identity owner to use one of their verified identities to send email
+            from. This new method allows the flexibility to configure bounce, complaint, delivery,
+            and other event notifications by the following two constructs depending if you're the
+            delegate sender or the owner of the verified identity:</p>
+        <div class="itemizedlist">
+             
+             
+        <ul class="itemizedlist"><li class="listitem">
+                <p><span class="topcom">Configuration sets</span> – The delegate sender
+                    can set up event publishing in his own configuration set that he can specify
+                    when sending email from a verified identity he doesn't own, but has been
+                    authorized to send from by the identity owner through an authorization policy.
+                    Event publishing allows bounce, complaint, delivery, and other event
+                    notifications to be published to Amazon CloudWatch, Amazon Data Firehose, Amazon Pinpoint, and Amazon SNS. See
+                        <a href="./event-destinations-manage.html">Create event
+            destinations</a>.</p>
+            </li><li class="listitem">
+                <p><span class="topcom">Verified identities</span> – Besides having the
+                    identity owner authorize the delegate sender to use one of his verified
+                    identities to send email from, he can also, at the request of the delegate
+                    sender, configure feedback notifications on the shared identity to use
+                    SNS topics owned by the delegate sender. Only the delegate sender will
+                    get these notifications because they own the SNS topic. See Step 14 for
+                    how to <a href="./sending-authorization-identity-owner-tasks-policy.html#configure-sns-topic-you-dont-own">configure an "SNS
+                        topic you don't own"</a> in the authorization policy procedures.</p>
+            </li></ul></div>
+
+        <div class="awsdocs-note"><div class="awsdocs-note-title"><awsui-icon name="status-info" variant="link"></awsui-icon><h6>Note</h6></div><div class="awsdocs-note-text"><p>For compatibility, cross-account notifications are being supported for legacy
+                cross-account notifications currently being used in your account. This support is
+                limited to being able to modify and use any current cross-accounts you created in
+                the Amazon SES classic console; however, you can no longer create
+                    <em>new</em> cross-account notifications. To create new ones in the
+                Amazon SES new console, use the new methods of delegate sending either with configuration
+                sets using <a href="./event-destinations-manage.html">event publishing</a>, or
+                with verified identities <a href="./sending-authorization-identity-owner-tasks-policy.html#configure-sns-topic-you-dont-own">configured
+                    with your own SNS topics</a>.</p></div></div>
+
+    <div class="highlights"><h6>Topics</h6><ul><li><p><a href="./sending-authorization-overview.html">Overview of Amazon SES sending
+            authorization</a></p></li><li><p><a href="./sending-authorization-identity-owner-tasks.html">Identity owner tasks for Amazon SES
+            sending authorization</a></p></li><li><p><a href="./sending-authorization-delegate-sender-tasks.html">Delegate sender tasks for
+            Amazon SES sending authorization</a></p></li></ul></div><awsdocs-copyright class="copyright-print"></awsdocs-copyright><awsdocs-thumb-feedback right-edge="{{$ctrl.thumbFeedbackRightEdge}}"></awsdocs-thumb-feedback></div><noscript><div><div><div><div id="js_error_message"><p><img src="https://d1ge0kk1l5kms0.cloudfront.net/images/G/01/webservices/console/warning.png" alt="Warning" /> <strong>Javascript is disabled or is unavailable in your browser.</strong></p><p>To use the Amazon Web Services Documentation, Javascript must be enabled. Please refer to your browser's Help pages for instructions.</p></div></div></div></div></noscript><div id="main-col-footer" class="awsui-util-font-size-0"><div id="doc-conventions"><a target="_top" href="/general/latest/gr/docconventions.html">Document Conventions</a></div><div class="prev-next"><div id="previous" class="prev-link" accesskey="p" href="./managing-policies.html">Managing your policies</div><div id="next" class="next-link" accesskey="n" href="./sending-authorization-overview.html">Overview of sending
+            authorization</div></div></div><awsdocs-page-utilities></awsdocs-page-utilities></div><div id="quick-feedback-yes" style="display: none;"><div class="title">Did this page help you? - Yes</div><div class="content"><p>Thanks for letting us know we're doing a good job!</p><p>If you've got a moment, please tell us what we did right so we can do more of it.</p><p><awsui-button id="fblink" rel="noopener noreferrer" target="_blank" text="Feedback" click="linkClick($event)" href="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=SES&amp;topic_url=https://docs.aws.amazon.com/en_us/ses/latest/dg/sending-authorization.html"></awsui-button></p></div></div><div id="quick-feedback-no" style="display: none;"><div class="title">Did this page help you? - No</div><div class="content"><p>Thanks for letting us know this page needs work. We're sorry we let you down.</p><p>If you've got a moment, please tell us how we can make the documentation better.</p><p><awsui-button id="fblink" rel="noopener noreferrer" target="_blank" text="Feedback" click="linkClick($event)" href="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=SES&amp;topic_url=https://docs.aws.amazon.com/en_us/ses/latest/dg/sending-authorization.html"></awsui-button></p></div></div></div></body></div></awsdocs-view><div class="page-loading-indicator" id="page-loading-indicator"><awsui-spinner size="large"></awsui-spinner></div></div><div id="tools-panel" dom-region="tools"><awsdocs-tools-panel id="awsdocs-tools-panel"></awsdocs-tools-panel></div></awsui-app-layout><awsdocs-cookie-banner class="doc-cookie-banner"></awsdocs-cookie-banner></div></body></html>

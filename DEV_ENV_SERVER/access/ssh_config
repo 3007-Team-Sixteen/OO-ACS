@@ -1,0 +1,14 @@
+# CITS3007 Development Environment SSH Config
+
+# Bastion host
+Host cits3007-bastion
+    HostName 3.27.94.217
+    User ubuntu
+    IdentityFile ~/.ssh/cits3007-key.pem
+    StrictHostKeyChecking no
+
+# Student access through bastion
+Host cits3007-dev
+    HostName 3.27.94.217
+    ProxyJump cits3007-bastion
+    StrictHostKeyChecking no

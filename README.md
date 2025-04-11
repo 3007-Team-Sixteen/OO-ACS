@@ -1,57 +1,58 @@
-# CITS3007 Development Environment for UTM (Apple Silicon)
+# CITS3007 Secure Coding - Group Project
 
-This repository contains the configuration and scripts needed to run the CITS3007 development environment using UTM on Apple Silicon Macs.
+This repository contains the materials and deliverables for the CITS3007 Secure Coding group project at The University of Western Australia.
 
-## Prerequisites
+## Project Overview
 
-1. Install UTM from the Mac App Store
-2. Install Vagrant:
-   ```bash
-   brew install vagrant
-   ```
+The project involves developing an Access Control System (ACS) for Oblivionaire Online (OO), a new MMORPG by Enjjin Media. The ACS is responsible for:
+- Player authentication
+- Role-based access control (RBAC)
+- Session management
+- Admin and operations access
 
-## Setup Instructions
+## Repository Structure
 
-1. Run the setup script:
-   ```bash
-   ./setup.sh
-   ```
-   This will:
-   - Download the Ubuntu 20.04 base image
-   - Copy the provisioning scripts
-   - Create the UTM configuration
+- `ASSIGNMENT_SPEC.md` - Detailed project specification and requirements
+- `phase1_report.md` - Phase 1 planning report
+- `Assignment_Material/` - Original assignment materials
+- `.gitignore` - Git ignore rules for the project
 
-2. Open UTM and import the configuration:
-   - Open UTM
-   - Click "Import"
-   - Select the `cits3007.utm/config.plist` file
+## Project Phases
 
-3. Start the VM in UTM
+1. **Phase 1 (Planning)**
+   - Due: Wednesday 16 April 2025 (Week 8)
+   - Worth: 10 marks
+   - Deliverable: Planning report
 
-4. Once the VM is running, apply the provisioning:
-   ```bash
-   ./apply-provisioning.sh
-   ```
+2. **Phase 2 (Implementation)**
+   - Due: Week 11
+   - Worth: 40 marks
+   - Deliverable: Implementation and report
 
-## Environment Details
+3. **Phase 3 (Demo/Presentation)**
+   - Due: Weeks 11-12
+   - Worth: 10 marks
+   - Deliverable: Project demonstration and presentation
 
-- Base Image: Ubuntu 20.04 (generic/ubuntu2004 version 4.1.0)
-- Architecture: x86_64 (emulated)
-- Memory: 8GB
-- CPU: 4 cores
-- Storage: 60GB
+## Development Environment
 
-## Development Tools
+The project can be developed using:
+- Any modern code editor or IDE
+- Standard C development tools (gcc, make, etc.)
+- Version control system (Git)
+- Secure coding analysis tools
 
-The environment includes:
-- gcc and GNU make
-- clang and related tools
-- gdb for debugging
-- valgrind for memory checking
-- Various development utilities
+## Group Project Information
 
-## Notes
+- This is a group project worth 30% of the final mark
+- Groups consist of 4-6 people
+- Total marks: 60
+- Group Contribution Factor (GCF) will be applied to phases 2 and 3
 
-- The environment is configured to use x86_64 emulation to ensure compatibility with the original CITS3007 environment
-- Shared folders are enabled for easy file transfer between host and guest
-- Network is configured in shared mode for internet access
+## Academic Integrity
+
+This project must be completed in accordance with the University Academic Integrity Policy. While general principles may be discussed with other students, all submitted work must be the result of your group's own effort.
+
+## License
+
+This project is part of CITS3007 - Secure Coding at The University of Western Australia. All materials are provided for educational purposes.

@@ -7,6 +7,12 @@
 ehthumbs.db
 Thumbs.db
 
+# Security Files
+*.pem
+*.key
+*.cert
+*.crt
+
 # IDE and Editor Files
 .idea/
 .vscode/

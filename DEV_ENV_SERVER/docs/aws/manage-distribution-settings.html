@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+    <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Manage Image Builder distribution settings - EC2 Image Builder</title><meta name="viewport" content="width=device-width,initial-scale=1" /><meta name="assets_root" content="/assets" /><meta name="target_state" content="manage-distribution-settings" /><meta name="default_state" content="manage-distribution-settings" /><link rel="icon" type="image/ico" href="/assets/images/favicon.ico" /><link rel="shortcut icon" type="image/ico" href="/assets/images/favicon.ico" /><link rel="canonical" href="https://docs.aws.amazon.com/imagebuilder/latest/userguide/manage-distribution-settings.html" /><meta name="description" content="Manage Image Builder distribution settings from the console, or AWS CLI." /><meta name="deployment_region" content="IAD" /><meta name="product" content="EC2 Image Builder" /><meta name="guide" content="User Guide" /><meta name="abstract" content="EC2 Image Builder is a fully managed AWS service that makes it more efficient to automate creating, managing, and deploying customized, secure, and up-to-date server images that are pre-installed and pre-configured with software and settings to meet specific IT standards." /><meta name="guide-locale" content="en_us" /><meta name="tocs" content="toc-contents.json" /><link rel="canonical" href="https://docs.aws.amazon.com/imagebuilder/latest/userguide/manage-distribution-settings.html" /><link rel="alternative" href="https://docs.aws.amazon.com/id_id/imagebuilder/latest/userguide/manage-distribution-settings.html" hreflang="id-id" /><link rel="alternative" href="https://docs.aws.amazon.com/id_id/imagebuilder/latest/userguide/manage-distribution-settings.html" hreflang="id" /><link rel="alternative" href="https://docs.aws.amazon.com/de_de/imagebuilder/latest/userguide/manage-distribution-settings.html" hreflang="de-de" /><link rel="alternative" href="https://docs.aws.amazon.com/de_de/imagebuilder/latest/userguide/manage-distribution-settings.html" hreflang="de" /><link rel="alternative" href="https://docs.aws.amazon.com/imagebuilder/latest/userguide/manage-distribution-settings.html" hreflang="en-us" /><link rel="alternative" href="https://docs.aws.amazon.com/imagebuilder/latest/userguide/manage-distribution-settings.html" hreflang="en" /><link rel="alternative" href="https://docs.aws.amazon.com/es_es/imagebuilder/latest/userguide/manage-distribution-settings.html" hreflang="es-es" /><link rel="alternative" href="https://docs.aws.amazon.com/es_es/imagebuilder/latest/userguide/manage-distribution-settings.html" hreflang="es" /><link rel="alternative" href="https://docs.aws.amazon.com/fr_fr/imagebuilder/latest/userguide/manage-distribution-settings.html" hreflang="fr-fr" /><link rel="alternative" href="https://docs.aws.amazon.com/fr_fr/imagebuilder/latest/userguide/manage-distribution-settings.html" hreflang="fr" /><link rel="alternative" href="https://docs.aws.amazon.com/it_it/imagebuilder/latest/userguide/manage-distribution-settings.html" hreflang="it-it" /><link rel="alternative" href="https://docs.aws.amazon.com/it_it/imagebuilder/latest/userguide/manage-distribution-settings.html" hreflang="it" /><link rel="alternative" href="https://docs.aws.amazon.com/ja_jp/imagebuilder/latest/userguide/manage-distribution-settings.html" hreflang="ja-jp" /><link rel="alternative" href="https://docs.aws.amazon.com/ja_jp/imagebuilder/latest/userguide/manage-distribution-settings.html" hreflang="ja" /><link rel="alternative" href="https://docs.aws.amazon.com/ko_kr/imagebuilder/latest/userguide/manage-distribution-settings.html" hreflang="ko-kr" /><link rel="alternative" href="https://docs.aws.amazon.com/ko_kr/imagebuilder/latest/userguide/manage-distribution-settings.html" hreflang="ko" /><link rel="alternative" href="https://docs.aws.amazon.com/pt_br/imagebuilder/latest/userguide/manage-distribution-settings.html" hreflang="pt-br" /><link rel="alternative" href="https://docs.aws.amazon.com/pt_br/imagebuilder/latest/userguide/manage-distribution-settings.html" hreflang="pt" /><link rel="alternative" href="https://docs.aws.amazon.com/zh_cn/imagebuilder/latest/userguide/manage-distribution-settings.html" hreflang="zh-cn" /><link rel="alternative" href="https://docs.aws.amazon.com/zh_tw/imagebuilder/latest/userguide/manage-distribution-settings.html" hreflang="zh-tw" /><link rel="alternative" href="https://docs.aws.amazon.com/imagebuilder/latest/userguide/manage-distribution-settings.html" hreflang="x-default" /><meta name="feedback-item" content="Image Builder" /><meta name="this_doc_product" content="EC2 Image Builder" /><meta name="this_doc_guide" content="User Guide" /><script defer="" src="/assets/r/vendor4.js?version=2021.12.02"></script><script defer="" src="/assets/r/vendor3.js?version=2021.12.02"></script><script defer="" src="/assets/r/vendor1.js?version=2021.12.02"></script><script defer="" src="/assets/r/awsdocs-common.js?version=2021.12.02"></script><script defer="" src="/assets/r/awsdocs-doc-page.js?version=2021.12.02"></script><link href="/assets/r/vendor4.css?version=2021.12.02" rel="stylesheet" /><link href="/assets/r/awsdocs-common.css?version=2021.12.02" rel="stylesheet" /><link href="/assets/r/awsdocs-doc-page.css?version=2021.12.02" rel="stylesheet" /><script async="" id="awsc-panorama-bundle" type="text/javascript" src="https://prod.pa.cdn.uis.awsstatic.com/panorama-nav-init.js" data-config="{'appEntity':'aws-documentation','region':'us-east-1','service':'imagebuilder'}"></script><meta id="panorama-serviceSubSection" value="User Guide" /><meta id="panorama-serviceConsolePage" value="Manage Image Builder distribution settings" /></head><body class="awsdocs awsui"><div class="awsdocs-container"><awsdocs-header></awsdocs-header><awsui-app-layout id="app-layout" class="awsui-util-no-gutters" ng-controller="ContentController as $ctrl" header-selector="awsdocs-header" navigation-hide="false" navigation-width="$ctrl.navWidth" navigation-open="$ctrl.navOpen" navigation-change="$ctrl.onNavChange($event)" tools-hide="$ctrl.hideTools" tools-width="$ctrl.toolsWidth" tools-open="$ctrl.toolsOpen" tools-change="$ctrl.onToolsChange($event)"><div id="guide-toc" dom-region="navigation"><awsdocs-toc></awsdocs-toc></div><div id="main-column" dom-region="content" tabindex="-1"><awsdocs-view class="awsdocs-view"><div id="awsdocs-content"><head><title>Manage Image Builder distribution settings - EC2 Image Builder</title><meta name="pdf" content="/pdfs/imagebuilder/latest/userguide/imagebuilder-ug.pdf#manage-distribution-settings" /><meta name="rss" content="ec2-image-builder-release-notes.rss" /><meta name="forums" content="https://repost.aws/tags/TAZtkgNAX7Q9OYs3rXXBxVlw" /><meta name="feedback" content="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=Image%20Builder&amp;topic_url=https://docs.aws.amazon.com/en_us/imagebuilder/latest/userguide/manage-distribution-settings.html" /><meta name="feedback-yes" content="feedbackyes.html?topic_url=https://docs.aws.amazon.com/en_us/imagebuilder/latest/userguide/manage-distribution-settings.html" /><meta name="feedback-no" content="feedbackno.html?topic_url=https://docs.aws.amazon.com/en_us/imagebuilder/latest/userguide/manage-distribution-settings.html" /><meta name="keywords" content="create custom Amazon machine images with EC2 Image Builder,manage image builder configuration resources,manage image builder output resources,configure image builder output image distribution" /><script type="application/ld+json">
+{
+    "@context" : "https://schema.org",
+    "@type" : "BreadcrumbList",
+    "itemListElement" : [
+      {
+        "@type" : "ListItem",
+        "position" : 1,
+        "name" : "AWS",
+        "item" : "https://aws.amazon.com"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 2,
+        "name" : "EC2 Image Builder",
+        "item" : "https://docs.aws.amazon.com/imagebuilder/index.html"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 3,
+        "name" : "User Guide",
+        "item" : "https://docs.aws.amazon.com/imagebuilder/latest/userguide"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 4,
+        "name" : "Configure custom images with Image Builder",
+        "item" : "https://docs.aws.amazon.com/imagebuilder/latest/userguide/manage-resources.html"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 5,
+        "name" : "Manage Image Builder distribution settings",
+        "item" : "https://docs.aws.amazon.com/imagebuilder/latest/userguide/manage-resources.html"
+      }
+    ]
+}
+</script></head><body><div id="main"><div style="display: none"><a href="/pdfs/imagebuilder/latest/userguide/imagebuilder-ug.pdf#manage-distribution-settings" target="_blank" rel="noopener noreferrer" title="Open PDF"></a></div><div id="breadcrumbs" class="breadcrumb"><a href="/index.html">Documentation</a><a href="/imagebuilder/index.html">EC2 Image Builder</a><a href="what-is-image-builder.html">User Guide</a></div><div id="main-content" class="awsui-util-container"><div id="main-col-body"><awsdocs-language-banner data-service="$ctrl.pageService"></awsdocs-language-banner><h1 class="topictitle" id="manage-distribution-settings">Manage Image Builder distribution settings</h1><div class="awsdocs-page-header-container"><awsdocs-page-header></awsdocs-page-header><awsdocs-filter-selector id="awsdocs-filter-selector"></awsdocs-filter-selector></div><p>Before you configure distribution settings for your output images, we recommend that you 
+		verify availability for any underlying infrastructure or other requirements for instances 
+		that are launched from your output image in the distribution target Regions. For example, 
+		not all Regions support EC2 Mac Dedicated Hosts, which are required to launch 
+		instances from a macOS image. For more information about instance types and pricing for 
+		Dedicated Hosts, see <a href="https://aws.amazon.com/ec2/dedicated-hosts/pricing/" rel="noopener noreferrer" target="_blank"><span>Amazon EC2 
+			Dedicated Hosts Pricing</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>.</p><p>After you create distribution settings with Image Builder, you can manage them using the Image Builder console,
+		the Image Builder API, or <b>imagebuilder</b> commands in the AWS CLI. With distribution 
+		settings, you can perform the following actions:</p><div class="itemizedlist">
+		<h6>AMI distribution</h6>
+		 
+		 
+		 
+		 
+		 
+	<ul class="itemizedlist"><li class="listitem">
+			<p>Specify the name and description of your output AMI.</p>
+		</li><li class="listitem">
+			<p>Authorize other AWS accounts, organizations, and OUs to launch the AMI from 
+				the owner's account. The owner account is billed for charges that are associated 
+				with the AMI.</p>
+			<div class="awsdocs-note"><div class="awsdocs-note-title"><awsui-icon name="status-info" variant="link"></awsui-icon><h6>Note</h6></div><div class="awsdocs-note-text"><p>To make an AMI public, set the launch permission authorized accounts to 
+					<code class="code">all</code>. For information and examples, see 
+					<b><a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyImageAttribute.html">ModifyImageAttribute</a></b> in the <em>Amazon EC2 API Reference</em>.</p></div></div>
+		</li><li class="listitem">
+			<p>Create a copy of the output AMI for each of the specified target accounts, 
+				organizations, and OUs in the destination Region. The target accounts, organizations, 
+				and OUs own their AMI copies, and are billed for any associated charges. For more information about 
+				distributing your AMI to AWS Organizations and OUs, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/share-amis-with-organizations-and-OUs.html">Share an AMI with 
+					organizations or OUs</a>.</p>
+		</li><li class="listitem">
+			<p>Copy the AMI to the owner's account in other AWS Regions.</p>
+		</li><li class="listitem">
+			<p>Export VM image disks to Amazon Simple Storage Service (Amazon S3). For more information, see 
+				<a href="./cr-upd-ami-distribution-settings.html#cli-create-vm-dist-config">Create 
+    				distribution settings for output VM disks from the AWS CLI</a>.</p>
+		</li></ul></div><div class="itemizedlist">
+		<h6>Container image distribution</h6>
+		 
+	<ul class="itemizedlist"><li class="listitem">
+			<p>Specify the ECR repository where Image Builder stores the output image in the 
+				distribution Region.</p>
+		</li></ul></div><p>You can use your distribution settings in the following ways to deliver images to target
+		Regions, accounts, AWS Organizations and organizational units (OUs) one time, or with every pipeline
+		build:</p><div class="itemizedlist">
+		 
+		 
+		 
+		 
+	<ul class="itemizedlist"><li class="listitem">
+			<p>To automatically deliver updated images to specified Regions, accounts, Organizations, 
+				and OUs, use distribution settings with an Image Builder pipeline that runs on a schedule.</p>
+		</li><li class="listitem">
+			<p>To create a new image and deliver it to the specified Regions, accounts, Organizations, 
+				and OUs, use distribution settings with an Image Builder pipeline that you run one time  
+				from the Image Builder console, using <b>Run pipeline</b> from the 
+				<b>Actions</b> menu.</p>
+		</li><li class="listitem">
+			<p>To create a new image and deliver it to the specified Regions, accounts, Organizations, 
+				and OUs, use distribution settings with the following API action or Image Builder command in the AWS CLI:</p>
+			<div class="itemizedlist">
+				 
+				 
+			<ul class="itemizedlist"><li class="listitem">
+					<p>The <b><a href="https://docs.aws.amazon.com/imagebuilder/latest/APIReference/API_CreateImage.html">CreateImage</a></b> 
+						action in the Image Builder API.</p>
+				</li><li class="listitem">
+					<p>The <b><a href="https://awscli.amazonaws.com/v2/documentation/api/latest/reference/imagebuilder/create-image.html" rel="noopener noreferrer" target="_blank"><span>create-image</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a></b> 
+						command in the AWS CLI.</p>
+				</li></ul></div>
+		</li><li class="listitem">
+			<p>To export virtual machine (VM) image disks to S3 buckets in target Regions 
+				as part of your regular image build process.</p>
+		</li></ul></div><div class="awsdocs-note awsdocs-tip"><div class="awsdocs-note-title"><awsui-icon name="status-info" variant="link"></awsui-icon><h6>Tip</h6></div><div class="awsdocs-note-text"><p>When you have multiple resources of the same type, tagging helps you to 
+						identify a specific resource based on the tags you've assigned to it. 
+						For more information about tagging your resources using Image Builder commands 
+						in the AWS CLI, see the <a href="./tag-resources.html">Tag resources</a> 
+						section of this guide.</p></div></div><p>This topic covers how to list, view, and create distribution settings.</p><div class="highlights"><h6>Contents</h6><ul><li><p><a href="./distribution-settings-detail.html">List and view distribution configuration detail</a></p></li><li><p><a href="./cr-upd-ami-distribution-settings.html">Create and update AMI distribution configurations</a></p></li><li><p><a href="./cr-upd-container-distribution-settings.html">Create and update distribution settings 
+				for container images</a></p></li><li><p><a href="./cross-account-dist.html">Set up cross-account AMI distribution with Image Builder</a></p></li><li><p><a href="./dist-using-launch-template.html">Configure AMI distribution with 
+			an EC2 launch template</a></p></li></ul></div><awsdocs-copyright class="copyright-print"></awsdocs-copyright><awsdocs-thumb-feedback right-edge="{{$ctrl.thumbFeedbackRightEdge}}"></awsdocs-thumb-feedback></div><noscript><div><div><div><div id="js_error_message"><p><img src="https://d1ge0kk1l5kms0.cloudfront.net/images/G/01/webservices/console/warning.png" alt="Warning" /> <strong>Javascript is disabled or is unavailable in your browser.</strong></p><p>To use the Amazon Web Services Documentation, Javascript must be enabled. Please refer to your browser's Help pages for instructions.</p></div></div></div></div></noscript><div id="main-col-footer" class="awsui-util-font-size-0"><div id="doc-conventions"><a target="_top" href="/general/latest/gr/docconventions.html">Document Conventions</a></div><div class="prev-next"><div id="previous" class="prev-link" accesskey="p" href="./vpc-interface-endpoints.html">AWS PrivateLink VPC endpoints</div><div id="next" class="next-link" accesskey="n" href="./distribution-settings-detail.html">List and view distribution configurations</div></div></div><awsdocs-page-utilities></awsdocs-page-utilities></div><div id="quick-feedback-yes" style="display: none;"><div class="title">Did this page help you? - Yes</div><div class="content"><p>Thanks for letting us know we're doing a good job!</p><p>If you've got a moment, please tell us what we did right so we can do more of it.</p><p><awsui-button id="fblink" rel="noopener noreferrer" target="_blank" text="Feedback" click="linkClick($event)" href="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=Image Builder&amp;topic_url=https://docs.aws.amazon.com/en_us/imagebuilder/latest/userguide/manage-distribution-settings.html"></awsui-button></p></div></div><div id="quick-feedback-no" style="display: none;"><div class="title">Did this page help you? - No</div><div class="content"><p>Thanks for letting us know this page needs work. We're sorry we let you down.</p><p>If you've got a moment, please tell us how we can make the documentation better.</p><p><awsui-button id="fblink" rel="noopener noreferrer" target="_blank" text="Feedback" click="linkClick($event)" href="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=Image Builder&amp;topic_url=https://docs.aws.amazon.com/en_us/imagebuilder/latest/userguide/manage-distribution-settings.html"></awsui-button></p></div></div></div></body></div></awsdocs-view><div class="page-loading-indicator" id="page-loading-indicator"><awsui-spinner size="large"></awsui-spinner></div></div><div id="tools-panel" dom-region="tools"><awsdocs-tools-panel id="awsdocs-tools-panel"></awsdocs-tools-panel></div></awsui-app-layout><awsdocs-cookie-banner class="doc-cookie-banner"></awsdocs-cookie-banner></div></body></html>

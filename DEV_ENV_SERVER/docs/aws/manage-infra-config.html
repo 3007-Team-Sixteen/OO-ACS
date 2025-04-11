@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+    <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Manage Image Builder infrastructure configuration - EC2 Image Builder</title><meta name="viewport" content="width=device-width,initial-scale=1" /><meta name="assets_root" content="/assets" /><meta name="target_state" content="manage-infra-config" /><meta name="default_state" content="manage-infra-config" /><link rel="icon" type="image/ico" href="/assets/images/favicon.ico" /><link rel="shortcut icon" type="image/ico" href="/assets/images/favicon.ico" /><link rel="canonical" href="https://docs.aws.amazon.com/imagebuilder/latest/userguide/manage-infra-config.html" /><meta name="description" content="Manage Image Builder infrastructure configuration using the AWS Management Console, or Image Builder commands in the AWS CLI." /><meta name="deployment_region" content="IAD" /><meta name="product" content="EC2 Image Builder" /><meta name="guide" content="User Guide" /><meta name="abstract" content="EC2 Image Builder is a fully managed AWS service that makes it more efficient to automate creating, managing, and deploying customized, secure, and up-to-date server images that are pre-installed and pre-configured with software and settings to meet specific IT standards." /><meta name="guide-locale" content="en_us" /><meta name="tocs" content="toc-contents.json" /><link rel="canonical" href="https://docs.aws.amazon.com/imagebuilder/latest/userguide/manage-infra-config.html" /><link rel="alternative" href="https://docs.aws.amazon.com/id_id/imagebuilder/latest/userguide/manage-infra-config.html" hreflang="id-id" /><link rel="alternative" href="https://docs.aws.amazon.com/id_id/imagebuilder/latest/userguide/manage-infra-config.html" hreflang="id" /><link rel="alternative" href="https://docs.aws.amazon.com/de_de/imagebuilder/latest/userguide/manage-infra-config.html" hreflang="de-de" /><link rel="alternative" href="https://docs.aws.amazon.com/de_de/imagebuilder/latest/userguide/manage-infra-config.html" hreflang="de" /><link rel="alternative" href="https://docs.aws.amazon.com/imagebuilder/latest/userguide/manage-infra-config.html" hreflang="en-us" /><link rel="alternative" href="https://docs.aws.amazon.com/imagebuilder/latest/userguide/manage-infra-config.html" hreflang="en" /><link rel="alternative" href="https://docs.aws.amazon.com/es_es/imagebuilder/latest/userguide/manage-infra-config.html" hreflang="es-es" /><link rel="alternative" href="https://docs.aws.amazon.com/es_es/imagebuilder/latest/userguide/manage-infra-config.html" hreflang="es" /><link rel="alternative" href="https://docs.aws.amazon.com/fr_fr/imagebuilder/latest/userguide/manage-infra-config.html" hreflang="fr-fr" /><link rel="alternative" href="https://docs.aws.amazon.com/fr_fr/imagebuilder/latest/userguide/manage-infra-config.html" hreflang="fr" /><link rel="alternative" href="https://docs.aws.amazon.com/it_it/imagebuilder/latest/userguide/manage-infra-config.html" hreflang="it-it" /><link rel="alternative" href="https://docs.aws.amazon.com/it_it/imagebuilder/latest/userguide/manage-infra-config.html" hreflang="it" /><link rel="alternative" href="https://docs.aws.amazon.com/ja_jp/imagebuilder/latest/userguide/manage-infra-config.html" hreflang="ja-jp" /><link rel="alternative" href="https://docs.aws.amazon.com/ja_jp/imagebuilder/latest/userguide/manage-infra-config.html" hreflang="ja" /><link rel="alternative" href="https://docs.aws.amazon.com/ko_kr/imagebuilder/latest/userguide/manage-infra-config.html" hreflang="ko-kr" /><link rel="alternative" href="https://docs.aws.amazon.com/ko_kr/imagebuilder/latest/userguide/manage-infra-config.html" hreflang="ko" /><link rel="alternative" href="https://docs.aws.amazon.com/pt_br/imagebuilder/latest/userguide/manage-infra-config.html" hreflang="pt-br" /><link rel="alternative" href="https://docs.aws.amazon.com/pt_br/imagebuilder/latest/userguide/manage-infra-config.html" hreflang="pt" /><link rel="alternative" href="https://docs.aws.amazon.com/zh_cn/imagebuilder/latest/userguide/manage-infra-config.html" hreflang="zh-cn" /><link rel="alternative" href="https://docs.aws.amazon.com/zh_tw/imagebuilder/latest/userguide/manage-infra-config.html" hreflang="zh-tw" /><link rel="alternative" href="https://docs.aws.amazon.com/imagebuilder/latest/userguide/manage-infra-config.html" hreflang="x-default" /><meta name="feedback-item" content="Image Builder" /><meta name="this_doc_product" content="EC2 Image Builder" /><meta name="this_doc_guide" content="User Guide" /><script defer="" src="/assets/r/vendor4.js?version=2021.12.02"></script><script defer="" src="/assets/r/vendor3.js?version=2021.12.02"></script><script defer="" src="/assets/r/vendor1.js?version=2021.12.02"></script><script defer="" src="/assets/r/awsdocs-common.js?version=2021.12.02"></script><script defer="" src="/assets/r/awsdocs-doc-page.js?version=2021.12.02"></script><link href="/assets/r/vendor4.css?version=2021.12.02" rel="stylesheet" /><link href="/assets/r/awsdocs-common.css?version=2021.12.02" rel="stylesheet" /><link href="/assets/r/awsdocs-doc-page.css?version=2021.12.02" rel="stylesheet" /><script async="" id="awsc-panorama-bundle" type="text/javascript" src="https://prod.pa.cdn.uis.awsstatic.com/panorama-nav-init.js" data-config="{'appEntity':'aws-documentation','region':'us-east-1','service':'imagebuilder'}"></script><meta id="panorama-serviceSubSection" value="User Guide" /><meta id="panorama-serviceConsolePage" value="Manage Image Builder infrastructure configuration" /></head><body class="awsdocs awsui"><div class="awsdocs-container"><awsdocs-header></awsdocs-header><awsui-app-layout id="app-layout" class="awsui-util-no-gutters" ng-controller="ContentController as $ctrl" header-selector="awsdocs-header" navigation-hide="false" navigation-width="$ctrl.navWidth" navigation-open="$ctrl.navOpen" navigation-change="$ctrl.onNavChange($event)" tools-hide="$ctrl.hideTools" tools-width="$ctrl.toolsWidth" tools-open="$ctrl.toolsOpen" tools-change="$ctrl.onToolsChange($event)"><div id="guide-toc" dom-region="navigation"><awsdocs-toc></awsdocs-toc></div><div id="main-column" dom-region="content" tabindex="-1"><awsdocs-view class="awsdocs-view"><div id="awsdocs-content"><head><title>Manage Image Builder infrastructure configuration - EC2 Image Builder</title><meta name="pdf" content="/pdfs/imagebuilder/latest/userguide/imagebuilder-ug.pdf#manage-infra-config" /><meta name="rss" content="ec2-image-builder-release-notes.rss" /><meta name="forums" content="https://repost.aws/tags/TAZtkgNAX7Q9OYs3rXXBxVlw" /><meta name="feedback" content="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=Image%20Builder&amp;topic_url=https://docs.aws.amazon.com/en_us/imagebuilder/latest/userguide/manage-infra-config.html" /><meta name="feedback-yes" content="feedbackyes.html?topic_url=https://docs.aws.amazon.com/en_us/imagebuilder/latest/userguide/manage-infra-config.html" /><meta name="feedback-no" content="feedbackno.html?topic_url=https://docs.aws.amazon.com/en_us/imagebuilder/latest/userguide/manage-infra-config.html" /><meta name="keywords" content="create custom Amazon machine images with EC2 Image Builder,manage image builder configuration resources,manage image builder output resources,configure image builder ec2 instance infrastructure" /><script type="application/ld+json">
+{
+    "@context" : "https://schema.org",
+    "@type" : "BreadcrumbList",
+    "itemListElement" : [
+      {
+        "@type" : "ListItem",
+        "position" : 1,
+        "name" : "AWS",
+        "item" : "https://aws.amazon.com"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 2,
+        "name" : "EC2 Image Builder",
+        "item" : "https://docs.aws.amazon.com/imagebuilder/index.html"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 3,
+        "name" : "User Guide",
+        "item" : "https://docs.aws.amazon.com/imagebuilder/latest/userguide"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 4,
+        "name" : "Configure custom images with Image Builder",
+        "item" : "https://docs.aws.amazon.com/imagebuilder/latest/userguide/manage-resources.html"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 5,
+        "name" : "Manage Image Builder infrastructure configuration",
+        "item" : "https://docs.aws.amazon.com/imagebuilder/latest/userguide/manage-resources.html"
+      }
+    ]
+}
+</script></head><body><div id="main"><div style="display: none"><a href="/pdfs/imagebuilder/latest/userguide/imagebuilder-ug.pdf#manage-infra-config" target="_blank" rel="noopener noreferrer" title="Open PDF"></a></div><div id="breadcrumbs" class="breadcrumb"><a href="/index.html">Documentation</a><a href="/imagebuilder/index.html">EC2 Image Builder</a><a href="what-is-image-builder.html">User Guide</a></div><div id="main-content" class="awsui-util-container"><div id="main-col-body"><awsdocs-language-banner data-service="$ctrl.pageService"></awsdocs-language-banner><h1 class="topictitle" id="manage-infra-config">Manage Image Builder infrastructure configuration</h1><div class="awsdocs-page-header-container"><awsdocs-page-header></awsdocs-page-header><awsdocs-filter-selector id="awsdocs-filter-selector"></awsdocs-filter-selector></div><p>You can use infrastructure configurations to specify the Amazon EC2 infrastructure that Image Builder uses
+		to build and test your EC2 Image Builder image. Infrastructure settings include:</p><div class="itemizedlist">
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+	<ul class="itemizedlist"><li class="listitem">
+			<p>Instance types for your build and test infrastructure. We recommend that you specify more than one instance type because
+        				this allows Image Builder to launch an instance from a pool with sufficient capacity. This
+        				can reduce your transient build failures.</p>
+			<p>For Mac images, you might want to choose instance types that natively support the 
+				macOS operating system. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-mac-instances.html">Amazon EC2 Mac instances</a> 
+				in the <em>Amazon EC2 User Guide</em>.</p>
+		</li><li class="listitem">
+			<p>Instance placement settings where you can specify the host, host placement group, 
+				or Availability Zone where the instances that launch from your image should go.</p>
+		</li><li class="listitem">
+			<p>An instance profile that provides your build and test instances with the permissions 
+				that are required to perform customization activities. For example, if you have a component that retrieves 
+				resources from Amazon S3, the instance profile requires permissions to access those files. 
+				The instance profile also requires a minimal set of permissions for EC2 Image Builder to 
+				successfully communicate with the instance. For more information, see 
+				<a href="./set-up-ib-env.html">Get set up to build custom images with Image Builder</a>.</p>
+		</li><li class="listitem">
+			<p>The VPC, subnet, and security groups for your pipeline's build and test instances.</p>
+		</li><li class="listitem">
+			<p>The Amazon S3 location where Image Builder stores application logs from your build and testing. If you 
+				configure logging, the instance profile specified in your infrastructure configuration must 
+				have <code class="code">s3:PutObject</code> permissions for the target bucket 
+					(<code class="code">arn:aws:s3:::<code class="userinput">BucketName</code>/*</code>).</p>
+		</li><li class="listitem">
+			<p>An Amazon EC2 key pair that allows you to log on to your instance to troubleshoot 
+				if your build fails and you set <code class="code">terminateInstanceOnFailure</code> to 
+				<code class="code">false</code>.</p>
+		</li><li class="listitem">
+			<p>An SNS topic where Image Builder sends event notifications. For more information about how Image Builder
+				integrates with Amazon SNS, see <a href="./integ-sns.html">Amazon SNS integration in Image Builder</a>.</p>
+			<div class="awsdocs-note"><div class="awsdocs-note-title"><awsui-icon name="status-info" variant="link"></awsui-icon><h6>Note</h6></div><div class="awsdocs-note-text"><p>If your SNS topic is encrypted, the key that encrypts this topic must reside in the 
+			account where the Image Builder service runs. Image Builder can't send notifications to SNS topics that 
+			are encrypted with keys from other accounts.</p></div></div>
+		</li></ul></div><p>You can create and manage infrastructure configurations using the Image Builder console, 
+    	through the Image Builder API, or with <b>imagebuilder</b> commands in the AWS CLI.</p><div class="highlights"><h6>Contents</h6><ul><li><p><a href="./infra-config-details.html">List and view infrastructure configuration details</a></p></li><li><p><a href="./create-infra-config.html">Create an infrastructure configuration</a></p></li><li><p><a href="./update-infra-config.html">Update an
+                infrastructure configuration</a></p></li><li><p><a href="./vpc-interface-endpoints.html">Image Builder and AWS PrivateLink interface VPC endpoints</a></p></li></ul></div><div class="awsdocs-note awsdocs-tip"><div class="awsdocs-note-title"><awsui-icon name="status-info" variant="link"></awsui-icon><h6>Tip</h6></div><div class="awsdocs-note-text"><p>When you have multiple resources of the same type, tagging helps you to 
+						identify a specific resource based on the tags you've assigned to it. 
+						For more information about tagging your resources using Image Builder commands 
+						in the AWS CLI, see the <a href="./tag-resources.html">Tag resources</a> 
+						section of this guide.</p></div></div><awsdocs-copyright class="copyright-print"></awsdocs-copyright><awsdocs-thumb-feedback right-edge="{{$ctrl.thumbFeedbackRightEdge}}"></awsdocs-thumb-feedback></div><noscript><div><div><div><div id="js_error_message"><p><img src="https://d1ge0kk1l5kms0.cloudfront.net/images/G/01/webservices/console/warning.png" alt="Warning" /> <strong>Javascript is disabled or is unavailable in your browser.</strong></p><p>To use the Amazon Web Services Documentation, Javascript must be enabled. Please refer to your browser's Help pages for instructions.</p></div></div></div></div></noscript><div id="main-col-footer" class="awsui-util-font-size-0"><div id="doc-conventions"><a target="_top" href="/general/latest/gr/docconventions.html">Document Conventions</a></div><div class="prev-next"><div id="previous" class="prev-link" accesskey="p" href="./create-container-recipes.html">Create a new version of a container recipe</div><div id="next" class="next-link" accesskey="n" href="./infra-config-details.html">List and view infrastructure configurations</div></div></div><awsdocs-page-utilities></awsdocs-page-utilities></div><div id="quick-feedback-yes" style="display: none;"><div class="title">Did this page help you? - Yes</div><div class="content"><p>Thanks for letting us know we're doing a good job!</p><p>If you've got a moment, please tell us what we did right so we can do more of it.</p><p><awsui-button id="fblink" rel="noopener noreferrer" target="_blank" text="Feedback" click="linkClick($event)" href="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=Image Builder&amp;topic_url=https://docs.aws.amazon.com/en_us/imagebuilder/latest/userguide/manage-infra-config.html"></awsui-button></p></div></div><div id="quick-feedback-no" style="display: none;"><div class="title">Did this page help you? - No</div><div class="content"><p>Thanks for letting us know this page needs work. We're sorry we let you down.</p><p>If you've got a moment, please tell us how we can make the documentation better.</p><p><awsui-button id="fblink" rel="noopener noreferrer" target="_blank" text="Feedback" click="linkClick($event)" href="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=Image Builder&amp;topic_url=https://docs.aws.amazon.com/en_us/imagebuilder/latest/userguide/manage-infra-config.html"></awsui-button></p></div></div></div></body></div></awsdocs-view><div class="page-loading-indicator" id="page-loading-indicator"><awsui-spinner size="large"></awsui-spinner></div></div><div id="tools-panel" dom-region="tools"><awsdocs-tools-panel id="awsdocs-tools-panel"></awsdocs-tools-panel></div></awsui-app-layout><awsdocs-cookie-banner class="doc-cookie-banner"></awsdocs-cookie-banner></div></body></html>

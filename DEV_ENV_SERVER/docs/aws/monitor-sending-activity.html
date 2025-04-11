@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+    <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Monitoring your Amazon SES sending activity - Amazon Simple Email Service</title><meta name="viewport" content="width=device-width,initial-scale=1" /><meta name="assets_root" content="/assets" /><meta name="target_state" content="monitor-sending-activity" /><meta name="default_state" content="monitor-sending-activity" /><link rel="icon" type="image/ico" href="/assets/images/favicon.ico" /><link rel="shortcut icon" type="image/ico" href="/assets/images/favicon.ico" /><link rel="canonical" href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html" /><meta name="description" content="Monitor your current sending activity by regularly watching your number of bounces, complaints, deliveries, sent emails, and rejected emails to identify and correct problems right away." /><meta name="deployment_region" content="IAD" /><meta name="product" content="Amazon Simple Email Service" /><meta name="guide" content="Developer Guide" /><meta name="abstract" content="Create a highly-scalable and flexible email sending and receiving platform using Amazon SES. This Developer Guide provides information and procedures for configuring your Amazon SES account to send and receive email." /><meta name="guide-locale" content="en_us" /><meta name="tocs" content="toc-contents.json" /><link rel="canonical" href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html" /><link rel="alternative" href="https://docs.aws.amazon.com/id_id/ses/latest/dg/monitor-sending-activity.html" hreflang="id-id" /><link rel="alternative" href="https://docs.aws.amazon.com/id_id/ses/latest/dg/monitor-sending-activity.html" hreflang="id" /><link rel="alternative" href="https://docs.aws.amazon.com/de_de/ses/latest/dg/monitor-sending-activity.html" hreflang="de-de" /><link rel="alternative" href="https://docs.aws.amazon.com/de_de/ses/latest/dg/monitor-sending-activity.html" hreflang="de" /><link rel="alternative" href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html" hreflang="en-us" /><link rel="alternative" href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html" hreflang="en" /><link rel="alternative" href="https://docs.aws.amazon.com/es_es/ses/latest/dg/monitor-sending-activity.html" hreflang="es-es" /><link rel="alternative" href="https://docs.aws.amazon.com/es_es/ses/latest/dg/monitor-sending-activity.html" hreflang="es" /><link rel="alternative" href="https://docs.aws.amazon.com/fr_fr/ses/latest/dg/monitor-sending-activity.html" hreflang="fr-fr" /><link rel="alternative" href="https://docs.aws.amazon.com/fr_fr/ses/latest/dg/monitor-sending-activity.html" hreflang="fr" /><link rel="alternative" href="https://docs.aws.amazon.com/it_it/ses/latest/dg/monitor-sending-activity.html" hreflang="it-it" /><link rel="alternative" href="https://docs.aws.amazon.com/it_it/ses/latest/dg/monitor-sending-activity.html" hreflang="it" /><link rel="alternative" href="https://docs.aws.amazon.com/ja_jp/ses/latest/dg/monitor-sending-activity.html" hreflang="ja-jp" /><link rel="alternative" href="https://docs.aws.amazon.com/ja_jp/ses/latest/dg/monitor-sending-activity.html" hreflang="ja" /><link rel="alternative" href="https://docs.aws.amazon.com/ko_kr/ses/latest/dg/monitor-sending-activity.html" hreflang="ko-kr" /><link rel="alternative" href="https://docs.aws.amazon.com/ko_kr/ses/latest/dg/monitor-sending-activity.html" hreflang="ko" /><link rel="alternative" href="https://docs.aws.amazon.com/pt_br/ses/latest/dg/monitor-sending-activity.html" hreflang="pt-br" /><link rel="alternative" href="https://docs.aws.amazon.com/pt_br/ses/latest/dg/monitor-sending-activity.html" hreflang="pt" /><link rel="alternative" href="https://docs.aws.amazon.com/zh_cn/ses/latest/dg/monitor-sending-activity.html" hreflang="zh-cn" /><link rel="alternative" href="https://docs.aws.amazon.com/zh_tw/ses/latest/dg/monitor-sending-activity.html" hreflang="zh-tw" /><link rel="alternative" href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html" hreflang="x-default" /><meta name="feedback-item" content="SES" /><meta name="this_doc_product" content="Amazon Simple Email Service" /><meta name="this_doc_guide" content="Developer Guide" /><script defer="" src="/assets/r/vendor4.js?version=2021.12.02"></script><script defer="" src="/assets/r/vendor3.js?version=2021.12.02"></script><script defer="" src="/assets/r/vendor1.js?version=2021.12.02"></script><script defer="" src="/assets/r/awsdocs-common.js?version=2021.12.02"></script><script defer="" src="/assets/r/awsdocs-doc-page.js?version=2021.12.02"></script><link href="/assets/r/vendor4.css?version=2021.12.02" rel="stylesheet" /><link href="/assets/r/awsdocs-common.css?version=2021.12.02" rel="stylesheet" /><link href="/assets/r/awsdocs-doc-page.css?version=2021.12.02" rel="stylesheet" /><script async="" id="awsc-panorama-bundle" type="text/javascript" src="https://prod.pa.cdn.uis.awsstatic.com/panorama-nav-init.js" data-config="{'appEntity':'aws-documentation','region':'us-east-1','service':'ses'}"></script><meta id="panorama-serviceSubSection" value="Developer Guide" /><meta id="panorama-serviceConsolePage" value="Monitoring your Amazon SES sending activity" /></head><body class="awsdocs awsui"><div class="awsdocs-container"><awsdocs-header></awsdocs-header><awsui-app-layout id="app-layout" class="awsui-util-no-gutters" ng-controller="ContentController as $ctrl" header-selector="awsdocs-header" navigation-hide="false" navigation-width="$ctrl.navWidth" navigation-open="$ctrl.navOpen" navigation-change="$ctrl.onNavChange($event)" tools-hide="$ctrl.hideTools" tools-width="$ctrl.toolsWidth" tools-open="$ctrl.toolsOpen" tools-change="$ctrl.onToolsChange($event)"><div id="guide-toc" dom-region="navigation"><awsdocs-toc></awsdocs-toc></div><div id="main-column" dom-region="content" tabindex="-1"><awsdocs-view class="awsdocs-view"><div id="awsdocs-content"><head><title>Monitoring your Amazon SES sending activity - Amazon Simple Email Service</title><meta name="pdf" content="/pdfs/ses/latest/dg/ses-dg.pdf#monitor-sending-activity" /><meta name="forums" content="https://repost.aws/tags/TAAR3LByLsRUCXpQk5biG7FQ" /><meta name="feedback" content="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=SES&amp;topic_url=https://docs.aws.amazon.com/en_us/ses/latest/dg/monitor-sending-activity.html" /><meta name="feedback-yes" content="feedbackyes.html?topic_url=https://docs.aws.amazon.com/en_us/ses/latest/dg/monitor-sending-activity.html" /><meta name="feedback-no" content="feedbackno.html?topic_url=https://docs.aws.amazon.com/en_us/ses/latest/dg/monitor-sending-activity.html" /><meta name="keywords" content="SES,Amazon SES,SES v2,Amazon Simple Email Service,email" /><script type="application/ld+json">
+{
+    "@context" : "https://schema.org",
+    "@type" : "BreadcrumbList",
+    "itemListElement" : [
+      {
+        "@type" : "ListItem",
+        "position" : 1,
+        "name" : "AWS",
+        "item" : "https://aws.amazon.com"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 2,
+        "name" : "Amazon Simple Email Service",
+        "item" : "https://docs.aws.amazon.com/ses/index.html"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 3,
+        "name" : "Developer Guide",
+        "item" : "https://docs.aws.amazon.com/ses/latest/dg"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 4,
+        "name" : "Monitoring your Amazon SES sending activity",
+        "item" : "https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html"
+      }
+    ]
+}
+</script></head><body><div id="main"><div style="display: none"><a href="/pdfs/ses/latest/dg/ses-dg.pdf#monitor-sending-activity" target="_blank" rel="noopener noreferrer" title="Open PDF"></a></div><div id="breadcrumbs" class="breadcrumb"><a href="/index.html">Documentation</a><a href="/ses/index.html">Amazon Simple Email Service</a><a href="Welcome.html">Developer Guide</a></div><div id="main-content" class="awsui-util-container"><div id="main-col-body"><awsdocs-language-banner data-service="$ctrl.pageService"></awsdocs-language-banner><h1 class="topictitle" id="monitor-sending-activity">Monitoring your Amazon SES sending activity</h1><div class="awsdocs-page-header-container"><awsdocs-page-header></awsdocs-page-header><awsdocs-filter-selector id="awsdocs-filter-selector"></awsdocs-filter-selector></div><p>Amazon SES provides methods to monitor your sending activity using events, metrics, and
+        statistics. An event is something that happens related to your sending activity that you’ve
+        specified to be tracked as a metric. A metric represents a time-ordered set of data points
+        representing the values of a monitored event type producing statistics. Statistics are
+        metric data aggregations for a specified period of time including up to the present. </p><p>These monitoring methods assist you in keeping track of important measures, such as your
+        account's bounce, complaint and reject rates. Excessively high bounce and complaint rates
+        may jeopardize your ability to send emails using SES. These methods can also be used
+        to measure the rates at which your customers engage with the emails you send by helping you
+        to identify your overall open and click through rates utilizing event publishing and custom
+        domains associated with configuration sets - see <a href="./configure-custom-open-click-domains.html">Configuring custom domains to handle
+            open and click tracking</a>.</p><p>The first step in setting up monitoring is to identify the types of email events related
+        to your sending activity that you want to measure and monitor using SES. You can
+        choose the following event types to monitor in SES:</p><div class="itemizedlist">
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+    <ul class="itemizedlist"><li class="listitem">
+            <p><b>Send</b> – The send request was successful and Amazon SES 
+            will attempt to deliver the message to the recipient’s mail server. (If account-level 
+            or global suppression is being used, SES will still count it as a send, 
+            but delivery is suppressed.)</p>
+        </li><li class="listitem">
+            <p><b>RenderingFailure</b> – The email wasn't 
+                sent because of a template rendering issue. This event type can
+                occur when template data is missing, or when there is a mismatch between
+                template parameters and data. (This event type only occurs 
+                when you send email using the <a href="https://docs.aws.amazon.com/ses/latest/APIReference/API_SendTemplatedEmail.html"><code class="code">SendTemplatedEmail</code></a> or <a href="https://docs.aws.amazon.com/ses/latest/APIReference/API_SendBulkTemplatedEmail.html"><code class="code">SendBulkTemplatedEmail</code></a> API operations.)</p>
+        </li><li class="listitem">
+            <p><b>Reject</b> – Amazon SES accepted the email, but determined 
+            that it contained a virus and didn’t attempt to deliver it to the recipient’s mail server.</p>
+        </li><li class="listitem">
+            <p><b>Delivery</b> – Amazon SES successfully delivered the
+                email to the recipient's mail server.</p>
+        </li><li class="listitem">
+            <p><b>Bounce</b> – A <em>hard bounce</em> that the recipient's mail server
+            permanently rejected the email. (<em>Soft bounces</em> are only
+            included when SES is no longer retrying to deliver the email.
+            Generally these soft bounces indicate a delivery failure, although in some
+            cases a soft bounce can be returned even when the mail reaches the recipient
+            inbox successfully. This typically occurs when the recipient sends an
+            out-of-office automatic reply. Learn more about soft bounces in this <a href="https://repost.aws/knowledge-center/ses-understand-soft-bounces" rel="noopener noreferrer" target="_blank"><span>AWS
+            re:Post article</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>.)</p>           
+        </li><li class="listitem">
+            <p><b>Complaint</b> – The email was successfully delivered 
+            to the recipient’s mail server, but the recipient marked it as spam.</p>
+        </li><li class="listitem">
+            <p><b>DeliveryDelay</b> – The email couldn't be delivered 
+            to the recipient’s mail server because a temporary issue occurred. Delivery delays can 
+            occur, for example, when the recipient's inbox is full, or when the receiving email 
+            server experiences a transient issue.</p>
+        </li><li class="listitem">
+            <p><b>Subscription</b> – The email was successfully delivered, but 
+            the recipient updated the subscription preferences by clicking <code class="code">List-Unsubscribe</code> 
+            in the email header or the <code class="code">Unsubscribe</code> link in the footer.</p>
+        </li><li class="listitem">
+            <p><b>Open</b> – The recipient received the message
+                and opened it in their email client.</p>
+        </li><li class="listitem">
+            <p><b>Click</b> – The recipient clicked one or more
+                links in the email.</p>
+        </li></ul></div><p>You can monitor email sending events in several ways. The method you choose depends on the
+        type of event you want to monitor, the granularity and level of detail you want to monitor
+        it with, and the location where you want SES to publish the data. You're required to use
+        either feedback notifications or event publishing to track bounce and complaint events. You
+        can also choose to use multiple monitoring methods. The characteristics of each method are
+        listed in the following table.</p><div class="table-container"><div class="table-contents"><table id="w240aac38c15"><thead>
+                <tr>
+                    <th>Monitoring Method</th>
+                    <th>Events You Can Monitor</th>
+                    <th>How to Access the Data</th>
+                    <th>Level of Detail</th>
+                    <th>Granularity</th>
+                </tr>
+            </thead>
+                <tr>
+                    <td tabindex="-1">
+                        <p>SES console</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Account health, emails sent, quota used, successful send requests,
+                            rejects, bounces &amp; complaints <em>(recent history to current
+                                reputation)</em></p>
+                    </td>
+                    <td tabindex="-1">
+                        <p><a href="./monitor-sending-activity-console.html">Account dashboard
+                                page</a> in the SES console</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Count and percentage</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Across entire AWS account</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td tabindex="-1">
+                        <p>SES console</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Account health, emails sent, bounces &amp; complaints
+                                <em>(current reputation)</em></p>
+                    </td>
+                    <td tabindex="-1">
+                        <p><a href="./reputation-dashboard-dg.html">Reputation metrics page</a>
+                            in the SES console</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Calculated rates only</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Across entire AWS account</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td tabindex="-1">
+                        <p>Virtual Deliverability Manager</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Accounts statistics, ISP, sending identities, configuration sets,
+                            sent, delivered, complaints, transient &amp; permanent bounces, opens
+                            &amp; clicks, deliverability and reputation.</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p><a href="./vdm-dashboard.html">Virtual Deliverability Manager dashboard</a> in the SES console</p>
+                        <p><a href="./vdm-advisor.html">Virtual Deliverability Manager advisor</a> in the SES console</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Count and percentage</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Across entire AWS account</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td tabindex="-1">
+                        <p>SES API</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Deliveries, bounces, complaints, and rejects</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p><a href="https://docs.aws.amazon.com/ses/latest/APIReference/API_GetSendStatistics.html"><code class="code">GetSendStatistics</code></a> API operation</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Count only</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Across entire AWS account</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td tabindex="-1">
+                        <p>Amazon CloudWatch console</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Sends, deliveries, opens, clicks, bounces, bounce rate, complaints,
+                            complaint rate, rejects, rendering failures, and blacklisted IPs.</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>CloudWatch console</p>
+                        <div class="awsdocs-note"><div class="awsdocs-note-title"><awsui-icon name="status-info" variant="link"></awsui-icon><h6>Note</h6></div><div class="awsdocs-note-text"><p>Some metrics don't appear in CloudWatch until the associated event
+                                occurs. For example, bounce metrics don't appear in CloudWatch until at
+                                least one email that you send bounces, or until you generate a
+                                simulated bounce event by using the <a href="./send-an-email-from-console.html">mailbox
+                                simulator</a>.</p></div></div>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Count only</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Across entire AWS account</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td tabindex="-1">
+                        <p>Feedback notifications</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Deliveries, bounces, and complaints</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Amazon SNS notification (deliveries, bounces, and complaints) or email
+                            (bounces and complaints only). See <a href="./monitor-sending-activity-using-notifications.html">Setting up event
+            notifications</a>.</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Details on each event</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Across entire AWS account</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td tabindex="-1">
+                        <p>Event publishing</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Sends, deliveries, opens, clicks, bounces, complaints, rejects, and
+                            rendering failures.</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Amazon CloudWatch or Amazon Data Firehose, or by Amazon SNS notification—see <a href="./monitor-using-event-publishing.html">Monitor email sending using
+            event publishing</a>. </p>
+                        <p><em>(Additional charges apply, see <a href="./event-publishing-add-event-destination-cloudwatch.html#cw-add-pricing">Price per metric for
+                                CloudWatch</a>.)</em></p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Details on each event</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Fine-grained (based on user-definable email characteristics)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td tabindex="-1">
+                        <p>Event publishing utilizing custom domains associated with
+                            configuration sets - <a href="./configure-custom-open-click-domains.html">more info</a></p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Open and click tracking.</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Amazon CloudWatch or Amazon Data Firehose, or by Amazon SNS notification.</p>
+                        <p><em>(Additional charges apply, see <a href="./event-publishing-add-event-destination-cloudwatch.html#cw-add-pricing">Price per metric for
+                                CloudWatch</a>.)</em></p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Details on each event.</p>
+                    </td>
+                    <td tabindex="-1">
+                        <p>Fine-grained (based on user-definable email characteristics)</p>
+                    </td>
+                </tr>
+            </table></div></div><div class="awsdocs-note"><div class="awsdocs-note-title"><awsui-icon name="status-info" variant="link"></awsui-icon><h6>Note</h6></div><div class="awsdocs-note-text"><p>The metrics measured by email sending events may not align perfectly with your sending
+            quotas. This discrepancy can be caused by email bounces and rejections, or by using the
+            SES inbox simulator. To find out how close you are to your sending quotas, see <a href="./manage-sending-quotas-monitor.html">Monitoring your sending
+            quotas</a>.</p></div></div><div class="highlights"><h6>For information on how to use each monitoring method, see the following
+        topics:</h6><ul><li><p><a href="./monitor-sending-activity-console.html">Monitoring your sending statistics using
+            the Amazon SES console</a></p></li><li><p><a href="./monitor-sending-activity-api.html">Monitoring your usage statistics using the
+            Amazon SES API</a></p></li><li><p><a href="./monitor-using-event-publishing.html">Monitor email sending using Amazon SES event
+            publishing</a></p></li></ul></div><awsdocs-copyright class="copyright-print"></awsdocs-copyright><awsdocs-thumb-feedback right-edge="{{$ctrl.thumbFeedbackRightEdge}}"></awsdocs-thumb-feedback></div><noscript><div><div><div><div id="js_error_message"><p><img src="https://d1ge0kk1l5kms0.cloudfront.net/images/G/01/webservices/console/warning.png" alt="Warning" /> <strong>Javascript is disabled or is unavailable in your browser.</strong></p><p>To use the Amazon Web Services Documentation, Javascript must be enabled. Please refer to your browser's Help pages for instructions.</p></div></div></div></div></noscript><div id="main-col-footer" class="awsui-util-font-size-0"><div id="doc-conventions"><a target="_top" href="/general/latest/gr/docconventions.html">Document Conventions</a></div><div class="prev-next"><div id="previous" class="prev-link" accesskey="p" href="./sending-email-subscription-management.html">Using subscription
+            management</div><div id="next" class="next-link" accesskey="n" href="./monitor-sending-activity-console.html">Monitoring using the
+            console</div></div></div><awsdocs-page-utilities></awsdocs-page-utilities></div><div id="quick-feedback-yes" style="display: none;"><div class="title">Did this page help you? - Yes</div><div class="content"><p>Thanks for letting us know we're doing a good job!</p><p>If you've got a moment, please tell us what we did right so we can do more of it.</p><p><awsui-button id="fblink" rel="noopener noreferrer" target="_blank" text="Feedback" click="linkClick($event)" href="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=SES&amp;topic_url=https://docs.aws.amazon.com/en_us/ses/latest/dg/monitor-sending-activity.html"></awsui-button></p></div></div><div id="quick-feedback-no" style="display: none;"><div class="title">Did this page help you? - No</div><div class="content"><p>Thanks for letting us know this page needs work. We're sorry we let you down.</p><p>If you've got a moment, please tell us how we can make the documentation better.</p><p><awsui-button id="fblink" rel="noopener noreferrer" target="_blank" text="Feedback" click="linkClick($event)" href="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=SES&amp;topic_url=https://docs.aws.amazon.com/en_us/ses/latest/dg/monitor-sending-activity.html"></awsui-button></p></div></div></div></body></div></awsdocs-view><div class="page-loading-indicator" id="page-loading-indicator"><awsui-spinner size="large"></awsui-spinner></div></div><div id="tools-panel" dom-region="tools"><awsdocs-tools-panel id="awsdocs-tools-panel"></awsdocs-tools-panel></div></awsui-app-layout><awsdocs-cookie-banner class="doc-cookie-banner"></awsdocs-cookie-banner></div></body></html>

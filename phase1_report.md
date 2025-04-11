@@ -10,6 +10,73 @@
 - Muhammad Daniyal Qureshi (23976415)
 - Kelly Snow (23614821)
 
+Player authentication – Ensuring that only registered players can log in. **Kelly**
+wasteland wanderers to elite plutocratic overlords with access to game-altering financial
+instruments - **Prem, Kai**
+•Session management – Handling login sessions, preventing unauthorized access, and
+dealing with connection timeouts or suspicious activity. **Mo**
+•Admin and operations access – Providing secure tools for Enjjin’s staff to manage
+accounts, enforce bans, and troubleshoot authentication issues. **Steve** 
+
+Although Roles have been assigned, as a group we believe that all participants should be conversant in all roles.
+
+How will the group ensure accountability and track progress.
+
+GitHub for deadlines, sprints, Project management.
+
+Meetings - minutes are kept. Assigned roles tracked. Progress is assessed and evaluated.
+
+Version Control Strategy
+
+Agile Strategies in GitHub for versioning.
+Ensure merging contributions are managed with Pull Requests.
+
+Pull requests are ideally evaluated but collaborators can merge their own branches if necessary due to time constraints or other factors.
+
+Main Branch -- Feature Branch
+
+Examples of good naming conventions:
+/feature-feature-name
+/bugfix-bug-name
+
+Find good convetions
+
+**Development Tools**
+EC2 Aws Server for dev environment
+IDE is whichever the user is comfortable with
+CI/CD pipeline setup for Monday
+GDB, AFL++Clang - I'll research the others. Ensure choices are well justified.
+Cloud Development Pipeline for uniformity.
+git and GitHub Repos
+Communication tools as already discussed.
+
+**Key Secure Coding Issues**
+Ensuring all keys remain unpublished (.gitignore)
+Principle of least privileges. As it pertains to linux users.
+Clear demarcation between players, ,game administrators, developers, anyone else.
+Password hashing pracitces - md5, others?
+This is important.
+why it is relevant to the project
+•how it will be applied during development, and
+•how the group will ensure it is effectively used.
+
+
+**Risk Management and Quality Assurance**
+Redundancy and backups. 
+Ensure that CI/CD pipeline is robustly configured.
+Time Machine Backups
+Research windows backups.
+
+**Standards**
+C11 standards.
+Peer Reviews
+Pull requests are ideally evaluated but collaborators can merge their own branches if necessary due to time constraints or other factors.
+Find good, explicit, publically available style guides.
+
+**Optional**
+Team-16. 
+
+
 ## 1. Team Communication & Responsibilities
 
 ### 1.1 Communication Strategy
@@ -69,6 +136,8 @@ All team members will contribute across different areas based on their strengths
    - Performance testing
    - Security testing
 
+5. **A fifth thing**
+
 Initial task assignments will be based on:
 - Individual preferences and experience
 - Balanced workload distribution
@@ -90,6 +159,7 @@ Rather than fixed roles, we will:
 | Session Management | TBD based on interest/experience | All team members |
 | Admin Tools | TBD based on interest/experience | All team members |
 | Security Testing | TBD based on interest/experience | All team members |
+| User Interface | TBD based on interest/experience | All team members |
 
 ### 1.3 Progress Tracking & Accountability
 

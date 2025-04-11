@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+    <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Use components to customize your Image Builder image - EC2 Image Builder</title><meta name="viewport" content="width=device-width,initial-scale=1" /><meta name="assets_root" content="/assets" /><meta name="target_state" content="manage-components" /><meta name="default_state" content="manage-components" /><link rel="icon" type="image/ico" href="/assets/images/favicon.ico" /><link rel="shortcut icon" type="image/ico" href="/assets/images/favicon.ico" /><link rel="canonical" href="https://docs.aws.amazon.com/imagebuilder/latest/userguide/manage-components.html" /><meta name="description" content="Use components to customize your EC2 Image Builder image." /><meta name="deployment_region" content="IAD" /><meta name="product" content="EC2 Image Builder" /><meta name="guide" content="User Guide" /><meta name="abstract" content="EC2 Image Builder is a fully managed AWS service that makes it more efficient to automate creating, managing, and deploying customized, secure, and up-to-date server images that are pre-installed and pre-configured with software and settings to meet specific IT standards." /><meta name="guide-locale" content="en_us" /><meta name="tocs" content="toc-contents.json" /><link rel="canonical" href="https://docs.aws.amazon.com/imagebuilder/latest/userguide/manage-components.html" /><link rel="alternative" href="https://docs.aws.amazon.com/id_id/imagebuilder/latest/userguide/manage-components.html" hreflang="id-id" /><link rel="alternative" href="https://docs.aws.amazon.com/id_id/imagebuilder/latest/userguide/manage-components.html" hreflang="id" /><link rel="alternative" href="https://docs.aws.amazon.com/de_de/imagebuilder/latest/userguide/manage-components.html" hreflang="de-de" /><link rel="alternative" href="https://docs.aws.amazon.com/de_de/imagebuilder/latest/userguide/manage-components.html" hreflang="de" /><link rel="alternative" href="https://docs.aws.amazon.com/imagebuilder/latest/userguide/manage-components.html" hreflang="en-us" /><link rel="alternative" href="https://docs.aws.amazon.com/imagebuilder/latest/userguide/manage-components.html" hreflang="en" /><link rel="alternative" href="https://docs.aws.amazon.com/es_es/imagebuilder/latest/userguide/manage-components.html" hreflang="es-es" /><link rel="alternative" href="https://docs.aws.amazon.com/es_es/imagebuilder/latest/userguide/manage-components.html" hreflang="es" /><link rel="alternative" href="https://docs.aws.amazon.com/fr_fr/imagebuilder/latest/userguide/manage-components.html" hreflang="fr-fr" /><link rel="alternative" href="https://docs.aws.amazon.com/fr_fr/imagebuilder/latest/userguide/manage-components.html" hreflang="fr" /><link rel="alternative" href="https://docs.aws.amazon.com/it_it/imagebuilder/latest/userguide/manage-components.html" hreflang="it-it" /><link rel="alternative" href="https://docs.aws.amazon.com/it_it/imagebuilder/latest/userguide/manage-components.html" hreflang="it" /><link rel="alternative" href="https://docs.aws.amazon.com/ja_jp/imagebuilder/latest/userguide/manage-components.html" hreflang="ja-jp" /><link rel="alternative" href="https://docs.aws.amazon.com/ja_jp/imagebuilder/latest/userguide/manage-components.html" hreflang="ja" /><link rel="alternative" href="https://docs.aws.amazon.com/ko_kr/imagebuilder/latest/userguide/manage-components.html" hreflang="ko-kr" /><link rel="alternative" href="https://docs.aws.amazon.com/ko_kr/imagebuilder/latest/userguide/manage-components.html" hreflang="ko" /><link rel="alternative" href="https://docs.aws.amazon.com/pt_br/imagebuilder/latest/userguide/manage-components.html" hreflang="pt-br" /><link rel="alternative" href="https://docs.aws.amazon.com/pt_br/imagebuilder/latest/userguide/manage-components.html" hreflang="pt" /><link rel="alternative" href="https://docs.aws.amazon.com/zh_cn/imagebuilder/latest/userguide/manage-components.html" hreflang="zh-cn" /><link rel="alternative" href="https://docs.aws.amazon.com/zh_tw/imagebuilder/latest/userguide/manage-components.html" hreflang="zh-tw" /><link rel="alternative" href="https://docs.aws.amazon.com/imagebuilder/latest/userguide/manage-components.html" hreflang="x-default" /><meta name="feedback-item" content="Image Builder" /><meta name="this_doc_product" content="EC2 Image Builder" /><meta name="this_doc_guide" content="User Guide" /><script defer="" src="/assets/r/vendor4.js?version=2021.12.02"></script><script defer="" src="/assets/r/vendor3.js?version=2021.12.02"></script><script defer="" src="/assets/r/vendor1.js?version=2021.12.02"></script><script defer="" src="/assets/r/awsdocs-common.js?version=2021.12.02"></script><script defer="" src="/assets/r/awsdocs-doc-page.js?version=2021.12.02"></script><link href="/assets/r/vendor4.css?version=2021.12.02" rel="stylesheet" /><link href="/assets/r/awsdocs-common.css?version=2021.12.02" rel="stylesheet" /><link href="/assets/r/awsdocs-doc-page.css?version=2021.12.02" rel="stylesheet" /><script async="" id="awsc-panorama-bundle" type="text/javascript" src="https://prod.pa.cdn.uis.awsstatic.com/panorama-nav-init.js" data-config="{'appEntity':'aws-documentation','region':'us-east-1','service':'imagebuilder'}"></script><meta id="panorama-serviceSubSection" value="User Guide" /><meta id="panorama-serviceConsolePage" value="Use components to customize your Image Builder image" /></head><body class="awsdocs awsui"><div class="awsdocs-container"><awsdocs-header></awsdocs-header><awsui-app-layout id="app-layout" class="awsui-util-no-gutters" ng-controller="ContentController as $ctrl" header-selector="awsdocs-header" navigation-hide="false" navigation-width="$ctrl.navWidth" navigation-open="$ctrl.navOpen" navigation-change="$ctrl.onNavChange($event)" tools-hide="$ctrl.hideTools" tools-width="$ctrl.toolsWidth" tools-open="$ctrl.toolsOpen" tools-change="$ctrl.onToolsChange($event)"><div id="guide-toc" dom-region="navigation"><awsdocs-toc></awsdocs-toc></div><div id="main-column" dom-region="content" tabindex="-1"><awsdocs-view class="awsdocs-view"><div id="awsdocs-content"><head><title>Use components to customize your Image Builder image - EC2 Image Builder</title><meta name="pdf" content="/pdfs/imagebuilder/latest/userguide/imagebuilder-ug.pdf#manage-components" /><meta name="rss" content="ec2-image-builder-release-notes.rss" /><meta name="forums" content="https://repost.aws/tags/TAZtkgNAX7Q9OYs3rXXBxVlw" /><meta name="feedback" content="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=Image%20Builder&amp;topic_url=https://docs.aws.amazon.com/en_us/imagebuilder/latest/userguide/manage-components.html" /><meta name="feedback-yes" content="feedbackyes.html?topic_url=https://docs.aws.amazon.com/en_us/imagebuilder/latest/userguide/manage-components.html" /><meta name="feedback-no" content="feedbackno.html?topic_url=https://docs.aws.amazon.com/en_us/imagebuilder/latest/userguide/manage-components.html" /><meta name="keywords" content="create custom Amazon machine images with EC2 Image Builder,use components customize image builder images" /><script type="application/ld+json">
+{
+    "@context" : "https://schema.org",
+    "@type" : "BreadcrumbList",
+    "itemListElement" : [
+      {
+        "@type" : "ListItem",
+        "position" : 1,
+        "name" : "AWS",
+        "item" : "https://aws.amazon.com"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 2,
+        "name" : "EC2 Image Builder",
+        "item" : "https://docs.aws.amazon.com/imagebuilder/index.html"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 3,
+        "name" : "User Guide",
+        "item" : "https://docs.aws.amazon.com/imagebuilder/latest/userguide"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 4,
+        "name" : "Use components to customize your Image Builder image",
+        "item" : "https://docs.aws.amazon.com/imagebuilder/latest/userguide/manage-components.html"
+      }
+    ]
+}
+</script></head><body><div id="main"><div style="display: none"><a href="/pdfs/imagebuilder/latest/userguide/imagebuilder-ug.pdf#manage-components" target="_blank" rel="noopener noreferrer" title="Open PDF"></a></div><div id="breadcrumbs" class="breadcrumb"><a href="/index.html">Documentation</a><a href="/imagebuilder/index.html">EC2 Image Builder</a><a href="what-is-image-builder.html">User Guide</a></div><div id="main-content" class="awsui-util-container"><div id="main-col-body"><awsdocs-language-banner data-service="$ctrl.pageService"></awsdocs-language-banner><h1 class="topictitle" id="manage-components">Use components to customize your Image Builder image</h1><div class="awsdocs-page-header-container"><awsdocs-page-header></awsdocs-page-header><awsdocs-filter-selector id="awsdocs-filter-selector"></awsdocs-filter-selector></div><p>Image Builder uses the AWS Task Orchestrator and Executor (AWSTOE) component management application to 
+		orchestrate complex workflows. Build and test components that work with the 
+		AWSTOE application are based on YAML documents that define the scripts to customize 
+		or test your image. For AMI images, Image Builder installs components and the AWSTOE component 
+		management application on its Amazon EC2 build and test instances. For container images, the 
+		components and AWSTOE component management application are installed inside of the 
+		running container. </p><p>Image Builder uses AWSTOE to perform all on-instance activities. There is no additional 
+		setup required to interact with AWSTOE when you run Image Builder commands or use the 
+		Image Builder console.</p><div class="awsdocs-note"><div class="awsdocs-note-title"><awsui-icon name="status-info" variant="link"></awsui-icon><h6>Note</h6></div><div class="awsdocs-note-text"><p>When a component that is managed by Amazon reaches the end of its support lifespan, 
+			it is no longer maintained. About four weeks before this occurs, any accounts that are 
+			using the component receive notification, and a list of the affected recipes in their 
+			account from their AWS Health Dashboard. To learn more about AWS Health, see 
+			<a href="https://docs.aws.amazon.com/health/latest/ug/">AWS Health User Guide</a>.</p></div></div>
+		<h6>Workflow stages for building a new image</h6>
+		<p>The Image Builder workflow for building new images includes the following two 
+			distinct stages.</p>
+	<div class="orderedlist">
+		 
+		 
+	<ol><li>
+			<p><span class="topcom">Build stage</span> (pre-snapshot) – 
+				During the build stage, you make changes to the Amazon EC2 build instance 
+				that's running your base image, to create the baseline for your new 
+				image. For example, your recipe can include components 
+				that install an application or modify the operating system firewall settings.</p>
+			<p>The following phases from your component document run during the build stage:</p>
+			<div class="itemizedlist">
+				 
+				 
+			<ul class="itemizedlist"><li class="listitem">
+					<p>build</p>
+				</li><li class="listitem">
+					<p>validate</p>
+				</li></ul></div>
+			<p>After this stage completes successfully, Image Builder creates a snapshot or 
+				container image that it uses for the test stage and beyond.</p>
+		</li><li>
+			<p><span class="topcom">Test stage</span> (post-snapshot) – During the 
+				test stage, there are some differences between images that create AMIs and container images. For 
+				AMI workflows, Image Builder launches an EC2 instance from the snapshot that it created
+				as the final step of the build stage. Tests run on the new instance to validate
+				settings and ensure that the instance is functioning as expected. For container workflows, the 
+				tests run on the same instance that was used for building.</p>
+			<p>The following phase from your component document runs for every component that 
+				is included in the recipe during the image build test stage: </p>
+			<div class="itemizedlist">
+				 
+			<ul class="itemizedlist"><li class="listitem">
+					<p>test</p>
+				</li></ul></div>
+			<p>This component phase applies to both Build and Test component types. After this stage 
+				completes successfully, Image Builder can create and distribute your final image from the snapshot or
+				the container image.</p>
+		</li></ol></div><div class="awsdocs-note"><div class="awsdocs-note-title"><awsui-icon name="status-info" variant="link"></awsui-icon><h6>Note</h6></div><div class="awsdocs-note-text"><p>While the AWSTOE application framework allows you to define many phases in a 
+			component document, Image Builder has strict rules about what phases it runs, and during which 
+			stages it runs them. For a component to run during the image build stage, the 
+			component document must define at least one of these phases: <code class="code">build</code> 
+			or <code class="code">validate</code>. For a component to run during the image test stage, 
+			the component document must define the <code class="code">test</code> phase, and no 
+			other phases.</p><p>Since Image Builder runs the stages independently, chaining references in component 
+			documents cannot cross stage boundaries. You cannot chain a value from 
+			a phase that runs in the build stage to a phase that runs in the test 
+			stage. You can, however, define input parameters to the intended target, 
+			and pass in values through the command line. For more information about 
+			setting component parameters in your Image Builder recipes, see 
+			<a href="./tutorial-component-parameters.html">Tutorial: Create a custom component with input parameters</a>.</p></div></div><p>To assist with troubleshooting on your build or test instance AWSTOE creates a 
+		log folder that contains the input document and log files to track what's happening 
+		each time a component runs. If you configured an Amazon S3 bucket in your pipeline 
+		configuration, the logs are also written there. For more information about YAML 
+		documents and log output, see <a href="./toe-use-documents.html">Use the AWSTOE component document framework for custom components</a>.</p><div class="awsdocs-note awsdocs-tip"><div class="awsdocs-note-title"><awsui-icon name="status-info" variant="link"></awsui-icon><h6>Tip</h6></div><div class="awsdocs-note-text"><p>When you have many components to keep track of, tagging helps you to 
+						identify a specific component or version based on the tags you've assigned to it. 
+						For more information about tagging your resources using Image Builder commands 
+						in the AWS CLI, see the <a href="./tag-resources.html">Tag resources</a> 
+						section of this guide.</p></div></div><p>This section covers how to list, view, create, and import components, using 
+		the Image Builder console or commands in the AWS CLI.</p><div class="highlights"><h6>Topics</h6><ul><li><p><a href="./component-details.html">List and view component details</a></p></li><li><p><a href="./use-marketplace-components.html">Use AWS Marketplace components to customize your image</a></p></li><li><p><a href="./use-managed-components.html">Use managed components to customize your Image Builder image</a></p></li><li><p><a href="./create-custom-components.html">Develop custom components for your Image Builder image</a></p></li><li><p><a href="./toe-component-manager.html">How Image Builder uses the AWS Task Orchestrator and Executor application to manage components</a></p></li></ul></div><awsdocs-copyright class="copyright-print"></awsdocs-copyright><awsdocs-thumb-feedback right-edge="{{$ctrl.thumbFeedbackRightEdge}}"></awsdocs-thumb-feedback></div><noscript><div><div><div><div id="js_error_message"><p><img src="https://d1ge0kk1l5kms0.cloudfront.net/images/G/01/webservices/console/warning.png" alt="Warning" /> <strong>Javascript is disabled or is unavailable in your browser.</strong></p><p>To use the Amazon Web Services Documentation, Javascript must be enabled. Please refer to your browser's Help pages for instructions.</p></div></div></div></div></noscript><div id="main-col-footer" class="awsui-util-font-size-0"><div id="doc-conventions"><a target="_top" href="/general/latest/gr/docconventions.html">Document Conventions</a></div><div class="prev-next"><div id="previous" class="prev-link" accesskey="p" href="./tutorial-component-parameters.html">Custom component with parameters</div><div id="next" class="next-link" accesskey="n" href="./component-details.html">List and view components</div></div></div><awsdocs-page-utilities></awsdocs-page-utilities></div><div id="quick-feedback-yes" style="display: none;"><div class="title">Did this page help you? - Yes</div><div class="content"><p>Thanks for letting us know we're doing a good job!</p><p>If you've got a moment, please tell us what we did right so we can do more of it.</p><p><awsui-button id="fblink" rel="noopener noreferrer" target="_blank" text="Feedback" click="linkClick($event)" href="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=Image Builder&amp;topic_url=https://docs.aws.amazon.com/en_us/imagebuilder/latest/userguide/manage-components.html"></awsui-button></p></div></div><div id="quick-feedback-no" style="display: none;"><div class="title">Did this page help you? - No</div><div class="content"><p>Thanks for letting us know this page needs work. We're sorry we let you down.</p><p>If you've got a moment, please tell us how we can make the documentation better.</p><p><awsui-button id="fblink" rel="noopener noreferrer" target="_blank" text="Feedback" click="linkClick($event)" href="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=Image Builder&amp;topic_url=https://docs.aws.amazon.com/en_us/imagebuilder/latest/userguide/manage-components.html"></awsui-button></p></div></div></div></body></div></awsdocs-view><div class="page-loading-indicator" id="page-loading-indicator"><awsui-spinner size="large"></awsui-spinner></div></div><div id="tools-panel" dom-region="tools"><awsdocs-tools-panel id="awsdocs-tools-panel"></awsdocs-tools-panel></div></awsui-app-layout><awsdocs-cookie-banner class="doc-cookie-banner"></awsdocs-cookie-banner></div></body></html>

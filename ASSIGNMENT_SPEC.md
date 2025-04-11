@@ -4,6 +4,14 @@
 **Version:** 0.1  
 **Date:** 04 Apr 2025
 
+Team Comms Responsibilities:
+
+Weekly Comms:
+Meet in person once a week
+Discord for all other communications and coordinations.
+10am Monday for weekly meetings.
+
+
 ## 1. Background
 
 Your team work as software developers for Enjjin Media, the game publisher behind such well-known hit titles as The Least of Us and Underwatch. The company is now venturing into the MMORPG (Massively MultiPlayer Online Role-Playing Game) space with its latest project:
