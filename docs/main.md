@@ -1,28 +1,26 @@
-# OO-ACS Technical Documentation
+# Documentation Guide
 
-Welcome to the Oblivionaire Online - Access Control System (OO-ACS) technical documentation.
+This guide provides an overview of the OO-ACS project documentation structure.
 
-## Core Systems
+## Core Documentation
+### [Security System](security/index.md)
+- Authentication, RBAC, and Session Management
 
-### [Security System](security/index)
-Implementation of authentication, authorization, and access control mechanisms.
+### [Development](development/index.md)
+- Development Standards and Guidelines
 
-### [Development](development/index)
-Development standards, environment setup, and architectural guidelines.
-
-### [Testing Framework](testing/index)
-Testing standards, procedures, and quality assurance processes.
+### [Testing Framework](testing/index.md)
+- Testing Requirements and Procedures
 
 ## Reference Documentation
+### [Standards](standards/index.md)
+- Development and Security Standards
 
-### [Standards](standards/index)
-Comprehensive documentation of all standards and compliance requirements.
-
-### [Project Information](project/index)
-Project structure, processes, and infrastructure details.
+### [Project Information](project/index.md)
+- Project Management and Architecture
 
 ## Quick Links
-- [Security Implementation](security/implementation)
-- [Development Environment](development/environment)
-- [Testing Procedures](testing/procedures)
-- [Project Infrastructure](project/infrastructure) 
+- [Security Guide](security/security-guide.md)
+- [Development Guide](development/development-guide.md)
+- [Testing Guide](testing/testing-guide.md)
+- [Architecture Overview](architecture/index.md) 
