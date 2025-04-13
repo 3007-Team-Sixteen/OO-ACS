@@ -1,17 +1,17 @@
-# Home
+# OO-ACS Documentation
 
 Welcome to the OO-ACS (Oblivionaire Online - Access Control System) documentation.
 
 ## Documentation Sections
 
 ### Standards
-- [Standards Overview](standards-overview)
+- [Standards Overview](Standards-Overview)
 - [C11 Standard](C11-Standard)
 - [MISRA C](MISRA-C)
 - [SEI CERT C](SEI-CERT-C)
 
 ### Security
-- [Security Overview](security-overview)
+- [Security Overview](Security-Overview)
 - [CIA Triad](CIA-Triad)
 - [STRIDE Analysis](STRIDE)
 - [CISA Publications](CISA-Publications)
@@ -20,13 +20,13 @@ Welcome to the OO-ACS (Oblivionaire Online - Access Control System) documentatio
 - [OWASP Standards](OWASP-Standards)
 
 ### Development
-- [Development Overview](development-overview)
+- [Development Overview](Development-Overview)
 - [Development Guidelines](development/guidelines)
 - [Development Tools](development/tools)
 - [Development Workflow](development/workflow)
 
 ### Testing
-- [Testing Overview](testing-overview)
+- [Testing Overview](Testing-Overview)
 - [Testing Framework](Framework)
 - [Unit Testing](testing/unit-tests)
 - [Security Testing](testing/security-tests)
@@ -37,7 +37,9 @@ Welcome to the OO-ACS (Oblivionaire Online - Access Control System) documentatio
 - [Team Roles](project/roles)
 - [Project Timeline](project/timeline)
 
-## Documentation Requirements
-- [Documentation Requirements](documentation_requirements)
+### Documentation
+- [Documentation Requirements](Documentation-Requirements)
 
-Last updated: 2024-03-19
+_Last updated: 2024-03-19_
+
+[[_TOC_]]
