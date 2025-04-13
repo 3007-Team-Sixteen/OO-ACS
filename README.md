@@ -276,14 +276,55 @@ ctest --output-on-failure
 5. Address review comments
 
 ## Documentation
-Refer to `docs/` directory for:
-- Technical documentation
-- Security documentation
-- API documentation
-- Development guidelines
+All project documentation is maintained in the `docs` directory, organized as follows:
+
+```
+docs/
+├── standards/           # Coding standards and guidelines
+│   ├── SEI-CERT-C.md   # SEI CERT C Coding Standard
+│   ├── MISRA-C.md      # MISRA C:2012 Guidelines
+│   └── C11-Standard.md # C11 Standard Implementation
+├── testing/            # Testing framework and procedures
+├── development/        # Development guidelines and patterns
+├── security/          # Security documentation and procedures
+├── project/           # Project management documentation
+├── reference/         # Reference materials and resources
+├── Home.md           # Documentation home page
+└── documentation_requirements.md
+```
+
+Documentation is version controlled and maintained in markdown format. Each section contains detailed guidelines, implementation details, and reference materials specific to its domain.
+
+## Development Standards
+- C11 Standard compliance
+- SEI CERT C Coding Standard
+- MISRA C:2012 Guidelines
+- OWASP Security Guidelines
+- STRIDE Threat Modeling
+
+## Security Standards
+- CIA Triad Implementation
+- ISM Guidelines
+- CISA Guidelines
+- NIST Guidelines
+
+## Testing Standards
+- Unity Testing Framework
+- Static Analysis (gcc -fanalyzer)
+- Memory Safety (Valgrind)
+- Security Testing
+- Performance Testing
+
+## Reference Codebases
+- curl: Memory management patterns
+- OpenSSH: Authentication and session management
+- FreeRADIUS: RBAC implementation
+
+## Getting Started
+[Development setup instructions will be added here]
+
+## Contributing
+[Contribution guidelines will be added here]
 
 ## License
-This project is part of CITS3007 - Secure Coding at The University of Western Australia. All materials are provided for educational purposes.
-
-## Contact
-For project related queries, contact team members through the university email system.
+[License information will be added here]
