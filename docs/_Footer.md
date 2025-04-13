@@ -1,4 +1,4 @@
 ---
-[Home](main.md) | [Security](security/index.md) | [Development](development/index.md) | [Testing](testing/index.md) | [Standards](standards/index.md) | [Project](project/index.md)
+[Home](main.html) | [Security](security/index.html) | [Development](development/index.html) | [Testing](testing/index.html) | [Standards](standards/index.html) | [Project](project/index.html)
 
-[Report Issue](https://github.com/unixthat/OO-ACS/issues/new) | [View Standards](standards/index.md) | [Development Guide](development/development-guide.md) 
+[Report Issue](https://github.com/unixthat/OO-ACS/issues/new) | [View Standards](standards/index.html) | [Development Guide](development/development-guide.html) 
