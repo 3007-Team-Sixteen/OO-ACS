@@ -20,11 +20,11 @@ The project involves developing an Access Control System (ACS) for Oblivionaire 
 **Organization:** 3007-Team-Sixteen
 
 **Team Members:**
-- Stephen Beaver (10423362) - Administrative Tools
-- Kai Fletcher (23808253) - RBAC Implementation
-- Prem Patel (23775211) - RBAC Implementation
-- Muhammad Qureshi (23976415) - Session Management
-- Kelly Snow (23614821) - Player Authentication
+- Stephen Beaver (10423362) - Technical Lead & Infrastructure
+- Kai Fletcher (23808253) - Testing & Quality Assurance
+- Prem Patel (23775211) - RBAC & Financial Controls
+- Muhammad Qureshi (23976415) - Session Management & Performance
+- Kelly Snow (23614821) - Authentication & Security
 
 ## Repository Structure
 
@@ -151,3 +151,139 @@ This project must be completed in accordance with the University Academic Integr
 ## License
 
 This project is part of CITS3007 - Secure Coding at The University of Western Australia. All materials are provided for educational purposes.
+
+# Oblivionaire Online - Access Control System (OO-ACS)
+
+**Document Status:** Final Draft
+
+**Team Name:** 3007-Team-Sixteen
+**Group Number:** 16
+**Organization:** 3007-Team-Sixteen
+
+**Group Members:**
+- Stephen Beaver (10423362) - Technical Lead & Infrastructure
+- Kai Fletcher (23808253) - Testing & Quality Assurance
+- Prem Patel (23775211) - RBAC & Financial Controls
+- Muhammad Qureshi (23976415) - Session Management & Performance
+- Kelly Snow (23614821) - Authentication & Security
+
+## Project Overview
+OO-ACS is a secure access control system for Oblivionaire Online MMORPG, providing robust authentication, role-based access control, and session management for both players and administrative staff.
+
+## Repository Structure
+```
+oo-acs/
+├── src/
+│   ├── auth/      # Authentication system
+│   ├── rbac/      # Role-based access control
+│   ├── session/   # Session management
+│   └── admin/     # Administrative tools
+├── tests/         # Test suite
+├── docs/          # Documentation
+└── tools/         # Development tools
+```
+
+## Development Standards
+- **Coding Standard**: SEI CERT C Coding Standard
+- **Compiler**: GCC with C11 compliance
+- **Compiler Flags**:
+  ```cmake
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -pedantic -Wall -Wextra -Werror -Wformat=2 -Wformat-security -Wformat-nonliteral -Wstack-protector -Warray-bounds=2 -Wstrict-aliasing=3 -Wstrict-overflow=4 -Wstringop-overflow=4 -Wstringop-truncation -Wvla -Wwrite-strings")
+  set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -fsanitize=address,undefined")
+  ```
+- **Testing Framework**: Unity
+- **Static Analysis**: GCC -fanalyzer, Valgrind
+- **Security Testing**: AFL++ fuzzing
+
+## Development Environment
+- **Linode Instances**:
+  - Testing: Linode 1GB (Nanode)
+  - Staging: Linode 2GB (Standard)
+  - Production: Linode 2GB (Standard)
+
+## Prerequisites
+- GCC 11.0 or later
+- CMake 3.20 or later
+- libsodium 1.0.18 or later
+- OpenSSL 3.0.0 or later
+- Valgrind 3.18.1 or later
+
+## Building the Project
+```bash
+# Clone the repository
+git clone https://github.com/3007-team-sixteen/oo-acs.git
+cd oo-acs
+
+# Create build directory
+mkdir build && cd build
+
+# Configure with CMake
+cmake ..
+
+# Build the project
+make
+
+# Run tests
+ctest --output-on-failure
+```
+
+## Security Features
+- **Authentication System**
+  - Argon2id password hashing via libsodium
+  - Multi-factor authentication
+  - Account recovery procedures
+  - Session management
+
+- **RBAC Implementation**
+  - Hierarchical role system
+  - Financial instrument access control
+  - Permission inheritance
+  - Audit logging
+
+- **Security Measures**
+  - Memory-safe operations
+  - Input validation
+  - Secure error handling
+  - Automated security testing
+
+## Testing Requirements
+- Critical components: 80% minimum coverage
+- Non-critical components: 60% minimum coverage
+- Security-critical paths: 100% coverage
+- Memory safety checks
+- Input validation tests
+- Performance testing
+
+## Version Control
+- **Branch Strategy**
+  - `main`: Production-ready code
+  - `develop`: Integration branch
+  - `feature/*`: New features
+  - `bugfix/*`: Bug fixes
+  - `security/*`: Security-related changes
+
+- **Security Measures**
+  - GitHub commit signing with GPG keys
+  - Branch protection rules
+  - Required pull request reviews
+  - Automated security checks
+
+## Contributing
+1. Create a feature branch from `develop`
+2. Make your changes following our coding standards
+3. Run all tests and security checks
+4. Submit a pull request with required documentation
+5. Address review comments
+
+## Documentation
+Refer to `docs/` directory for:
+- Technical documentation
+- Security documentation
+- API documentation
+- Development guidelines
+
+## License
+This project is part of CITS3007 - Secure Coding at The University of Western Australia. All materials are provided for educational purposes.
+
+## Contact
+For project related queries, contact team members through the university email system.
