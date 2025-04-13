@@ -1,0 +1,36 @@
+name: Sync Docs to Wiki
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+
+jobs:
+  sync-wiki:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Push Docs to Wiki
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Clone wiki repository
+          git clone "https://github.com/$GITHUB_REPOSITORY.wiki.git" wiki
+          
+          # Copy docs content to wiki
+          cp -r docs/* wiki/
+          
+          # Configure git in wiki directory
+          cd wiki
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+          
+          # Add and commit changes
+          git add .
+          git diff --staged --quiet || git commit -m "Sync docs to wiki: $GITHUB_SHA"
+          
+          # Push to wiki
+          git push 
