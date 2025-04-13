@@ -15,10 +15,10 @@ jobs:
       
       - name: Push Docs to Wiki
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_PAT: ${{ secrets.GH_PAT }}
         run: |
           # Clone wiki repository
-          git clone "https://github.com/$GITHUB_REPOSITORY.wiki.git" wiki
+          git clone "https://$GH_PAT@github.com/$GITHUB_REPOSITORY.wiki.git" wiki
           
           # Copy docs content to wiki
           cp -r docs/* wiki/
@@ -32,5 +32,6 @@ jobs:
           git add .
           git diff --staged --quiet || git commit -m "Sync docs to wiki: $GITHUB_SHA"
           
-          # Push to wiki
+          # Push to wiki using token
+          git remote set-url origin "https://$GH_PAT@github.com/$GITHUB_REPOSITORY.wiki.git"
           git push 
