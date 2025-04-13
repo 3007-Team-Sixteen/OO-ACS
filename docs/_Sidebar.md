@@ -1,25 +1,28 @@
-# [OO-ACS Documentation](main)
+# OO-ACS Documentation
+
+## Overview
+* [Main Documentation](index)
+* [Standards Overview](Standards-Overview)
 
 ## Core Documentation
 * [Security](security/index)
-  * [Standards](security/standards)
-  * [Implementation](security/implementation)
-  * [Tools](security/tools)
+  * [Security Guide](security/security-guide)
+  * [CIA Triad](security/cia-triad)
 * [Development](development/index)
-  * [Standards](development/standards)
-  * [Environment](development/environment)
-  * [Architecture](development/architecture)
+  * [Development Guide](development/development-guide)
 * [Testing](testing/index)
-  * [Standards](testing/standards)
-  * [Procedures](testing/procedures)
-  * [Test Cases](testing/cases)
+  * [Testing Guide](testing/testing-guide)
 
-## Reference
-* [Standards](standards/index)
-  * [Security](standards/security)
-  * [Development](standards/development)
-  * [Testing](standards/testing)
-* [Project](project/index)
-  * [Information](project/info)
-  * [Processes](project/processes)
-  * [Infrastructure](project/infrastructure) 
+## Standards & Guidelines
+* [Project Standards](standards/index)
+  * [Style Guide](standards/style-guide)
+  * [MISRA C:2012](standards/MISRA-C)
+  * [C11 Standard](standards/C11-Standard)
+
+## Project Information
+* [Architecture](architecture/index)
+* [Project Management](project/index)
+
+## Resources
+* [Issue Tracker](https://github.com/unixthat/OO-ACS/issues)
+* [Documentation Guide](main) 

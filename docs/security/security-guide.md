@@ -15,7 +15,7 @@ This document details the security implementation standards and practices for OO
 - Privilege Escalation Prevention
 
 ## Security Standards Implementation
-- CIA Triad Application
+- [CIA Triad Application](cia-triad.md)
 - STRIDE Threat Modeling
 - OWASP Security Practices
 - Security Testing Requirements
