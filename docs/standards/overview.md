@@ -1,8 +1,8 @@
-# Standards Documentation
+# Standards Overview
 
 ## Coding Standards
 - [SEI CERT C](SEI-CERT-C)
-- [MISRA C:2012](MISRA-C)
+- [MISRA C](MISRA-C)
 - [C11 Standard](C11-Standard)
 
 ## Security Standards
