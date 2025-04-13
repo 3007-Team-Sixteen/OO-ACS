@@ -1,4 +1,4 @@
-# Security Documentation
+# Security Documentation Overview
 
 ## Security Standards
 - [CIA Triad](CIA-Triad)
@@ -8,7 +8,7 @@
 - [NIST Guidelines](NIST-Guidelines)
 - [OWASP Standards](OWASP-Standards)
 
-## Security Implementation
+## Implementation
 - [Authentication System](Authentication-System)
 - [Role-Based Access Control](Role-Based-Access-Control)
 - [Session Management](Session-Management)
