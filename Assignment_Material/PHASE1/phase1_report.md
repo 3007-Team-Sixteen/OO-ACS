@@ -22,8 +22,8 @@
 ### 1.1 Communication Strategy
 
 #### Meeting Schedule
-- **Weekly**: Monday 10:00 at UWA
-- **Sprint Planning**: Fortnightly
+- **Weekly**: Monday 10:00 at UWA (includes Sprint Planning activities).
+- **Standups**: Wednesday & Friday (Online via Discord, 5 min check-in).
 - **Emergency**: Discord/Signal
 
 #### Meeting Format
@@ -49,8 +49,8 @@
 
 ### 1.2 Progress Tracking & Accountability
 
-- **Daily Updates**: Team members post daily progress in Discord #status channel
-- **Weekly Reviews**: Progress assessment during weekly meetings
+- **Standup Updates**: Quick check-ins during online standups (Wed/Fri).
+- **Weekly Reviews**: Progress assessment during weekly meetings.
 - **Burndown Charts**: Track velocity and remaining work
 - **Peer Reviews**: Code review requirements before merging
 - **Documentation Updates**: Regular wiki updates tracking decisions and progress
@@ -772,7 +772,7 @@ oo-acs/
   - Flexible scheduling for unexpected delays
 
 - **Progress Monitoring**
-  - Daily standup meetings
+  - Online Standups (Wed/Fri)
   - Weekly progress reviews
   - Bi-weekly sprint planning
   - Regular security audits
