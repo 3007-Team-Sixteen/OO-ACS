@@ -1,0 +1,49 @@
+---
+- name: Update apt cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Install security packages
+  apt:
+    name: "{{ security_packages }}"
+    state: present
+
+- name: Configure UFW
+  ufw:
+    state: enabled
+    policy: deny
+
+- name: Allow specific ports
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+  loop: "{{ ufw_allowed_ports }}"
+
+- name: Configure fail2ban
+  template:
+    src: jail.local.j2
+    dest: /etc/fail2ban/jail.local
+  notify: restart fail2ban
+
+- name: Configure sysctl parameters
+  sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    state: present
+    reload: yes
+  with_dict: "{{ sysctl_settings }}"
+
+- name: Set security limits
+  pam_limits:
+    domain: "{{ item.domain }}"
+    limit_type: "{{ item.type }}"
+    limit_item: "{{ item.item }}"
+    value: "{{ item.value }}"
+  loop: "{{ security_limits }}"
+
+- name: Configure SSH hardening
+  template:
+    src: sshd_config.j2
+    dest: /etc/ssh/sshd_config
+  notify: restart ssh 

@@ -1,0 +1,79 @@
+---
+# Security Settings
+security_packages:
+  - ufw
+  - fail2ban
+  - unattended-upgrades
+  - libsodium-dev
+  - openssl
+  - valgrind
+  - libssl-dev
+  - libpam-dev
+
+# Development Packages
+development_packages:
+  - build-essential
+  - cmake
+  - git
+  - python3-pip
+  - doxygen
+  - clang
+  - gcc
+  - gdb
+  - unity
+  - ruby
+  - ruby-dev
+
+# Testing Tools
+testing_packages:
+  - afl++
+  - lcov
+  - cppcheck
+  - valgrind
+  - clang-tools
+
+# Compiler Flags
+compiler_flags: >-
+  -std=c11 -pedantic -Wall -Wextra -Werror -Wformat=2 
+  -Wformat-security -Wformat-nonliteral -Wstack-protector 
+  -Warray-bounds=2 -Wstrict-aliasing=3 -Wstrict-overflow=4 
+  -Wstringop-overflow=4 -Wstringop-truncation -Wvla -Wwrite-strings
+
+compiler_flags_debug: >-
+  -fsanitize=address,undefined
+
+# Security Settings
+ufw_allowed_ports:
+  - 22    # SSH
+  - 80    # HTTP
+  - 443   # HTTPS
+
+# User Settings
+deploy_user: oo-acs
+deploy_user_groups:
+  - sudo
+  - www-data
+
+# Security Limits
+security_limits:
+  - domain: '*'
+    type: soft
+    item: nofile
+    value: 65535
+  - domain: '*'
+    type: hard
+    item: nofile
+    value: 65535
+
+# Sysctl Parameters
+sysctl_settings:
+  net.ipv4.tcp_syncookies: 1
+  net.ipv4.conf.all.accept_redirects: 0
+  net.ipv4.conf.all.send_redirects: 0
+  net.ipv4.conf.all.accept_source_route: 0
+  kernel.randomize_va_space: 2
+
+# Git Repository Settings
+git_repo_url: git@github.com:unixthat/OO-ACS.git
+git_repo_org: unixthat
+git_repo_name: OO-ACS 

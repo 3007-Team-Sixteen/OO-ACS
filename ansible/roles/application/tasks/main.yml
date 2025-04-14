@@ -1,0 +1,120 @@
+---
+- name: Install development packages
+  apt:
+    name: "{{ development_packages }}"
+    state: present
+
+- name: Install testing packages
+  apt:
+    name: "{{ testing_packages }}"
+    state: present
+
+- name: Create deploy user
+  user:
+    name: "{{ deploy_user }}"
+    groups: "{{ deploy_user_groups }}"
+    shell: /bin/bash
+    create_home: yes
+    state: present
+
+- name: Ensure .ssh directory exists for deploy user
+  become: yes
+  become_user: "{{ deploy_user }}"
+  file:
+    path: "/home/{{ deploy_user }}/.ssh"
+    state: directory
+    mode: '0700'
+
+- name: Generate SSH key pair for deploy user
+  become: yes
+  become_user: "{{ deploy_user }}"
+  community.crypto.openssh_keypair:
+    path: "/home/{{ deploy_user }}/.ssh/id_ed25519"
+    type: ed25519
+    mode: '0600'
+    comment: "{{ deploy_user }}@{{ ansible_hostname }} deploy key"
+  register: deploy_ssh_key
+
+- name: Read public key content
+  become: yes
+  become_user: "{{ deploy_user }}"
+  slurp:
+    src: "/home/{{ deploy_user }}/.ssh/id_ed25519.pub"
+  register: deploy_public_key_content
+
+- name: Pause for Deploy Key addition
+  pause:
+    prompt: |
+      ----------------------------------------------------------------------
+      ACTION REQUIRED: Add the following SSH public key as a Deploy Key
+      (read-only access recommended) to the GitHub repository:
+      {{ git_repo_url }}
+
+      Key:
+      {{ deploy_public_key_content['content'] | b64decode }}
+
+      Go to: https://github.com/{{ git_repo_org }}/{{ git_repo_name }}/settings/keys
+      Click "Add deploy key", paste the key, give it a title (e.g., '{{ ansible_hostname }}-deploy'),
+      and leave "Allow write access" UNCHECKED.
+      ----------------------------------------------------------------------
+      Press Enter to continue after adding the key...
+  when: deploy_ssh_key.changed # Only pause if a new key was generated
+
+- name: Set up Git configuration
+  git_config:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    scope: system
+  loop:
+    - { name: 'core.autocrlf', value: 'input' }
+    - { name: 'core.filemode', value: 'true' }
+    - { name: 'core.symlinks', value: 'true' }
+
+- name: Set up development directory
+  file:
+    path: /opt/oo-acs
+    state: directory
+    owner: "{{ deploy_user }}"
+    group: "{{ deploy_user }}"
+    mode: '0755'
+
+- name: Clone OO-ACS project repository
+  become: yes
+  become_user: "{{ deploy_user }}"
+  git:
+    repo: "{{ git_repo_url }}" # Use variable for repo URL
+    dest: /opt/oo-acs
+    version: main # Or your desired branch
+    accept_hostkey: yes
+    key_file: "/home/{{ deploy_user }}/.ssh/id_ed25519" # Use the generated key
+
+- name: Clone Unity test framework
+  git:
+    repo: https://github.com/ThrowTheSwitch/Unity.git
+    dest: /opt/unity
+    version: master
+
+- name: Build Unity framework
+  shell:
+    cmd: |
+      cd /opt/unity
+      ruby auto/generate_test_runner.rb
+  args:
+    creates: /opt/unity/auto/generate_test_runner.rb
+
+- name: Set up test directory
+  file:
+    path: /opt/oo-acs/tests
+    state: directory
+    owner: "{{ deploy_user }}"
+    group: "{{ deploy_user }}"
+    mode: '0755'
+
+- name: Copy Unity headers to project
+  copy:
+    src: /opt/unity/src/unity.h
+    dest: /opt/oo-acs/tests/
+    remote_src: yes
+    owner: "{{ deploy_user }}"
+    group: "{{ deploy_user }}"
+    mode: '0644' 

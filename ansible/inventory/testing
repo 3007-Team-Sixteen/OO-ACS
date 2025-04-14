@@ -1,0 +1,5 @@
+[testing]
+testing.oo-acs ansible_host=45.33.67.43 ansible_user=root
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3 

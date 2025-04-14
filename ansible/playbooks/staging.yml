@@ -1,0 +1,35 @@
+---
+- name: Configure Staging Environment
+  hosts: staging # Target the staging group
+  become: yes
+  gather_facts: yes
+
+  pre_tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+  roles:
+    - security
+    - application
+
+  post_tasks:
+    - name: Ensure all services are started
+      service:
+        name: "{{ item }}"
+        state: started
+        enabled: yes
+      loop:
+        - ufw
+        - fail2ban
+        - ssh
+
+    - name: Final security check
+      command: ufw status
+      register: ufw_status
+      changed_when: false
+
+    - name: Display security status
+      debug:
+        var: ufw_status.stdout_lines 

@@ -243,6 +243,12 @@ oo-acs/
     - ANSIBLE_VAULT_PASSWORD
     - SSH_PRIVATE_KEY
 
+  - **Repository Access (Deploy Keys)**:
+    - To allow automated cloning of the private repository by Ansible, a unique SSH key pair (Ed25519) is generated on each target server for the deployment user (`oo-acs`).
+    - The public key must be manually added as a **Deploy Key** (read-only recommended) to the GitHub repository settings.
+    - The Ansible playbook includes tasks to generate the key if needed and pause, displaying the public key to be added to GitHub.
+    - This ensures the server uses a dedicated key with limited permissions, adhering to the principle of least privilege, rather than using personal SSH keys.
+
 ### 3.2 Development Standards
 - **Coding Standard**: SEI CERT C Coding Standard
 - **Compiler Flags**:
