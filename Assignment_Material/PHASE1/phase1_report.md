@@ -23,7 +23,7 @@
 
 #### Meeting Schedule
 - **Weekly**: Monday 10:00 at UWA (includes Sprint Planning activities).
-- **Standups**: Wednesday & Friday (Online via Discord, 5 min check-in).
+- **Standups**: Wednesday & Friday (Online via Discord, 5 min check-in), 18:00.
 - **Emergency**: Discord/Signal
 
 #### Meeting Format
@@ -40,7 +40,6 @@
     - #meeting-minutes
   - Voice channels for pair programming sessions
 - **Signal**: Secure messaging for urgent communications and sensitive information
-- **Google Calendar**: Meeting scheduling and deadline tracking
 - **GitHub Projects**: Task tracking and project management
   - Kanban board for task visualization
   - Issue tracking integrated with code
@@ -151,6 +150,7 @@
 - Documentation updates
 - Sprint planning
 - Knowledge sharing
+- Flexible roles, opportunity to work on interest areas
 
 #### Cross-Training Strategy
 - Regular knowledge sharing sessions
@@ -176,14 +176,14 @@ oo-acs/
 ### 2.2 Branching Strategy
 - `main`: Production-ready code
 - `develop`: Integration branch
-- `feature/*`: New features
-- `bugfix/*`: Bug fixes
-- `security/*`: Security-related changes
+- `feature/feature-name`: New features
+- `bugfix/bug-name`: Bug fixes
+- `security/security-change`: Security-related changes
 
 ### 2.3 Security Measures
 - GitHub commit signing with GPG keys
 - Branch protection rules
-- Required pull request reviews
+- Required pull request (PR) reviews
 - Automated security checks
 
 ## 3. Development Tools
@@ -707,7 +707,7 @@ oo-acs/
 
 ### 5.3 Implementation Timeline
 
-#### Phase 1 (Current)
+#### Phase 1 (Current) ***CHANGE THIS***
 - **Week 1: Project Setup**
   - Team organization and role allocation
   - Development environment configuration
@@ -794,12 +794,6 @@ oo-acs/
 ### 6.1 Progress Tracking
 - **Daily**: Commit-based tracking with conventional commits
 - **Weekly**: PR reviews and GitHub Projects updates
-- **Branch Strategy**: 
-  - `main`: Production code
-  - `develop`: Integration
-  - `feature/*`: New features
-  - `bugfix/*`: Bug fixes
-  - `security/*`: Security updates
 
 ### 6.2 Effort Tracking
 - **Metrics**:
