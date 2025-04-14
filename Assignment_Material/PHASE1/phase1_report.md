@@ -1,20 +1,25 @@
-**Document Status:**
+**Document Status:**: Finalised For Initial Submission
 
 # CITS3007 Secure Coding - Group Project Phase 1 Report
 ## Oblivionaire Online (OO) - Access Control System (ACS)
 
-**Team Name:** 3007-Team-Sixteen
-
+**Team Name:** 3007-Team-Sixteen  
+**GitHub Organisation Name:** 3007-Team-Sixteen  
 **Group Number:** 16
 
-**Organization:** 3007-Team-Sixteen
-
-**Group Members:**
+## Group Members
 - Stephen Beaver (10423362)
 - Kai Fletcher (23808253)
 - Prem Patel (23775211)
 - Muhammad Qureshi (23976415)
 - Kelly Snow (23614821)
+
+## Document Format
+- Primary format: Markdown (.md)
+- Submission format: PDF (.pdf)
+- Conversion tool: Pandoc with xelatex
+- Fonts: Fira Sans (main text), Fira Code (code blocks)
+- Layout: 1-inch margins, colored links, table of contents (depth: 2)
 
 ## 1. Team Communication & Responsibilities
 

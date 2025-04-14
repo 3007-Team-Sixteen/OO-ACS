@@ -886,3 +886,68 @@ oo-acs/
   - Strength of justifications
   - Technical accuracy
   - Professional presentation 
+
+## 1. Document Conversion Standards
+
+### 1.1 Conversion Process
+- **Tool**: Pandoc with xelatex engine
+- **Command**:
+  ```bash
+  pandoc input.md -o output.pdf \
+    --pdf-engine=xelatex \
+    -V geometry:"margin=1in" \
+    -V colorlinks=true \
+    -V linkcolor=blue \
+    -V toccolor=blue \
+    --toc \
+    --toc-depth=2 \
+    -V mainfont="Fira Sans" \
+    -V monofont="Fira Code"
+  ```
+
+### 1.2 Typography Standards
+- **Main Text**: Fira Sans
+  - Sans-serif font optimized for readability
+  - Excellent Unicode support
+  - Consistent rendering across platforms
+- **Code Blocks**: Fira Code
+  - Monospace font with programming ligatures
+  - Enhanced readability for code snippets
+  - Special character support for technical documentation
+
+### 1.3 Layout Standards
+- **Margins**: 1 inch (2.54cm) on all sides
+- **Links**: Colored blue for better visibility
+- **Table of Contents**: 
+  - Depth: 2 levels
+  - Automatic generation
+  - Clickable navigation
+- **Code Blocks**:
+  - Syntax highlighting
+  - Monospace font
+  - Preserved indentation
+  - Line number support
+
+### 1.4 Markdown Standards
+- **Headings**: ATX-style (# for headings)
+- **Lists**: 
+  - Unordered: * for bullet points
+  - Ordered: 1. for numbered lists
+- **Code**: 
+  - Inline: `backticks`
+  - Blocks: ``` with language specification
+- **Links**: [text](url) format
+- **Images**: ![alt](url) format
+
+### 1.5 Quality Control
+- **Pre-conversion Checks**:
+  - Valid Markdown syntax
+  - Proper heading hierarchy
+  - Consistent list formatting
+  - Valid link references
+- **Post-conversion Verification**:
+  - Table of contents accuracy
+  - Link functionality
+  - Code block formatting
+  - Font rendering
+  - Page breaks 
