@@ -2,20 +2,32 @@
 bantime = 1h
 findtime = 10m
 maxretry = 3
+banaction = ufw
+backend = auto
 
 [sshd]
 enabled = true
-port = ssh
+port = {{ ssh_config.port }}
 filter = sshd
 logpath = /var/log/auth.log
 maxretry = 3
-bantime = 1d
+findtime = 300
+bantime = 3600
 
 [sshd-ddos]
 enabled = true
-port = ssh
+port = {{ ssh_config.port }}
 filter = sshd-ddos
 logpath = /var/log/auth.log
 maxretry = 3
-findtime = 5m
-bantime = 1d 
+findtime = 300
+bantime = 3600
+
+[http-auth]
+enabled = true
+port = http,https
+filter = apache-auth
+logpath = /var/log/apache2/error.log
+maxretry = 3
+findtime = 300
+bantime = 3600 

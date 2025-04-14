@@ -227,6 +227,11 @@ oo-acs/
     - ANSIBLE_VAULT_PASSWORD
     - SSH_PRIVATE_KEY
 
+  - **Secrets Management**:
+    - Infrastructure secrets (e.g., Linode API Token, initial server root passwords) are managed using `ansible-vault`.
+    - Ansible Vault uses symmetric AES256 encryption to protect these secrets within the `group_vars/all/vault.yml` file.
+    - This is distinct from the application-level password hashing (using libsodium/Argon2id) required for storing user passwords within the OO-ACS system itself.
+
   - **Repository Access (Deploy Keys)**:
     - To allow automated cloning of the private repository by Ansible, a unique SSH key pair (Ed25519) is generated on each target server for the deployment user (`oo-acs`).
     - The public key must be manually added as a **Deploy Key** (read-only recommended) to the GitHub repository settings.

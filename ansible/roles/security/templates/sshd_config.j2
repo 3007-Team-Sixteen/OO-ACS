@@ -1,24 +1,52 @@
-# Security hardened sshd_config
-Port 22
-Protocol 2
-HostKey /etc/ssh/ssh_host_rsa_key
-HostKey /etc/ssh/ssh_host_ecdsa_key
-HostKey /etc/ssh/ssh_host_ed25519_key
+# SSH daemon configuration file
+# Managed by Ansible - DO NOT EDIT MANUALLY
+
+# Basic SSH server configuration
+Port {{ ssh_config.port }}
+Protocol {{ ssh_config.protocol_version }}
+
+# Authentication settings
+PermitRootLogin {{ ssh_config.permit_root_login }}
+MaxAuthTries {{ ssh_config.max_auth_tries }}
+PubkeyAuthentication {{ ssh_config.pubkey_authentication }}
+AuthorizedKeysFile {{ ssh_config.authorized_keys_file }}
+PasswordAuthentication {{ ssh_config.password_authentication }}
+PermitEmptyPasswords {{ ssh_config.permit_empty_passwords }}
+ChallengeResponseAuthentication {{ ssh_config.challenge_response_auth }}
+KerberosAuthentication {{ ssh_config.kerberos_authentication }}
+GSSAPIAuthentication {{ ssh_config.gssapi_authentication }}
+HostbasedAuthentication {{ ssh_config.host_based_auth }}
+IgnoreRhosts {{ ssh_config.ignore_rhosts }}
+UsePAM {{ ssh_config.use_pam }}
+
+# Forwarding settings
+X11Forwarding {{ ssh_config.x11_forwarding }}
+AllowAgentForwarding {{ ssh_config.allow_agent_forwarding }}
+AllowTcpForwarding {{ ssh_config.allow_tcp_forwarding }}
+
+# Session settings
+PrintMotd {{ ssh_config.print_motd }}
+PrintLastLog {{ ssh_config.print_lastlog }}
+TCPKeepAlive {{ ssh_config.tcp_keepalive }}
+MaxSessions {{ ssh_config.max_sessions }}
+ClientAliveInterval {{ ssh_config.client_alive_interval }}
+ClientAliveCountMax {{ ssh_config.client_alive_count_max }}
+LoginGraceTime {{ ssh_config.login_grace_time }}
+
+# Security banner
+Banner {{ ssh_config.banner }}
+
+# Subsystem configuration
+Subsystem sftp internal-sftp
 
 # Logging
 SyslogFacility AUTH
-LogLevel VERBOSE
+LogLevel INFO
 
-# Authentication
-PermitRootLogin no
-StrictModes yes
-MaxAuthTries 3
-MaxSessions 5
-
-# Only allow SSH key authentication
-PasswordAuthentication no
-ChallengeResponseAuthentication no
-UsePAM yes
+# Security hardened sshd_config
+HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_ecdsa_key
+HostKey /etc/ssh/ssh_host_ed25519_key
 
 # Disable unused features
 AllowAgentForwarding no
