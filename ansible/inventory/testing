@@ -1,5 +1,4 @@
 [testing]
-testing.oo-acs ansible_host=45.33.67.43 ansible_user=root
+testing-server ansible_host=192.53.168.57 ansible_user=root ansible_ssh_private_key_file=/Users/unixthat/.ssh/linodeKey
 
 [all:vars]
-ansible_python_interpreter=/usr/bin/python3 

@@ -1,0 +1,121 @@
+---
+- name: Provision Linode Testing Environment
+  hosts: localhost
+  gather_facts: no
+  vars_files:
+    - ../group_vars/all/vault.yml # Explicitly include vault file
+  vars:
+    linode_instance_label: oo-acs-testing
+    linode_instance_type: g6-nanode-1 # 1GB Nanode
+    linode_instance_region: ap-southeast # Sydney, AU
+    linode_instance_image: linode/ubuntu20.04
+    linode_instance_tags:
+      - testing
+      - oo-acs
+    linode_ssh_pub_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHkzQ7fAkTmclUvsWBxKBmNrBcipmLEfk0+nQD6X/HDH unixthat@Stephens-MacBook-Air.local"
+    linode_firewall_name: fw-testing-basic
+    ssh_key_path: "/Users/unixthat/.ssh/keys/linodeKey"
+
+  tasks:
+    - name: Ensure Linode API token is set
+      fail:
+        msg: "LINODE_TOKEN environment variable is not set. Please set it before running this playbook."
+      when: lookup('env', 'LINODE_TOKEN') | length == 0
+      run_once: yes
+
+    - name: Delete existing Testing instance (if any) for a clean build
+      linode.cloud.instance:
+        label: "{{ linode_instance_label }}"
+        state: absent
+      delegate_to: localhost
+      ignore_errors: yes
+      register: delete_result
+
+    - name: Wait for instance deletion
+      pause:
+        seconds: 30
+      when: not delete_result.failed
+
+    - name: Create Linode Testing instance
+      linode.cloud.instance:
+        label: "{{ linode_instance_label }}"
+        type: "{{ linode_instance_type }}"
+        region: "{{ linode_instance_region }}"
+        image: "{{ linode_instance_image }}"
+        root_pass: "{{ vault_linode_root_password }}" # Reverted back to Vault variable
+        authorized_keys:
+          - "{{ linode_ssh_pub_key }}"
+        tags: "{{ linode_instance_tags }}"
+        state: present
+      register: testing_instance
+      delegate_to: localhost # Explicitly run on control node
+
+    - name: Wait for instance to be ready
+      wait_for_connection:
+        delay: 10
+        timeout: 300
+      when: testing_instance.changed
+
+    - name: Add host to inventory
+      add_host:
+        name: "{{ testing_instance.instance.ipv4[0] }}"
+        groups: linode_testing_instances
+        ansible_user: root
+        ansible_ssh_private_key_file: "{{ ssh_key_path }}"
+      when: testing_instance.changed
+
+    - name: Create Linode Firewall for Testing instance
+      linode.cloud.firewall:
+        label: "{{ linode_firewall_name }}"
+        rules:
+          inbound_policy: DROP
+          outbound_policy: ACCEPT
+          inbound:
+            - label: allow-ssh
+              protocol: TCP
+              ports: '22'
+              addresses:
+                ipv4: ['0.0.0.0/0']
+                ipv6: ['::/0']
+              action: ACCEPT
+            - label: allow-http
+              protocol: TCP
+              ports: '80'
+              addresses:
+                ipv4: ['0.0.0.0/0']
+                ipv6: ['::/0']
+              action: ACCEPT
+            - label: allow-https
+              protocol: TCP
+              ports: '443'
+              addresses:
+                ipv4: ['0.0.0.0/0']
+                ipv6: ['::/0']
+              action: ACCEPT
+            - label: allow-testing-ports
+              protocol: TCP
+              ports: '8000-8999'
+              addresses:
+                ipv4: ['0.0.0.0/0']
+                ipv6: ['::/0']
+              action: ACCEPT
+        devices:
+          - id: "{{ testing_instance.instance.id | int }}"
+        state: present
+      delegate_to: localhost
+      when: testing_instance.changed
+
+    - name: Display Testing Instance IP
+      debug:
+        msg: "Testing instance created with IP: {{ testing_instance.instance.ipv4[0] }}"
+      when: testing_instance.changed
+
+    - name: Debug playbook directory
+      debug:
+        msg: "Playbook directory is: {{ playbook_dir }}"
+      when: testing_instance.changed
+
+    - name: Update inventory with new instance IP
+      shell: "cd {{ playbook_dir }}/../../ && ./tools/update_inventory.sh testing {{ testing_instance.instance.ipv4[0] }}"
+      delegate_to: localhost
+      when: testing_instance.changed 

@@ -1,0 +1,185 @@
+---
+- name: Configure Production Environment
+  hosts: production-server
+  become: true
+  gather_facts: true
+
+  pre_tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install required packages
+      apt:
+        name:
+          - nginx
+          - git
+          - python3-pip
+          - python3-venv
+          - libssl-dev
+          - wget
+          - unzip
+          - rsync
+        state: present
+        update_cache: yes
+
+    - name: Create oo-acs group
+      group:
+        name: oo-acs
+        state: present
+
+    - name: Create oo-acs user
+      user:
+        name: oo-acs
+        group: oo-acs
+        shell: /bin/bash
+        create_home: yes
+        home: /home/oo-acs
+        state: present
+
+  roles:
+    - common
+    - security
+
+  tasks:
+    - name: Create prometheus user group
+      group:
+        name: prometheus
+        state: present
+
+    - name: Create prometheus user
+      user:
+        name: prometheus
+        group: prometheus
+        system: yes
+        shell: /sbin/nologin
+        home: /var/lib/prometheus
+        createhome: no
+
+    - name: Create prometheus directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+        owner: prometheus
+        group: prometheus
+      with_items:
+        - /etc/prometheus
+        - /etc/prometheus/rules
+        - /etc/prometheus/alerts
+        - /var/lib/prometheus
+        - /tmp/prometheus
+
+    - name: Download Prometheus
+      get_url:
+        url: "https://github.com/prometheus/prometheus/releases/download/v2.45.0/prometheus-2.45.0.linux-amd64.tar.gz"
+        dest: "/tmp/prometheus/prometheus.tar.gz"
+      register: prometheus_download
+
+    - name: Extract Prometheus
+      unarchive:
+        src: "/tmp/prometheus/prometheus.tar.gz"
+        dest: "/tmp/prometheus"
+        remote_src: yes
+      when: prometheus_download.changed
+
+    - name: Copy Prometheus binaries
+      copy:
+        src: "/tmp/prometheus/prometheus-2.45.0.linux-amd64/{{ item }}"
+        dest: "/usr/local/bin/{{ item }}"
+        mode: 0755
+        owner: prometheus
+        group: prometheus
+        remote_src: yes
+      with_items:
+        - prometheus
+        - promtool
+      when: prometheus_download.changed
+
+    - name: Copy Prometheus configuration files
+      copy:
+        src: "/tmp/prometheus/prometheus-2.45.0.linux-amd64/{{ item }}"
+        dest: "/etc/prometheus/{{ item }}"
+        mode: 0644
+        owner: prometheus
+        group: prometheus
+        remote_src: yes
+      with_items:
+        - prometheus.yml
+        - console_libraries
+        - consoles
+      when: prometheus_download.changed
+
+    - name: Create prometheus systemd service file
+      template:
+        src: templates/prometheus.service.j2
+        dest: /etc/systemd/system/prometheus.service
+        mode: 0644
+      notify: reload systemd
+
+    - name: Create application directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+        owner: oo-acs
+        group: oo-acs
+      loop:
+        - /opt/oo-acs
+        - /opt/oo-acs/logs
+        - /opt/oo-acs/data
+
+  vars:
+    env_name: production
+    instance_type: g6-standard-1
+    linode_instance_region: ap-southeast
+    linode_instance_image: linode/ubuntu20.04
+
+  handlers:
+    - name: reload systemd
+      systemd:
+        daemon_reload: yes
+
+    - name: restart prometheus
+      service:
+        name: prometheus
+        state: restarted
+        enabled: yes
+
+  post_tasks:
+    - name: Ensure all services are started and enabled
+      service:
+        name: "{{ item }}"
+        state: started
+        enabled: yes
+      loop:
+        - nginx
+        - ufw
+        - fail2ban
+        - ssh
+        - prometheus
+      ignore_errors: yes
+
+    - name: Verify installed packages
+      command: "{{ item }}"
+      register: package_versions
+      changed_when: false
+      loop:
+        - nginx -v
+        - python3 --version
+        - prometheus --version
+      ignore_errors: yes
+
+    - name: Display package versions
+      debug:
+        var: package_versions.results
+
+    - name: Final security check
+      command: ufw status
+      register: ufw_status
+      changed_when: false
+
+    - name: Display security status
+      debug:
+        var: ufw_status.stdout_lines 

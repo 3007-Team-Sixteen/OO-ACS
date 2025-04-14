@@ -6,44 +6,121 @@
 
 - name: Install security packages
   apt:
-    name: "{{ security_packages }}"
+    name:
+      - ufw
+      - fail2ban
+      - auditd
+      - apparmor
+      - apparmor-utils
+      - rkhunter
+      - aide
+      - libpam-pwquality
+      - acl
+      - sudo
+      - unattended-upgrades
     state: present
 
-- name: Configure UFW
+- name: Configure UFW default policies
   ufw:
-    state: enabled
-    policy: deny
+    direction: "{{ item.direction }}"
+    policy: "{{ item.policy }}"
+  loop:
+    - { direction: incoming, policy: deny }
+    - { direction: outgoing, policy: allow }
 
-- name: Allow specific ports
+- name: Configure UFW rules
   ufw:
     rule: allow
     port: "{{ item }}"
-  loop: "{{ ufw_allowed_ports }}"
+    proto: tcp
+  loop:
+    - 22    # SSH
+    - 80    # HTTP
+    - 443   # HTTPS
+    - 9090  # Prometheus (only for production)
+    - 9100  # Node Exporter (only for production)
+    - 9093  # Alertmanager (only for production)
+  when: inventory_hostname in groups['production'] or item <= 443
+
+- name: Enable UFW
+  ufw:
+    state: enabled
 
 - name: Configure fail2ban
   template:
     src: jail.local.j2
     dest: /etc/fail2ban/jail.local
+    mode: '0644'
   notify: restart fail2ban
 
-- name: Configure sysctl parameters
-  sysctl:
-    name: "{{ item.key }}"
-    value: "{{ item.value }}"
-    state: present
-    reload: yes
-  with_dict: "{{ sysctl_settings }}"
+- name: Configure PAM password quality
+  lineinfile:
+    path: /etc/security/pwquality.conf
+    regexp: "^{{ item.key }}="
+    line: "{{ item.key }}={{ item.value }}"
+  loop:
+    - { key: 'minlen', value: '12' }
+    - { key: 'minclass', value: '4' }
+    - { key: 'maxrepeat', value: '3' }
+    - { key: 'dcredit', value: '-1' }
+    - { key: 'ucredit', value: '-1' }
+    - { key: 'lcredit', value: '-1' }
+    - { key: 'ocredit', value: '-1' }
 
-- name: Set security limits
-  pam_limits:
-    domain: "{{ item.domain }}"
-    limit_type: "{{ item.type }}"
-    limit_item: "{{ item.item }}"
-    value: "{{ item.value }}"
-  loop: "{{ security_limits }}"
+- name: Configure system-wide security limits
+  template:
+    src: limits.conf.j2
+    dest: /etc/security/limits.d/99-security.conf
+    mode: '0644'
 
-- name: Configure SSH hardening
+- name: Configure sysctl security settings
+  template:
+    src: sysctl-security.conf.j2
+    dest: /etc/sysctl.d/99-security.conf
+    mode: '0644'
+  notify: reload sysctl
+
+- name: Configure SSH security
   template:
     src: sshd_config.j2
     dest: /etc/ssh/sshd_config
-  notify: restart ssh 
+    mode: '0600'
+    validate: '/usr/sbin/sshd -t -f %s'
+  notify: restart ssh
+
+- name: Configure automatic security updates
+  template:
+    src: 20auto-upgrades.j2
+    dest: /etc/apt/apt.conf.d/20auto-upgrades
+    mode: '0644'
+
+- name: Configure unattended-upgrades
+  template:
+    src: 50unattended-upgrades.j2
+    dest: /etc/apt/apt.conf.d/50unattended-upgrades
+    mode: '0644'
+
+- name: Initialize AIDE database
+  command: aideinit
+  args:
+    creates: /var/lib/aide/aide.db.new
+  when: inventory_hostname in groups['production']
+  ignore_errors: yes
+
+- name: Configure audit rules
+  template:
+    src: audit.rules.j2
+    dest: /etc/audit/rules.d/audit.rules
+    mode: '0640'
+  notify: restart auditd
+
+- name: Enable and configure AppArmor
+  command: aa-enforce /etc/apparmor.d/*
+  changed_when: false
+
+- name: Configure rkhunter
+  template:
+    src: rkhunter.conf.j2
+    dest: /etc/rkhunter.conf
+    mode: '0640'
+  notify: run rkhunter 

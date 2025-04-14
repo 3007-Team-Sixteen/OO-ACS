@@ -1,0 +1,48 @@
+# /etc/security/limits.d/99-security.conf
+# Set resource limits for all users
+
+# System-wide security limits
+*               soft    core            0
+*               hard    core            0
+*               soft    nproc           10000
+*               hard    nproc           10000
+*               soft    nofile          65535
+*               hard    nofile          65535
+*               soft    memlock         unlimited
+*               hard    memlock         unlimited
+
+# Limit core dumps
+*               hard    core            0
+
+# Prevent fork bombs
+*               hard    nproc           10000
+
+# Set resource limits for the oo-acs user
+oo-acs          soft    nofile          65535
+oo-acs          hard    nofile          65535
+oo-acs          soft    nproc           10000
+oo-acs          hard    nproc           10000
+
+# Data segment size
+*               soft    data            unlimited
+*               hard    data            unlimited
+
+# File size
+*               soft    fsize           unlimited
+*               hard    fsize           unlimited
+
+# Max locked memory
+*               soft    memlock         unlimited
+*               hard    memlock         unlimited
+
+# Max memory size
+*               soft    as              unlimited
+*               hard    as              unlimited
+
+# Open files
+*               soft    nofile          65535
+*               hard    nofile          65535
+
+# Max processes
+*               soft    nproc           65535
+*               hard    nproc           65535 

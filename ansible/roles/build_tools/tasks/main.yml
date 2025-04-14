@@ -1,31 +1,74 @@
 ---
-- name: Define build/test packages
-  set_fact:
-    build_test_packages:
+- name: Install build and development tools
+  apt:
+    name: "{{ build_tools_packages }}"
+    state: present
+    update_cache: yes
+  vars:
+    build_tools_packages:
       - build-essential
       - cmake
+      - gcc
+      - g++
       - make
       - valgrind
+      - gdb
       - git
-      - libsodium-dev
+      - doxygen
+      - graphviz
+      - clang
+      - clang-tools
       - libssl-dev
-      # Add other build-time dependencies here
+      - libsodium-dev
+      - pkg-config
+      - python3-pip
+      - python3-venv
 
-- name: Update apt cache (again, just in case)
+- name: Install AFL++ for fuzzing
   apt:
-    update_cache: yes
-    cache_valid_time: 3600
-  become: yes
-
-- name: Install build and test packages
-  apt:
-    name: "{{ build_test_packages }}"
+    name: afl++
     state: present
-  become: yes
+    update_cache: yes
 
-- name: Clone Unity Testing Framework
+- name: Install Unity testing framework
   git:
-    repo: 'https://github.com/ThrowTheSwitch/Unity.git'
-    dest: /opt/Unity # Or another suitable location
-    version: master # Or pin to a specific tag/commit
-  become: yes 
+    repo: https://github.com/ThrowTheSwitch/Unity.git
+    dest: /usr/local/src/Unity
+    version: master
+
+- name: Create Unity symlink
+  file:
+    src: /usr/local/src/Unity/src
+    dest: /usr/local/include/Unity
+    state: link
+    force: yes
+
+- name: Install development Python packages
+  pip:
+    name:
+      - pre-commit
+      - black
+      - pylint
+    state: present
+
+- name: Create development directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  with_items:
+    - /opt/oo-acs
+    - /opt/oo-acs/build
+    - /opt/oo-acs/tests
+    - /opt/oo-acs/docs
+
+- name: Set up environment variables
+  lineinfile:
+    path: /etc/environment
+    line: "{{ item }}"
+    state: present
+  with_items:
+    - "CC=gcc"
+    - "CFLAGS=-std=c11 -pedantic -Wall -Wextra -Werror -Wformat=2 -Wformat-security -Wformat-nonliteral -Wstack-protector -Warray-bounds=2 -Wstrict-aliasing=3 -Wstrict-overflow=4 -Wstringop-overflow=4 -Wstringop-truncation -Wvla -Wwrite-strings"
+    - "CXXFLAGS=-std=c++11 -pedantic -Wall -Wextra -Werror"
+    - "LDFLAGS=-Wl,-z,now -Wl,-z,relro" 

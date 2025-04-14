@@ -9,5 +9,21 @@
     name: fail2ban
     state: restarted
 
+- name: restart auditd
+  service:
+    name: auditd
+    state: restarted
+
 - name: reload sysctl
-  command: sysctl -p 
+  command: sysctl --system
+
+- name: run rkhunter
+  command: rkhunter --propupd
+  ignore_errors: yes
+  register: rkhunter_result
+  changed_when: "'File updated' in rkhunter_result.stdout"
+
+- name: reload apparmor
+  service:
+    name: apparmor
+    state: reloaded 

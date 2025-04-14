@@ -1,5 +1,5 @@
 [staging]
-# staging.oo-acs ansible_host={{ staging_ip }} ansible_user=root
+staging-server ansible_host=172.105.174.77 ansible_user=root ansible_ssh_private_key_file=/Users/unixthat/.ssh/linodeKey
 
 [all:vars]
-ansible_python_interpreter=/usr/bin/python3 
+ansible_python_interpreter=/usr/bin/python3

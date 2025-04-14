@@ -1,0 +1,90 @@
+---
+- name: Create Prometheus system group
+  group:
+    name: prometheus
+    system: yes
+    state: present
+
+- name: Create Prometheus system user
+  user:
+    name: prometheus
+    system: yes
+    group: prometheus
+    shell: /sbin/nologin
+    create_home: no
+    state: present
+
+- name: Create Prometheus directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: prometheus
+    group: prometheus
+    mode: '0755'
+  loop:
+    - /etc/prometheus
+    - /var/lib/prometheus
+
+- name: Download and extract Prometheus
+  unarchive:
+    src: "https://github.com/prometheus/prometheus/releases/download/v2.49.1/prometheus-2.49.1.linux-amd64.tar.gz"
+    dest: /tmp
+    remote_src: yes
+
+- name: Copy Prometheus binary
+  copy:
+    src: "/tmp/prometheus-2.49.1.linux-amd64/prometheus"
+    dest: "/usr/local/bin/prometheus"
+    mode: '0755'
+    remote_src: yes
+
+- name: Copy Promtool binary
+  copy:
+    src: "/tmp/prometheus-2.49.1.linux-amd64/promtool"
+    dest: "/usr/local/bin/promtool"
+    mode: '0755'
+    remote_src: yes
+
+- name: Copy Prometheus configuration
+  template:
+    src: prometheus.yml.j2
+    dest: /etc/prometheus/prometheus.yml
+    owner: prometheus
+    group: prometheus
+    mode: '0644'
+  notify: restart prometheus
+
+- name: Copy Prometheus alert rules
+  template:
+    src: alert.rules.yml.j2
+    dest: /etc/prometheus/alert.rules.yml
+    owner: prometheus
+    group: prometheus
+    mode: '0644'
+  notify: restart prometheus
+
+- name: Install Node Exporter
+  apt:
+    name: prometheus-node-exporter
+    state: present
+  notify: restart node_exporter
+
+- name: Create Prometheus systemd service
+  template:
+    src: prometheus.service.j2
+    dest: /etc/systemd/system/prometheus.service
+    mode: '0644'
+  notify: restart prometheus
+
+- name: Enable and start Prometheus service
+  systemd:
+    name: prometheus
+    state: started
+    enabled: yes
+    daemon_reload: yes
+
+- name: Enable and start Node Exporter service
+  systemd:
+    name: prometheus-node-exporter
+    state: started
+    enabled: yes 

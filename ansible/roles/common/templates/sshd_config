@@ -1,0 +1,39 @@
+# Basic configuration
+Port 22
+Protocol 2
+AddressFamily inet
+ListenAddress 0.0.0.0
+
+# Security settings
+PermitRootLogin no
+StrictModes yes
+MaxAuthTries 3
+MaxSessions 3
+LoginGraceTime 30
+ClientAliveInterval 300
+ClientAliveCountMax 3
+
+# Authentication
+PubkeyAuthentication yes
+PasswordAuthentication no
+ChallengeResponseAuthentication no
+GSSAPIAuthentication no
+UsePAM yes
+
+# Forwarding
+X11Forwarding no
+AllowAgentForwarding no
+AllowTcpForwarding no
+PermitUserEnvironment no
+
+# Misc
+PrintMotd no
+PrintLastLog yes
+TCPKeepAlive yes
+UseDNS no
+Banner /etc/issue.net
+Subsystem sftp /usr/lib/openssh/sftp-server
+
+# Logging
+SyslogFacility AUTH
+LogLevel INFO 

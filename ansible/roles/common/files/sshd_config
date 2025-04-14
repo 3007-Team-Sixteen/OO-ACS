@@ -1,0 +1,29 @@
+# SSH Server Configuration
+Port 22
+Protocol 2
+
+# Authentication
+PermitRootLogin prohibit-password
+PubkeyAuthentication yes
+PasswordAuthentication no
+PermitEmptyPasswords no
+ChallengeResponseAuthentication no
+UsePAM yes
+
+# Security
+X11Forwarding no
+AllowTcpForwarding no
+AllowAgentForwarding no
+PermitTunnel no
+MaxAuthTries 3
+LoginGraceTime 30
+ClientAliveInterval 300
+ClientAliveCountMax 2
+
+# Logging
+SyslogFacility AUTH
+LogLevel INFO
+
+# Other settings
+AcceptEnv LANG LC_*
+Subsystem sftp /usr/lib/openssh/sftp-server 

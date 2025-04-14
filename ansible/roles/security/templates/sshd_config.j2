@@ -1,68 +1,78 @@
-# SSH daemon configuration file
-# Managed by Ansible - DO NOT EDIT MANUALLY
+# Basic configuration
+Port 22
+Protocol 2
+AddressFamily inet
+ListenAddress 0.0.0.0
 
-# Basic SSH server configuration
-Port {{ ssh_config.port }}
-Protocol {{ ssh_config.protocol_version }}
+# Security
+PermitRootLogin no
+MaxAuthTries 3
+MaxSessions 10
+PubkeyAuthentication yes
+PermitEmptyPasswords no
+PasswordAuthentication no
+ChallengeResponseAuthentication no
+KerberosAuthentication no
+GSSAPIAuthentication no
+UsePAM yes
 
-# Authentication settings
-PermitRootLogin {{ ssh_config.permit_root_login }}
-MaxAuthTries {{ ssh_config.max_auth_tries }}
-PubkeyAuthentication {{ ssh_config.pubkey_authentication }}
-AuthorizedKeysFile {{ ssh_config.authorized_keys_file }}
-PasswordAuthentication {{ ssh_config.password_authentication }}
-PermitEmptyPasswords {{ ssh_config.permit_empty_passwords }}
-ChallengeResponseAuthentication {{ ssh_config.challenge_response_auth }}
+# Authentication methods
+AuthenticationMethods publickey
+AuthorizedKeysFile .ssh/authorized_keys
+
+# Forwarding options
+AllowAgentForwarding no
+AllowTcpForwarding no
+X11Forwarding no
+PermitTunnel no
+
+# Miscellaneous settings
+Compression no
+ClientAliveInterval 300
+ClientAliveCountMax 2
+PermitUserEnvironment no
+Banner /etc/issue.net
+UseDNS no
+
+# Logging
+SyslogFacility AUTH
+LogLevel VERBOSE
+
+# SFTP settings
+Subsystem sftp internal-sftp
+
+# Allowed users and groups
+AllowUsers root oo-acs
+StrictModes yes
+HostbasedAuthentication no
+IgnoreRhosts yes
+
+# Security-hardened sshd_config
+AddressFamily inet
+
+# Ciphers and algorithms
+Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com
+KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group14-sha256
+
+# Allowed users and groups
+AllowUsers {{ deploy_user }}
+AllowGroups {{ deploy_user_groups | join(' ') }}
+
+# Chroot configuration
+ChrootDirectory none
+ForceCommand none
+
+# Forwarding settings
+PrintMotd {{ ssh_config.print_motd }}
+PrintLastLog {{ ssh_config.print_lastlog }}
+TCPKeepAlive {{ ssh_config.tcp_keepalive }}
+
+# Kerberos authentication
 KerberosAuthentication {{ ssh_config.kerberos_authentication }}
 GSSAPIAuthentication {{ ssh_config.gssapi_authentication }}
 HostbasedAuthentication {{ ssh_config.host_based_auth }}
 IgnoreRhosts {{ ssh_config.ignore_rhosts }}
-UsePAM {{ ssh_config.use_pam }}
-
-# Forwarding settings
-X11Forwarding {{ ssh_config.x11_forwarding }}
-AllowAgentForwarding {{ ssh_config.allow_agent_forwarding }}
-AllowTcpForwarding {{ ssh_config.allow_tcp_forwarding }}
-
-# Session settings
-PrintMotd {{ ssh_config.print_motd }}
-PrintLastLog {{ ssh_config.print_lastlog }}
-TCPKeepAlive {{ ssh_config.tcp_keepalive }}
-MaxSessions {{ ssh_config.max_sessions }}
-ClientAliveInterval {{ ssh_config.client_alive_interval }}
-ClientAliveCountMax {{ ssh_config.client_alive_count_max }}
-LoginGraceTime {{ ssh_config.login_grace_time }}
-
-# Security banner
-Banner {{ ssh_config.banner }}
-
-# Subsystem configuration
-Subsystem sftp internal-sftp
-
-# Logging
-SyslogFacility AUTH
-LogLevel INFO
-
-# Security hardened sshd_config
-HostKey /etc/ssh/ssh_host_rsa_key
-HostKey /etc/ssh/ssh_host_ecdsa_key
-HostKey /etc/ssh/ssh_host_ed25519_key
-
-# Disable unused features
-AllowAgentForwarding no
-AllowTcpForwarding no
-X11Forwarding no
-PrintMotd no
-
-# Session configuration
-ClientAliveInterval 300
-ClientAliveCountMax 2
-LoginGraceTime 30
-
-# Use strong crypto
-Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com
-MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com
-KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group16-sha512
 
 # Allow only specific users/groups
 AllowUsers {{ deploy_user }}

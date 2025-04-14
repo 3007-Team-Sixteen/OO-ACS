@@ -1,0 +1,81 @@
+---
+- name: Create Prometheus system group
+  group:
+    name: prometheus
+    system: yes
+    state: present
+
+- name: Create Prometheus system user
+  user:
+    name: prometheus
+    system: yes
+    shell: /bin/false
+    group: prometheus
+    createhome: no
+    state: present
+
+- name: Create Prometheus directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: prometheus
+    group: prometheus
+    mode: '0755'
+  loop:
+    - /etc/prometheus
+    - /var/lib/prometheus
+
+- name: Download Prometheus
+  get_url:
+    url: "https://github.com/prometheus/prometheus/releases/download/v2.49.1/prometheus-2.49.1.linux-amd64.tar.gz"
+    dest: /tmp/prometheus.tar.gz
+    mode: '0644'
+
+- name: Extract Prometheus files
+  unarchive:
+    src: /tmp/prometheus.tar.gz
+    dest: /tmp
+    remote_src: yes
+
+- name: Copy Prometheus binary
+  copy:
+    src: "/tmp/prometheus-2.49.1.linux-amd64/prometheus"
+    dest: "/usr/local/bin/prometheus"
+    mode: '0755'
+    owner: prometheus
+    group: prometheus
+    remote_src: yes
+
+- name: Copy promtool binary
+  copy:
+    src: "/tmp/prometheus-2.49.1.linux-amd64/promtool"
+    dest: "/usr/local/bin/promtool"
+    mode: '0755'
+    owner: prometheus
+    group: prometheus
+    remote_src: yes
+
+- name: Copy Prometheus configuration
+  template:
+    src: prometheus.yml.j2
+    dest: /etc/prometheus/prometheus.yml
+    owner: prometheus
+    group: prometheus
+    mode: '0644'
+  notify: restart prometheus
+
+- name: Copy Prometheus systemd service file
+  template:
+    src: prometheus.service.j2
+    dest: /etc/systemd/system/prometheus.service
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart prometheus
+
+- name: Start and enable Prometheus service
+  systemd:
+    name: prometheus
+    state: started
+    enabled: yes
+    daemon_reload: yes 
