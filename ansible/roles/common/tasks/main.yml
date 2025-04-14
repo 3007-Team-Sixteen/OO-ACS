@@ -1,14 +1,26 @@
 ---
-- name: Include SSH setup tasks
-  include_tasks: ssh_setup.yml
+- name: Define common packages
+  set_fact:
+    common_packages_to_install:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+      - git
+      # Add any other truly common utilities here
 
 - name: Update apt cache
   apt:
     update_cache: yes
-    cache_valid_time: 3600
+    cache_valid_time: 3600 # Update cache if older than 1 hour
+  become: yes
 
 - name: Install common packages
   apt:
-    name: "{{ common_packages }}"
+    name: "{{ common_packages_to_install }}"
     state: present
-    update_cache: yes 
+  become: yes
+
+# - name: Include SSH setup tasks # Removed - handled differently now
+#  include_tasks: ssh_setup.yml 

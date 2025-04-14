@@ -1,0 +1,31 @@
+---
+- name: Define build/test packages
+  set_fact:
+    build_test_packages:
+      - build-essential
+      - cmake
+      - make
+      - valgrind
+      - git
+      - libsodium-dev
+      - libssl-dev
+      # Add other build-time dependencies here
+
+- name: Update apt cache (again, just in case)
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  become: yes
+
+- name: Install build and test packages
+  apt:
+    name: "{{ build_test_packages }}"
+    state: present
+  become: yes
+
+- name: Clone Unity Testing Framework
+  git:
+    repo: 'https://github.com/ThrowTheSwitch/Unity.git'
+    dest: /opt/Unity # Or another suitable location
+    version: master # Or pin to a specific tag/commit
+  become: yes 
