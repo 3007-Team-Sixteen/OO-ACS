@@ -76,7 +76,7 @@ Branch Naming Conventions:
 Commit Message Conventions:
 Each commit message must be sufficiently verbose to describe exactly what was implemented in the commit. Vagueness should be avoided. An example is shown below.
 - "Changes to password hashing" -> bad
-- "Implemented password hashing using MD5 algorithm" - good
+- "Implemented password hashing using MD5 algorithm" -> good
 
 Workflow:
 When creating a new feature, bugfix, or security change, a separate branch off the main branch must be made following the appropriate naming convention. Development is done in this branch with regular commits. When work on the branch is finished, a pull request (PR) must be made with ideally 1-2 different team members approving the PR. Once the PR is approved, the branch is merged into main.
