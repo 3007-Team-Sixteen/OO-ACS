@@ -25,8 +25,8 @@
 
 ### 1.1 Communication Strategy
 - **Meeting Schedule**:
-  - Weekly: Monday 10:00 at UWA (approx. 2 hours, includes Sprint Planning)
-  - Standups: Wednesday & Friday (Online via Discord, 5 min check-in)
+  - Weekly: Monday 10:00 in-person at UWA (approx. 2 hours, includes Sprint Planning)
+  - Standups: Wednesday & Friday 18:00 (Online via Discord, 5 min check-in)
   - Emergency: Discord/Signal
 - **Communication Tools**:
   - Discord: Primary platform with dedicated channels
@@ -48,28 +48,44 @@
   - Testing & Quality Assurance (Kai)
 - **Shared Responsibilities**:
   - Code reviews
-  - Security awareness
+  - Security awareness e.g. thread modelling, secure design
   - Documentation
   - Sprint planning
   - Knowledge sharing
 
 ## 2. Version Control Strategy
 
-### 2.1 Repository Structure
+### 2.1 Github Repository Structure
 - Organized directory structure for source code, tests, docs, and tools
 - Clear separation of concerns between components
 
 ### 2.2 Branching Strategy
+The team will use the Agile methodology and focus on developing small deliverables in each sprint (1 week) which build up to the overall project outcomes. The reason for working in short iterations is to obtain regular feedback and ensure that any issues are detected and addressed quickly.
+
+Branches:
 - `main`: Production-ready code
 - `develop`: Integration branch
 - Feature/bugfix/security branches
 - Protected branches with required reviews
 
+Branch Naming Conventions:
+- `feature/feature-name`: branch for developing new features/functionality
+- `bugfix/bug-name`: branch for creating a solution to an existing bug
+- `security/security-change`: branch for adding a specific security practice (if not already included as part of a feature or bugfix)
+
+Commit Message Conventions:
+Each commit message must be sufficiently verbose to describe exactly what was implemented in the commit. Vagueness should be avoided. An example is shown below.
+- "Changes to password hashing" -> bad
+- "Implemented password hashing using MD5 algorithm" - good
+
+Workflow:
+When creating a new feature, bugfix, or security change, a separate branch off the main branch must be made following the appropriate naming convention. Development is done in this branch with regular commits. When work on the branch is finished, a pull request (PR) must be made with ideally 1-2 different team members approving the PR. Once the PR is approved, the branch is merged into main.
+
 ### 2.3 Security Measures
 - GitHub commit signing
 - Branch protection rules
 - Required PR reviews
-- Automated security checks
+- Automated security checks via CI/CD pipeline
 
 ## 3. Development Tools
 
@@ -141,38 +157,55 @@
 ## 4. Key Secure Coding Practices
 
 ### 4.1 Memory Safety
+Memory safety is relevant to protect sensitive game resources and confidential data from being tampered with by malicious input from players.
+
+How this will be applied in development:
 - Safe memory management patterns
 - Bounds checking
 - Memory leak detection
 - Buffer overflow prevention
 
 ### 4.2 Input Validation
+Input validation is essential to protect against injection attacks due to unsanitized input from players which can result in unexpected behaviour.
+
+How this will be applied in development:
 - Comprehensive input validation
 - Boundary condition testing
 - Format string validation
-- Input sanitization
+- Input sanitization to detect special characters etc.
 
 ### 4.3 Access Control
+Access control and authorisation is relevant to ensure that all actions in the game are undertaken by the appropriate users.
+
+How this will be applied in development:
 - RBAC implementation
 - Principle of least privilege
 - Permission verification
 - Audit logging
 
 ### 4.4 Error Handling
+Error handling is necessary to ensure that unexpected events do not compromise the smooth and reliable operation of the game.
+
+How this will be applied in development:
 - Consistent error handling patterns
 - Proper error reporting
 - Secure logging
 - Recovery procedures
+
+All of these practices will be enforced by automated testing of all code going through the CI/CD pipeline. Code which does not follow these practices will not pass the pipeline and will require modification.
 
 ## 5. Risk Management & Quality Assurance
 
 ### 5.1 Risk Management
 - **Technical Risks**: Memory safety, input validation, access control
 - **Operational Risks**: Environment issues, collaboration, time management
-- **Mitigation Strategies**: Regular reviews, testing, documentation
+- **Mitigation Strategies**: 
+  - Regular reviews/meetings: ensures team alignment and allows issues to be addressed in a timely manner.
+  - Automated testing: consistent testing in CI/CD pipeline reduces chances of issues going undetected due to human error.
+  - Comprehensive documentation: facilitates transparency and knowledge sharing as all team members can be aware of all parts of the project and take over if resourcing issues arise.
 
 ### 5.2 Quality Assurance
-- **Code Quality**: Standards compliance, static analysis, reviews
+- **Code Quality**: Standards compliance, integrated static analysis, regular reviews
 - **Security Testing**: Unit testing, memory safety, input validation
 - **Documentation**: Code, security, user, and process documentation
 
