@@ -1,0 +1,284 @@
+---
+- name: Provision Linode Production Environment
+  hosts: localhost
+  gather_facts: yes
+  vars_files:
+    - ../../group_vars/all/vault.yml # Explicitly include vault file
+  vars:
+    linode_instance_label: oo-acs-production
+    linode_instance_type: g6-standard-2 # 4GB Standard
+    linode_instance_region: ap-southeast # Sydney, AU
+    linode_instance_image: linode/ubuntu20.04
+    linode_instance_tags:
+      - production
+      - oo-acs
+    linode_ssh_pub_key: "{{ lookup('file', ansible_env.HOME + '/.ssh/oo-acs-production.pub') }}"
+    linode_firewall_name: fw-production-basic
+    ssh_key_path: "{{ ansible_env.HOME }}/.ssh/oo-acs-production"
+    validation_errors: []
+
+  pre_tasks:
+    - name: Initialize validation errors list
+      set_fact:
+        validation_errors: []
+      tags: [always]
+
+    - name: Ensure Linode API token is set
+      set_fact:
+        validation_errors: "{{ validation_errors + ['LINODE_TOKEN environment variable is not set'] }}"
+      when: lookup('env', 'LINODE_TOKEN') | length == 0
+      tags: [always, validation]
+
+    - name: Check for SSH private key
+      stat:
+        path: "{{ ssh_key_path }}"
+      register: ssh_key_private
+      tags: [validation, ssh]
+
+    - name: Record missing SSH private key
+      set_fact:
+        validation_errors: "{{ validation_errors + ['SSH private key not found at ' + ssh_key_path] }}"
+      when: not ssh_key_private.stat.exists
+      tags: [validation, ssh]
+
+    - name: Check for SSH public key
+      stat:
+        path: "{{ ansible_env.HOME }}/.ssh/oo-acs-production.pub"
+      register: ssh_key_public
+      tags: [validation, ssh]
+
+    - name: Record missing SSH public key
+      set_fact:
+        validation_errors: "{{ validation_errors + ['SSH public key not found at ' + ansible_env.HOME + '/.ssh/oo-acs-production.pub'] }}"
+      when: not ssh_key_public.stat.exists
+      tags: [validation, ssh]
+
+    - name: Check if vault_linode_root_password is defined
+      set_fact:
+        validation_errors: "{{ validation_errors + ['vault_linode_root_password is not defined in vault file'] }}"
+      when: vault_linode_root_password is not defined
+      tags: [validation, vault]
+
+    - name: Check if tools directory exists
+      stat:
+        path: "{{ playbook_dir }}/../../../tools"
+      register: tools_dir
+      tags: [validation, tools]
+
+    - name: Record missing tools directory
+      set_fact:
+        validation_errors: "{{ validation_errors + ['Tools directory not found at ' + playbook_dir + '/../../../tools'] }}"
+      when: not tools_dir.stat.exists
+      tags: [validation, tools]
+
+    - name: Check if update_inventory.sh exists
+      stat:
+        path: "{{ playbook_dir }}/../../../tools/update_inventory.sh"
+      register: update_inventory_script
+      tags: [validation, tools]
+
+    - name: Record missing update_inventory.sh
+      set_fact:
+        validation_errors: "{{ validation_errors + ['update_inventory.sh script not found at ' + playbook_dir + '/../../../tools/update_inventory.sh'] }}"
+      when: not update_inventory_script.stat.exists
+      tags: [validation, tools]
+
+    - name: Check for debug_tasks.yml
+      stat:
+        path: "{{ playbook_dir }}/../common/debug_tasks.yml"
+      register: debug_tasks
+      tags: [validation]
+
+    - name: Record missing debug_tasks.yml
+      set_fact:
+        validation_errors: "{{ validation_errors + ['debug_tasks.yml not found at ' + playbook_dir + '/../common/debug_tasks.yml'] }}"
+      when: not debug_tasks.stat.exists
+      tags: [validation]
+
+    - name: Check for linode.cloud Python module
+      command: pip show linode-api4
+      register: linode_module
+      changed_when: false
+      failed_when: false
+      tags: [validation, dependencies]
+
+    - name: Record missing linode-api4 module
+      set_fact:
+        validation_errors: "{{ validation_errors + ['linode-api4 Python module not installed. Run: pip install linode-api4'] }}"
+      when: linode_module.rc != 0
+      tags: [validation, dependencies]
+
+    # Include common debug tasks for validation error display
+    - name: Display validation errors
+      include_tasks: "{{ playbook_dir }}/../common/debug_tasks.yml"
+      vars:
+        error_collection: "{{ validation_errors }}"
+        success_message: "Validation completed successfully!"
+      when: debug_tasks.stat.exists
+      tags: [validation]
+
+    - name: Display all validation errors (fallback if debug_tasks.yml is missing)
+      debug:
+        msg: "{{ validation_errors }}"
+      when: validation_errors | length > 0 and not debug_tasks.stat.exists
+      tags: [validation]
+
+    - name: Fail if any validation errors were found
+      fail:
+        msg: "Validation failed. Please fix the issues above before continuing."
+      when: validation_errors | length > 0
+      tags: [validation]
+
+  tasks:
+    - name: Delete existing Production instance (if any) for a clean build
+      tags: [instance, cleanup]
+      linode.cloud.instance:
+        label: "{{ linode_instance_label }}"
+        state: absent
+      delegate_to: localhost
+      ignore_errors: yes
+      register: delete_result
+
+    - name: Wait for instance deletion
+      tags: [instance, cleanup]
+      pause:
+        seconds: 10
+      when: not delete_result.failed
+
+    - name: Create Linode Production instance
+      tags: [instance, provision]
+      linode.cloud.instance:
+        label: "{{ linode_instance_label }}"
+        type: "{{ linode_instance_type }}"
+        region: "{{ linode_instance_region }}"
+        image: "{{ linode_instance_image }}"
+        root_pass: "{{ vault_linode_root_password }}"
+        authorized_keys:
+          - "{{ linode_ssh_pub_key }}"
+        tags: "{{ linode_instance_tags }}"
+        state: present
+      register: production_instance
+      delegate_to: localhost
+
+    - name: Wait for instance to be provisioned
+      tags: [instance, provision]
+      pause:
+        seconds: 30
+      when: production_instance.changed
+
+    - name: Add host to inventory
+      tags: [instance, inventory]
+      add_host:
+        name: "{{ production_instance.instance.ipv4[0] }}"
+        groups: linode_production_instances
+        ansible_user: root
+        ansible_ssh_private_key_file: "{{ ssh_key_path }}"
+      when: production_instance.changed
+
+    - name: Wait for SSH to be ready
+      tags: [instance, connectivity]
+      wait_for:
+        host: "{{ production_instance.instance.ipv4[0] }}"
+        port: 22
+        timeout: 300
+        delay: 10
+        state: started
+      delegate_to: localhost
+      when: production_instance.changed
+
+    - name: Ensure SSH key is authorized
+      tags: [instance, security, ssh]
+      authorized_key:
+        user: root
+        key: "{{ linode_ssh_pub_key }}"
+        state: present
+      delegate_to: "{{ production_instance.instance.ipv4[0] }}"
+      when: production_instance.changed
+      vars:
+        ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+
+    - name: Configure system locale
+      tags: [instance, locale]
+      include_tasks: "{{ playbook_dir }}/../../roles/common/tasks/locale_tasks.yml"
+      vars:
+        target_host: "{{ production_instance.instance.ipv4[0] }}"
+        ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+      when: production_instance.changed
+
+    - name: Create Linode Firewall for Production instance
+      tags: [instance, security, firewall]
+      linode.cloud.firewall:
+        label: "{{ linode_firewall_name }}"
+        rules:
+          inbound_policy: DROP
+          outbound_policy: ACCEPT
+          inbound:
+            - label: allow-ssh
+              protocol: TCP
+              ports: '22'
+              addresses:
+                ipv4: ['0.0.0.0/0']
+                ipv6: ['::/0']
+              action: ACCEPT
+            - label: allow-http
+              protocol: TCP
+              ports: '80'
+              addresses:
+                ipv4: ['0.0.0.0/0']
+                ipv6: ['::/0']
+              action: ACCEPT
+            - label: allow-https
+              protocol: TCP
+              ports: '443'
+              addresses:
+                ipv4: ['0.0.0.0/0']
+                ipv6: ['::/0']
+              action: ACCEPT
+            - label: allow-production-ports
+              protocol: TCP
+              ports: '8000-8999'
+              addresses:
+                ipv4: ['0.0.0.0/0']
+                ipv6: ['::/0']
+              action: ACCEPT
+        devices:
+          - id: "{{ production_instance.instance.id | int }}"
+        state: present
+      delegate_to: localhost
+      when: production_instance.changed
+
+    - name: Set instance IP variable for debug tasks
+      set_fact:
+        instance_ip: "{{ production_instance.instance.ipv4[0] }}"
+      when: production_instance is defined and production_instance.changed and production_instance.instance.ipv4 is defined
+      tags: [debug, verification, instance]
+
+    - name: Prepare debug information
+      set_fact:
+        system_commands: []
+        services: []
+        security_commands: ["ufw status"]
+        success_message: "Production instance has been successfully provisioned!"
+      when: production_instance.changed and debug_tasks.stat.exists
+      tags: [debug, verification]
+      
+    - name: Include common debug tasks
+      include_tasks: "{{ playbook_dir }}/../common/debug_tasks.yml"
+      vars:
+        success_message: "Production instance has been successfully provisioned at IP: {{ production_instance.instance.ipv4[0] }}"
+      when: production_instance.changed and debug_tasks.stat.exists
+      tags: [debug, verification]
+
+    - name: Display Production Instance IP (fallback if debug_tasks.yml is missing)
+      debug:
+        msg: "Production instance created with IP: {{ production_instance.instance.ipv4[0] }}"
+      when: production_instance.changed and not debug_tasks.stat.exists
+      tags: [instance, verification]
+
+    - name: Update inventory with new instance IP
+      tags: [instance, inventory, update]
+      shell: "../../../tools/update_inventory.sh production {{ production_instance.instance.ipv4[0] }}"
+      args:
+        chdir: "{{ playbook_dir }}"
+      delegate_to: localhost
+      when: production_instance.changed 

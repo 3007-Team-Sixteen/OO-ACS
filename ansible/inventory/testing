@@ -1,4 +1,4 @@
 [testing]
-testing-server ansible_host=192.53.168.57 ansible_user=root ansible_ssh_private_key_file=/Users/unixthat/.ssh/linodeKey
+testing-server ansible_host=oo-acs-testing ansible_user=root
 
 [all:vars]

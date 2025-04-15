@@ -1,0 +1,94 @@
+---
+# Common debug tasks to be included by provision and configure playbooks
+# Can be used to display system information, validate configurations,
+# and show the results of operations.
+
+# Input variables:
+# - system_commands: List of system commands to execute and display (optional)
+# - services: List of services to check status (optional)
+# - security_commands: List of security-related commands to execute (optional)
+# - instance_ip: IP address of the provisioned instance (optional)
+# - error_collection: List of errors encountered during playbook execution (optional)
+# - success_message: Custom success message to display (optional)
+
+- name: Validate error_collection variable type
+  set_fact:
+    error_collection: []
+  when: error_collection is defined and error_collection is not sequence
+  tags: [debug, validation]
+
+- name: Display system information
+  command: "{{ item }}"
+  register: system_info
+  loop: "{{ system_commands | default([]) }}"
+  loop_control:
+    label: "{{ item }}"
+  changed_when: false
+  failed_when: false
+  when: system_commands is defined and system_commands | length > 0
+  tags: [debug, verification]
+
+- name: Show system information
+  debug:
+    var: system_info.results
+  when: system_commands is defined and system_commands | length > 0
+  tags: [debug, verification]
+
+- name: Display service status
+  command: "systemctl status {{ item }}"
+  register: service_status
+  loop: "{{ services | default([]) }}"
+  loop_control:
+    label: "{{ item }}"
+  changed_when: false
+  failed_when: false
+  when: services is defined and services | length > 0
+  tags: [debug, verification, services]
+
+- name: Show service status
+  debug:
+    var: service_status.results
+  when: services is defined and services | length > 0
+  tags: [debug, verification, services]
+
+- name: Display security information
+  command: "{{ item }}"
+  register: security_info
+  loop: "{{ security_commands | default([]) }}"
+  loop_control:
+    label: "{{ item }}"
+  changed_when: false
+  failed_when: false
+  when: security_commands is defined and security_commands | length > 0
+  tags: [debug, verification, security]
+
+- name: Show security information
+  debug:
+    var: security_info.results
+  when: security_commands is defined and security_commands | length > 0
+  tags: [debug, verification, security]
+
+- name: Display instance information
+  debug:
+    msg: "Instance created with IP: {{ instance_ip }}"
+  when: instance_ip is defined and instance_ip | length > 0
+  tags: [debug, verification, instance]
+
+- name: Display error summary
+  debug:
+    msg: "{{ error_collection }}"
+  when: error_collection is defined and error_collection | length > 0
+  tags: [debug, errors]
+
+- name: Display success message
+  debug:
+    msg: "{{ success_message | default('Operation completed successfully!') }}"
+  when: (error_collection is not defined or error_collection | length == 0) and 
+        (success_message is defined or success_message is not defined)
+  tags: [debug, verification]
+
+- name: Summary stats
+  debug:
+    msg: "Completed with {{ error_collection | default([]) | length }} error(s)"
+  when: error_collection is defined
+  tags: [debug, verification, summary] 

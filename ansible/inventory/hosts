@@ -1,13 +1,12 @@
 [testing]
-testing-server ansible_host=192.53.168.57 ansible_user=root ansible_ssh_private_key_file=/Users/unixthat/.ssh/linodeKey
+testing-server ansible_host=oo-acs-testing ansible_user=root
 
 [staging]
-staging-server ansible_host=172.105.174.77 ansible_user=root ansible_ssh_private_key_file=/Users/unixthat/.ssh/linodeKey
+staging-server ansible_host=oo-acs-staging ansible_user=root
 
 [production]
-production-server ansible_host=192.53.168.250 ansible_user=root ansible_ssh_private_key_file=/Users/unixthat/.ssh/linodeKey
+production-server ansible_host=oo-acs-production ansible_user=root
 
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
-ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 repository_url=https://github.com/unixthat/OO-ACS.git

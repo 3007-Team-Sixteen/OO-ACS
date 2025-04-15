@@ -1,0 +1,38 @@
+[DEFAULT]
+# Ban hosts for 1 hour
+bantime = 3600
+# Check each IP for ban every 10 minutes
+findtime = 600
+# Ban after 5 attempts
+maxretry = 5
+
+# SSH jail
+[sshd]
+enabled = true
+port = ssh
+filter = sshd
+logpath = /var/log/auth.log
+maxretry = 3
+
+# Nginx basic auth
+[nginx-http-auth]
+enabled = true
+filter = nginx-http-auth
+port = http,https
+logpath = /var/log/nginx/error.log
+
+# Nginx bad bots
+[nginx-badbots]
+enabled = true
+filter = nginx-badbots
+port = http,https
+logpath = /var/log/nginx/access.log
+maxretry = 2
+
+# Nginx no access
+[nginx-noaccess]
+enabled = true
+port = http,https
+filter = nginx-noaccess
+logpath = /var/log/nginx/error.log
+maxretry = 2 

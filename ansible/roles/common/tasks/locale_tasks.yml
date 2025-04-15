@@ -1,0 +1,60 @@
+---
+# Tasks file for setting up system locale
+# Expected to be included from another playbook with 'target_host' variable defined
+
+- name: Install locales package
+  apt:
+    name: locales
+    state: present
+    update_cache: yes
+  become: true
+  delegate_to: "{{ target_host | default(inventory_hostname) }}"
+
+- name: Generate en_AU.UTF-8 locale
+  locale_gen:
+    name: en_AU.UTF-8
+    state: present
+  become: true
+  delegate_to: "{{ target_host | default(inventory_hostname) }}"
+
+- name: Set locale defaults
+  copy:
+    dest: /etc/default/locale
+    content: |
+      LANG=en_AU.UTF-8
+      LANGUAGE=en_AU.UTF-8
+      LC_ALL=en_AU.UTF-8
+      LC_CTYPE=en_AU.UTF-8
+  become: true
+  register: locale_updated
+  delegate_to: "{{ target_host | default(inventory_hostname) }}"
+
+- name: Set timezone to UTC
+  timezone:
+    name: UTC
+  become: true
+  delegate_to: "{{ target_host | default(inventory_hostname) }}"
+
+- name: Install required packages for timezone
+  apt:
+    name: tzdata
+    state: present
+  become: true
+  delegate_to: "{{ target_host | default(inventory_hostname) }}"
+
+- name: Reconfigure tzdata
+  shell: dpkg-reconfigure --frontend noninteractive tzdata
+  become: true
+  changed_when: false
+  delegate_to: "{{ target_host | default(inventory_hostname) }}"
+
+- name: Display locale information
+  command: locale
+  become: true
+  changed_when: false
+  register: locale_status
+  delegate_to: "{{ target_host | default(inventory_hostname) }}"
+
+- name: Show locale status
+  debug:
+    var: locale_status.stdout_lines 

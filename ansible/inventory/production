@@ -1,4 +1,6 @@
 [production]
-production-server ansible_host=192.53.168.250 ansible_user=root ansible_ssh_private_key_file=/Users/unixthat/.ssh/linodeKey
+production-server ansible_host=45.79.236.250 ansible_user=root ansible_ssh_private_key_file=~/.ssh/oo-acs-production
  
 [all:vars]
+ansible_python_interpreter=/usr/bin/python3
+ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'

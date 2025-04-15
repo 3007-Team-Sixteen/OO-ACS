@@ -1,0 +1,3 @@
+---
+# Linode Root Password
+vault_linode_root_password: 'q9hmVY6rMLIOWUxmmLKLWBPDT1H7d5OD'

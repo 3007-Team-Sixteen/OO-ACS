@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OO-ACS Environment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 30px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        .status {
+            padding: 15px;
+            background-color: #dff0d8;
+            border-left: 5px solid #5cb85c;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>OO-ACS Environment</h1>
+        <div class="status">
+            <p><strong>Status:</strong> System is running</p>
+        </div>
+        <h2>Environment Information</h2>
+        <ul>
+            <li><strong>Environment:</strong> {{ env_name | default('unknown') }}</li>
+            <li><strong>Server Type:</strong> {{ instance_type | default('unknown') }}</li>
+            <li><strong>Region:</strong> {{ linode_instance_region | default('unknown') }}</li>
+        </ul>
+        <h2>API Endpoints</h2>
+        <ul>
+            <li><code>/api</code> - Main API endpoint</li>
+            <li><code>/health</code> - System health status</li>
+        </ul>
+    </div>
+</body>
+</html> 

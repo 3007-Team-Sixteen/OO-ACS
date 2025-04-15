@@ -1,0 +1,60 @@
+---
+- name: Configure system locale
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update apt cache
+      tags: [system, locale, apt]
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install locales package
+      tags: [system, locale, packages]
+      apt:
+        name: locales
+        state: present
+
+    - name: Generate en_US.UTF-8 locale
+      tags: [system, locale, generate]
+      locale_gen:
+        name: en_US.UTF-8
+        state: present
+
+    - name: Set locale defaults
+      tags: [system, locale, configuration]
+      copy:
+        dest: /etc/default/locale
+        content: |
+          LANG=en_US.UTF-8
+          LANGUAGE=en_US.UTF-8
+          LC_ALL=en_US.UTF-8
+          LC_CTYPE=en_US.UTF-8
+      register: locale_updated
+
+    - name: Set timezone to UTC
+      tags: [system, locale, timezone]
+      timezone:
+        name: UTC
+
+    - name: Install required packages for timezone
+      tags: [system, locale, packages]
+      apt:
+        name: tzdata
+        state: present
+
+    - name: Reconfigure tzdata
+      tags: [system, locale, timezone]
+      shell: dpkg-reconfigure --frontend noninteractive tzdata
+      changed_when: false
+
+    - name: Display locale information
+      tags: [system, locale, verification]
+      command: locale
+      register: locale_status
+      changed_when: false
+
+    - name: Show locale status
+      tags: [system, locale, verification]
+      debug:
+        var: locale_status.stdout_lines 

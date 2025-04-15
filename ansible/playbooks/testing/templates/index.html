@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OO-ACS Testing Environment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #f4f4f4;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .info {
+            background: #e7f4ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+        .links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .links a {
+            display: inline-block;
+            padding: 10px 15px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 3px;
+            transition: background 0.3s;
+        }
+        .links a:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>OO-ACS Testing Environment</h1>
+        
+        <div class="info">
+            <p>This is the testing environment for OO-ACS. The server is configured and ready for testing.</p>
+            <p>Environment: <strong>Testing</strong></p>
+        </div>
+        
+        <h2>API Endpoints</h2>
+        <div class="links">
+            <a href="/api">/api - JSON Response</a>
+            <a href="/health">/health - Health Check</a>
+        </div>
+        
+        <h2>System Information</h2>
+        <ul>
+            <li>Server: Nginx</li>
+            <li>Backend: Python</li>
+            <li>Testing Framework: Unity</li>
+        </ul>
+        
+        <p>This page is served from the OO-ACS testing environment configured by Ansible.</p>
+    </div>
+</body>
+</html> 

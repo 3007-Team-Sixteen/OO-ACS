@@ -1,0 +1,9 @@
+[Unit]
+Description=OO-ACS Backup Service
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/backups/backup.sh
+User=root
+Group=root 

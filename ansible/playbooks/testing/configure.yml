@@ -1,0 +1,581 @@
+---
+- name: Configure Testing Environment
+  hosts: testing-server
+  become: true
+  gather_facts: true
+
+  vars:
+    env_name: testing
+    instance_type: g6-nanode-1
+    linode_instance_region: ap-southeast
+    linode_instance_image: linode/ubuntu20.04
+    error_collection: []
+
+  pre_tasks:
+    - name: Initialize error collection
+      set_fact:
+        error_collection: []
+      tags: [always]
+
+    - name: Ensure backup directory exists
+      tags: [backup, pre_tasks]
+      file:
+        path: /opt/backups
+        state: directory
+        mode: '0755'
+
+    - name: Check for existing backup
+      tags: [backup, pre_tasks]
+      stat:
+        path: /opt/backups/pre_playbook_*.tar.gz
+      register: backup_exists
+
+    - name: Create backup only if none exists
+      tags: [backup, pre_tasks]
+      shell: |
+        mkdir -p /opt/backups
+        TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+        tar -czf "/opt/backups/pre_playbook_${TIMESTAMP}.tar.gz" /etc
+      when: not backup_exists.stat.exists
+      register: backup_result
+      changed_when: backup_result.rc == 0
+
+  tasks:
+    - name: Main configuration tasks
+      block:
+        - name: Update apt cache
+          tags: [packages, apt]
+          apt:
+            update_cache: yes
+            cache_valid_time: 3600
+          register: apt_update_result
+          ignore_errors: yes
+
+        - name: Record apt update error if it occurred
+          set_fact:
+            error_collection: "{{ error_collection + ['APT update failed: ' + apt_update_result.msg|default(apt_update_result)] }}"
+          when: apt_update_result is failed
+          tags: [packages, apt]
+
+        - name: Install required packages
+          tags: [packages, apt]
+          apt:
+            name:
+              - build-essential
+              - cmake
+              - gcc
+              - g++
+              - make
+              - valgrind
+              - gdb
+              - git
+              - doxygen
+              - graphviz
+              - clang
+              - clang-tools
+              - libssl-dev
+              - libsodium-dev
+              - pkg-config
+              - python3-pip
+              - python3-venv
+              - python3-dev
+              - afl++
+              - lcov
+              - cppcheck
+              - fail2ban
+              - nginx
+            state: present
+          register: apt_install_result
+          ignore_errors: yes
+
+        - name: Record package installation error if it occurred
+          set_fact:
+            error_collection: "{{ error_collection + ['Package installation failed: ' + apt_install_result.msg|default(apt_install_result)] }}"
+          when: apt_install_result is failed
+          tags: [packages, apt]
+
+        - name: Install Python development tools
+          tags: [packages, python]
+          pip:
+            name:
+              - pre-commit
+              - black
+              - pylint
+              - pytest
+              - coverage
+            state: present
+          register: pip_install_result
+          ignore_errors: yes
+
+        - name: Record pip installation error if it occurred
+          set_fact:
+            error_collection: "{{ error_collection + ['Python package installation failed: ' + pip_install_result.msg|default(pip_install_result)] }}"
+          when: pip_install_result is failed
+          tags: [packages, python]
+
+        - name: Create oo-acs group
+          tags: [users, setup]
+          group:
+            name: oo-acs
+            state: present
+          register: group_result
+          ignore_errors: yes
+
+        - name: Record group creation error if it occurred
+          set_fact:
+            error_collection: "{{ error_collection + ['Group creation failed: ' + group_result.msg|default(group_result)] }}"
+          when: group_result is failed
+          tags: [users, setup]
+
+        - name: Create oo-acs user
+          tags: [users, setup]
+          user:
+            name: oo-acs
+            group: oo-acs
+            shell: /bin/bash
+            create_home: yes
+            home: /home/oo-acs
+            state: present
+          register: user_result
+          ignore_errors: yes
+
+        - name: Record user creation error if it occurred
+          set_fact:
+            error_collection: "{{ error_collection + ['User creation failed: ' + user_result.msg|default(user_result)] }}"
+          when: user_result is failed
+          tags: [users, setup]
+
+        - name: Clone Unity testing framework
+          tags: [testing, framework]
+          git:
+            repo: https://github.com/ThrowTheSwitch/Unity.git
+            dest: /opt/unity
+            version: master
+          register: unity_result
+          ignore_errors: yes
+
+        - name: Record Unity clone error if it occurred
+          set_fact:
+            error_collection: "{{ error_collection + ['Unity framework clone failed: ' + unity_result.msg|default(unity_result)] }}"
+          when: unity_result is failed
+          tags: [testing, framework]
+
+        - name: Create Unity symlink
+          tags: [testing, framework]
+          file:
+            src: /opt/unity
+            dest: /usr/local/include/unity
+            state: link
+          register: symlink_result
+          ignore_errors: yes
+
+        - name: Record symlink creation error if it occurred
+          set_fact:
+            error_collection: "{{ error_collection + ['Unity symlink creation failed: ' + symlink_result.msg|default(symlink_result)] }}"
+          when: symlink_result is failed
+          tags: [testing, framework]
+
+        - name: Create development directories
+          tags: [filesystem, setup]
+          file:
+            path: "{{ item }}"
+            state: directory
+            mode: '0755'
+            owner: oo-acs
+            group: oo-acs
+          loop:
+            - /opt/oo-acs
+            - /opt/oo-acs/build
+            - /opt/oo-acs/tests
+            - /opt/oo-acs/docs
+            - /opt/oo-acs/src
+          register: dir_result
+          ignore_errors: yes
+
+        - name: Record directory creation error if it occurred
+          set_fact:
+            error_collection: "{{ error_collection + ['Directory creation failed: ' + dir_result.msg|default(dir_result)] }}"
+          when: dir_result is failed
+          tags: [filesystem, setup]
+
+        - name: Set up environment variables
+          tags: [environment, setup]
+          lineinfile:
+            path: /etc/environment
+            line: "{{ item }}"
+            create: yes
+          loop:
+            - 'CFLAGS="-Wall -Wextra -Werror -g -O0 -fprofile-arcs -ftest-coverage"'
+            - 'CXXFLAGS="-Wall -Wextra -Werror -g -O0 -fprofile-arcs -ftest-coverage"'
+            - 'LDFLAGS="--coverage"'
+            - 'UNITY_PATH=/usr/local/include/unity'
+            - 'OO_ACS_ENV=testing'
+          register: env_result
+          ignore_errors: yes
+
+        - name: Record environment setup error if it occurred
+          set_fact:
+            error_collection: "{{ error_collection + ['Environment setup failed: ' + env_result.msg|default(env_result)] }}"
+          when: env_result is failed
+          tags: [environment, setup]
+
+        - name: Install development dependencies
+          tags: [packages, python]
+          pip:
+            name: "{{ item }}"
+            state: present
+          loop:
+            - pytest
+            - pytest-cov
+            - black
+            - flake8
+            - mypy
+          register: dev_pip_result
+          ignore_errors: yes
+
+        - name: Record development dependencies installation error if it occurred
+          set_fact:
+            error_collection: "{{ error_collection + ['Development dependencies installation failed: ' + dev_pip_result.msg|default(dev_pip_result)] }}"
+          when: dev_pip_result is failed
+          tags: [packages, python]
+
+        - name: Configure nginx for testing
+          tags: [web, nginx]
+          template:
+            src: "templates/nginx/testing.conf.j2" 
+            dest: "/etc/nginx/sites-available/testing"
+            owner: root
+            group: root
+            mode: '0644'
+          notify: restart nginx
+          register: nginx_config_result
+          ignore_errors: yes
+
+        - name: Record nginx configuration error if it occurred
+          set_fact:
+            error_collection: "{{ error_collection + ['Nginx configuration failed: ' + nginx_config_result.msg|default(nginx_config_result)] }}"
+          when: nginx_config_result is defined and nginx_config_result is failed
+          tags: [web, nginx]
+
+        - name: Remove default nginx site
+          tags: [web, nginx]
+          file:
+            path: "/etc/nginx/sites-enabled/default"
+            state: absent
+          notify: restart nginx
+          register: nginx_default_result
+          ignore_errors: yes
+
+        - name: Record default site removal error if it occurred
+          set_fact:
+            error_collection: "{{ error_collection + ['Default nginx site removal failed: ' + nginx_default_result.msg|default(nginx_default_result)] }}"
+          when: nginx_default_result is defined and nginx_default_result is failed
+          tags: [web, nginx]
+
+        - name: Enable nginx site
+          tags: [web, nginx]
+          file:
+            src: "/etc/nginx/sites-available/testing"
+            dest: "/etc/nginx/sites-enabled/testing"
+            state: link
+          notify: restart nginx
+          register: nginx_enable_result
+          ignore_errors: yes
+
+        - name: Record nginx enable error if it occurred
+          set_fact:
+            error_collection: "{{ error_collection + ['Nginx site enabling failed: ' + nginx_enable_result.msg|default(nginx_enable_result)] }}"
+          when: nginx_enable_result is defined and nginx_enable_result is failed
+          tags: [web, nginx]
+
+        - name: Create basic index.html file
+          tags: [web, content]
+          copy:
+            src: "templates/index.html"
+            dest: "/opt/oo-acs/src/index.html"
+            owner: oo-acs
+            group: oo-acs
+            mode: '0644'
+          register: index_copy_result
+          ignore_errors: yes
+
+        - name: Record index.html copy error if it occurred
+          set_fact:
+            error_collection: "{{ error_collection + ['Index.html copy failed: ' + index_copy_result.msg|default(index_copy_result)] }}"
+          when: index_copy_result is defined and index_copy_result is failed
+          tags: [web, content]
+
+        - name: Create static directory
+          tags: [web, content]
+          file:
+            path: "/opt/oo-acs/src/static"
+            state: directory
+            owner: oo-acs
+            group: oo-acs
+            mode: '0755'
+          register: static_dir_result
+          ignore_errors: yes
+
+        - name: Record static directory creation error if it occurred
+          set_fact:
+            error_collection: "{{ error_collection + ['Static directory creation failed: ' + static_dir_result.msg|default(static_dir_result)] }}"
+          when: static_dir_result is defined and static_dir_result is failed
+          tags: [web, content]
+
+        - name: Create custom API endpoints
+          tags: [web, content]
+          blockinfile:
+            path: "/etc/nginx/conf.d/testing_api.conf"
+            create: yes
+            block: |
+              # Custom API endpoints for testing
+              server {
+                listen 80;
+                server_name api.testing;
+                
+                # API endpoint
+                location /api {
+                  default_type application/json;
+                  return 200 '{"message": "Hello from OO-ACS Testing Environment"}';
+                }
+                
+                # Health check endpoint
+                location /health {
+                  default_type text/plain;
+                  return 200 'OK';
+                }
+              }
+            owner: root
+            group: root
+            mode: '0644'
+          register: api_conf_result
+          notify: restart nginx
+          ignore_errors: yes
+
+        - name: Record API configuration error if it occurred
+          set_fact:
+            error_collection: "{{ error_collection + ['API configuration failed: ' + api_conf_result.msg|default(api_conf_result)] }}"
+          when: api_conf_result is defined and api_conf_result is failed
+          tags: [web, content]
+
+        - name: Ensure services are started
+          tags: [services, security]
+          service:
+            name: "{{ item }}"
+            state: started
+            enabled: yes
+          loop:
+            - ufw
+            - ssh
+            - nginx
+          register: services_result
+          ignore_errors: yes
+
+        - name: Record services start error if it occurred
+          set_fact:
+            error_collection: "{{ error_collection + ['Services start failed: ' + services_result.msg|default(services_result)] }}"
+          when: services_result is failed
+          tags: [services, security]
+
+        - name: Check if fail2ban service exists
+          tags: [services, security]
+          command: systemctl status fail2ban
+          register: fail2ban_status
+          failed_when: false
+          changed_when: false
+
+        - name: Start and enable fail2ban if available
+          tags: [services, security]
+          service:
+            name: fail2ban
+            state: started
+            enabled: yes
+          when: fail2ban_status.rc == 0
+          register: fail2ban_start_result
+          ignore_errors: yes
+
+        - name: Record fail2ban start error if it occurred
+          set_fact:
+            error_collection: "{{ error_collection + ['Fail2ban start failed: ' + fail2ban_start_result.msg|default(fail2ban_start_result)] }}"
+          when: fail2ban_start_result is defined and fail2ban_start_result is failed
+          tags: [services, security]
+
+        - name: Verify development tools
+          tags: [verification]
+          command: "{{ item }}"
+          register: tool_versions
+          loop:
+            - gcc --version
+            - g++ --version
+            - cmake --version
+            - python3 --version
+            - valgrind --version
+            - gdb --version
+            - clang --version
+          ignore_errors: yes
+
+      rescue:
+        - name: Find most recent backup
+          tags: [backup, rescue]
+          shell: ls -t /opt/backups/pre_playbook_*.tar.gz | head -n 1
+          register: latest_backup
+          changed_when: false
+
+        - name: Record rescue activation
+          set_fact:
+            error_collection: "{{ error_collection + ['Major error occurred - rescue block activated'] }}"
+          tags: [backup, rescue]
+
+        - name: Verify backup exists before rollback
+          tags: [backup, rescue]
+          fail:
+            msg: "No backup found to rollback to"
+          when: latest_backup.stdout == ""
+
+        - name: Restore from backup
+          tags: [backup, rescue]
+          shell: |
+            cd /opt/backups
+            tar -xzf "{{ latest_backup.stdout }}" -C /
+          register: restore_result
+          failed_when: restore_result.rc != 0
+
+        - name: Restart ufw and ssh services after rollback
+          tags: [services, rescue]
+          service:
+            name: "{{ item }}"
+            state: restarted
+          loop:
+            - ufw
+            - ssh
+          ignore_errors: yes
+
+        - name: Check if fail2ban service exists after restore
+          tags: [services, rescue]
+          command: systemctl status fail2ban
+          register: fail2ban_rescue_status
+          failed_when: false
+          changed_when: false
+
+        - name: Restart fail2ban if available
+          tags: [services, rescue]
+          service:
+            name: fail2ban
+            state: restarted
+          when: fail2ban_rescue_status.rc == 0
+          ignore_errors: yes
+
+        - name: Record rollback details
+          set_fact:
+            error_collection: "{{ error_collection + ['System was rolled back to backup: ' + latest_backup.stdout] }}"
+          tags: [rescue]
+
+      always:
+        - name: Clean up pre-playbook backup on success
+          tags: [backup, cleanup]
+          find:
+            paths: /opt/backups
+            patterns: "pre_playbook_*.tar.gz"
+          register: backup_files
+          when: backup_result is defined and backup_result.changed
+          ignore_errors: yes
+
+        - name: Remove found backup files
+          tags: [backup, cleanup]
+          file:
+            path: "{{ item.path }}"
+            state: absent
+          loop: "{{ backup_files.files | default([]) }}"
+          when: backup_result is defined and backup_result.changed and backup_files.matched | default(0) > 0
+          ignore_errors: yes
+
+  post_tasks:
+    - name: Check if debug_tasks.yml exists
+      stat:
+        path: "{{ playbook_dir }}/../common/debug_tasks.yml"
+      register: debug_tasks_local
+      delegate_to: localhost
+      become: no
+      tags: [always]
+
+    - name: Set fact about debug_tasks existence
+      set_fact:
+        debug_tasks_exists: "{{ debug_tasks_local.stat.exists | default(false) }}"
+      tags: [always]
+
+    - name: Prepare debug information
+      set_fact:
+        system_commands:
+          - gcc --version
+          - g++ --version
+          - cmake --version
+          - python3 --version
+          - valgrind --version
+        services:
+          - nginx
+          - ufw
+          - fail2ban
+          - ssh
+        security_commands:
+          - ufw status
+        success_message: "Testing environment has been successfully configured!"
+      when: debug_tasks_exists | bool
+      tags: [debug, verification]
+
+    - name: Include common debug tasks
+      include_tasks: "{{ playbook_dir }}/../common/debug_tasks.yml"
+      when: debug_tasks_exists | bool
+      tags: [debug, verification]
+
+    - name: Set fallback variable
+      set_fact:
+        had_errors: "{{ error_collection|length > 0 }}"
+      tags: [always]
+      when: not debug_tasks_exists | bool
+
+    - name: Display all errors that occurred during execution (fallback)
+      debug:
+        msg: "{{ error_collection }}"
+      when: had_errors is defined and had_errors and not debug_tasks_exists | bool
+      tags: [always]
+
+    - name: Display success message if no errors occurred (fallback)
+      debug:
+        msg: "Playbook completed successfully with no errors!"
+      when: had_errors is defined and not had_errors and not debug_tasks_exists | bool
+      tags: [always]
+
+    - name: Final status summary (fallback)
+      debug:
+        msg: "Configuration completed with {{ error_collection|length }} error(s)"
+      when: not debug_tasks_exists | bool
+      tags: [always]
+
+  handlers:
+    - name: restart ssh
+      tags: [services, handlers]
+      service:
+        name: ssh
+        state: restarted
+      ignore_errors: yes
+
+    - name: restart fail2ban
+      tags: [services, handlers]
+      service:
+        name: fail2ban
+        state: restarted
+      ignore_errors: yes
+
+    - name: restart ufw
+      tags: [services, handlers]
+      service:
+        name: ufw
+        state: restarted
+      ignore_errors: yes
+
+    - name: restart nginx
+      tags: [services, handlers]
+      service:
+        name: nginx
+        state: restarted
+      ignore_errors: yes 

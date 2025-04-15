@@ -1,0 +1,343 @@
+---
+- name: Provision Linode Testing Environment
+  hosts: localhost
+  gather_facts: yes
+  vars_files:
+    - ../../group_vars/all/vault.yml # Explicitly include vault file
+  vars:
+    linode_instance_label: oo-acs-testing
+    linode_instance_type: g6-nanode-1 # 1GB Nanode
+    linode_instance_region: ap-southeast # Sydney, AU
+    linode_instance_image: linode/ubuntu20.04
+    linode_instance_tags:
+      - testing
+      - oo-acs
+    linode_firewall_name: fw-testing-basic
+    ssh_key_path: "/Users/unixthat/.ssh/oo-acs-testing"
+    ssh_pub_key_path: "/Users/unixthat/.ssh/oo-acs-testing.pub"
+    validation_errors: []
+
+  pre_tasks:
+    - name: Initialize validation errors list
+      set_fact:
+        validation_errors: []
+
+    - name: Ensure Linode API token is set
+      set_fact:
+        validation_errors: "{{ validation_errors + ['LINODE_TOKEN environment variable is not set'] }}"
+      when: lookup('env', 'LINODE_TOKEN') | length == 0
+
+    - name: Check for SSH private key
+      stat:
+        path: "{{ ssh_key_path }}"
+      register: ssh_key_private
+
+    - name: Record missing SSH private key
+      set_fact:
+        validation_errors: "{{ validation_errors + ['SSH private key not found at ' + ssh_key_path] }}"
+      when: not ssh_key_private.stat.exists
+
+    - name: Check for SSH public key
+      stat:
+        path: "{{ ssh_pub_key_path }}"
+      register: ssh_key_public
+
+    - name: Record missing SSH public key
+      set_fact:
+        validation_errors: "{{ validation_errors + ['SSH public key not found at ' + ssh_pub_key_path] }}"
+      when: not ssh_key_public.stat.exists
+
+    - name: Load SSH public key content
+      slurp:
+        src: "{{ ssh_pub_key_path }}"
+      register: ssh_pub_key_content
+      when: ssh_key_public.stat.exists
+      failed_when: false
+
+    - name: Set SSH public key variable
+      set_fact:
+        linode_ssh_pub_key: "{{ ssh_pub_key_content['content'] | b64decode | trim if ssh_pub_key_content is defined and ssh_pub_key_content.content is defined else '' }}"
+      when: ssh_key_public.stat.exists
+
+    - name: Check if vault_linode_root_password is defined
+      set_fact:
+        validation_errors: "{{ validation_errors + ['vault_linode_root_password is not defined in vault file'] }}"
+      when: vault_linode_root_password is not defined
+
+    - name: Check if tools directory exists
+      stat:
+        path: "{{ playbook_dir }}/../../../tools"
+      register: tools_dir
+
+    - name: Record missing tools directory
+      set_fact:
+        validation_errors: "{{ validation_errors + ['Tools directory not found at ' + playbook_dir + '/../../../tools'] }}"
+      when: not tools_dir.stat.exists
+
+    - name: Check if update_inventory.sh exists
+      stat:
+        path: "{{ playbook_dir }}/../../../tools/update_inventory.sh"
+      register: update_inventory_script
+
+    - name: Record missing update_inventory.sh
+      set_fact:
+        validation_errors: "{{ validation_errors + ['update_inventory.sh script not found at ' + playbook_dir + '/../../../tools/update_inventory.sh'] }}"
+      when: not update_inventory_script.stat.exists
+
+    - name: Check for common role
+      stat:
+        path: "{{ playbook_dir }}/../../roles/common"
+      register: common_role
+
+    - name: Record missing common role
+      set_fact:
+        validation_errors: "{{ validation_errors + ['common role not found at ' + playbook_dir + '/../../roles/common'] }}"
+      when: not common_role.stat.exists
+
+    - name: Check for locale_tasks.yml
+      stat:
+        path: "{{ playbook_dir }}/../../roles/common/tasks/locale_tasks.yml"
+      register: locale_tasks
+
+    - name: Record missing locale_tasks.yml
+      set_fact:
+        validation_errors: "{{ validation_errors + ['locale_tasks.yml not found at ' + playbook_dir + '/../../roles/common/tasks/locale_tasks.yml'] }}"
+      when: not locale_tasks.stat.exists
+
+    - name: Check for debug_tasks.yml
+      stat:
+        path: "{{ playbook_dir }}/../../playbooks/common/debug_tasks.yml"
+      register: debug_tasks
+
+    - name: Record missing debug_tasks.yml
+      set_fact:
+        validation_errors: "{{ validation_errors + ['debug_tasks.yml not found at ' + playbook_dir + '/../../playbooks/common/debug_tasks.yml'] }}"
+      when: not debug_tasks.stat.exists
+
+    - name: Validate locale_tasks.yml content
+      shell: |
+        grep -q "target_host" "{{ playbook_dir }}/../../roles/common/tasks/locale_tasks.yml" || echo "target_host variable not found"
+      register: locale_tasks_content
+      failed_when: false
+      changed_when: false
+      when: locale_tasks.stat.exists
+
+    - name: Record issue with locale_tasks.yml content
+      set_fact:
+        validation_errors: "{{ validation_errors + ['locale_tasks.yml does not contain expected target_host variable: ' + locale_tasks_content.stdout] }}"
+      when: locale_tasks.stat.exists and locale_tasks_content.stdout | trim != ""
+
+    - name: Validate YAML syntax of locale_tasks.yml
+      shell: cat "{{ playbook_dir }}/../../roles/common/tasks/locale_tasks.yml" | head -1 | grep -q "^---" && echo "YAML valid" || echo "YAML invalid"
+      register: yaml_check
+      failed_when: false
+      changed_when: false
+      when: locale_tasks.stat.exists
+
+    - name: Record YAML syntax errors
+      set_fact:
+        validation_errors: "{{ validation_errors + ['locale_tasks.yml has YAML syntax errors: ' + yaml_check.stdout] }}"
+      when: locale_tasks.stat.exists and yaml_check.rc != 0 or (yaml_check.stdout is defined and yaml_check.stdout == "YAML invalid")
+
+    - name: Check for linode.cloud Python module
+      command: pip show linode-api4
+      register: linode_module
+      changed_when: false
+      failed_when: false
+
+    - name: Record missing linode-api4 module
+      set_fact:
+        validation_errors: "{{ validation_errors + ['linode-api4 Python module not installed. Run: pip install linode-api4'] }}"
+      when: linode_module.rc != 0
+
+    # Include common debug tasks for validation error display
+    - name: Display validation errors
+      include_tasks: "{{ playbook_dir }}/../../playbooks/common/debug_tasks.yml"
+      vars:
+        error_collection: "{{ validation_errors }}"
+        success_message: "Validation completed successfully!"
+      when: debug_tasks.stat.exists
+      tags: [validation]
+
+    - name: Display all validation errors (fallback if debug_tasks.yml is missing)
+      debug:
+        msg: "{{ validation_errors }}"
+      when: validation_errors | length > 0 and not debug_tasks.stat.exists
+
+    - name: Fail if any validation errors were found
+      fail:
+        msg: "Validation failed. Please fix the issues above before continuing."
+      when: validation_errors | length > 0
+
+  tasks:
+    - name: Delete existing Testing instance (if any) for a clean build
+      tags: [instance, cleanup]
+      linode.cloud.instance:
+        label: "{{ linode_instance_label }}"
+        state: absent
+      delegate_to: localhost
+      ignore_errors: yes
+      register: delete_result
+
+    - name: Wait for instance deletion
+      tags: [instance, cleanup]
+      pause:
+        seconds: 10
+      when: not delete_result.failed
+
+    - name: Create Linode Testing instance
+      tags: [instance, provision]
+      linode.cloud.instance:
+        label: "{{ linode_instance_label }}"
+        type: "{{ linode_instance_type }}"
+        region: "{{ linode_instance_region }}"
+        image: "{{ linode_instance_image }}"
+        root_pass: "{{ vault_linode_root_password }}"
+        authorized_keys:
+          - "{{ linode_ssh_pub_key }}"
+        tags: "{{ linode_instance_tags }}"
+        state: present
+      register: testing_instance
+      delegate_to: localhost
+
+    - name: Wait for instance to be provisioned
+      tags: [instance, provision]
+      pause:
+        seconds: 30
+      when: testing_instance.changed
+
+    - name: Add host to temporary inventory
+      tags: [instance, inventory]
+      add_host:
+        name: testing-server
+        groups: testing
+        ansible_host: "{{ testing_instance.instance.ipv4[0] }}"
+        ansible_user: root
+        ansible_ssh_private_key_file: "{{ ssh_key_path }}"
+      when: testing_instance.changed
+
+    - name: Wait for SSH to be ready
+      tags: [instance, connectivity]
+      wait_for:
+        host: "{{ testing_instance.instance.ipv4[0] }}"
+        port: 22
+        timeout: 300
+        delay: 10
+        state: started
+      delegate_to: localhost
+      when: testing_instance.changed
+
+    - name: Write SSH public key to file for authorized_key module
+      copy:
+        content: "{{ linode_ssh_pub_key }}"
+        dest: "/tmp/oo-acs-testing.pub"
+      delegate_to: localhost
+      when: testing_instance.changed
+
+    - name: Ensure SSH key is authorized
+      tags: [instance, security, ssh]
+      authorized_key:
+        user: root
+        key: "{{ lookup('file', '/tmp/oo-acs-testing.pub') }}"
+        state: present
+      delegate_to: "{{ testing_instance.instance.ipv4[0] }}"
+      vars:
+        ansible_user: root
+        ansible_ssh_private_key_file: "{{ ssh_key_path }}"
+        ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+      when: testing_instance.changed
+
+    - name: Remove temporary public key file
+      file:
+        path: "/tmp/oo-acs-testing.pub"
+        state: absent
+      delegate_to: localhost
+      when: testing_instance.changed
+
+    - name: Configure system locale
+      tags: [instance, locale]
+      include_tasks: "{{ playbook_dir }}/../../roles/common/tasks/locale_tasks.yml"
+      vars:
+        target_host: "{{ testing_instance.instance.ipv4[0] }}"
+        ansible_user: root
+        ansible_ssh_private_key_file: "{{ ssh_key_path }}"
+        ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+      when: testing_instance.changed
+
+    - name: Create Linode Firewall for Testing instance
+      tags: [instance, security, firewall]
+      linode.cloud.firewall:
+        label: "{{ linode_firewall_name }}"
+        rules:
+          inbound_policy: DROP
+          outbound_policy: ACCEPT
+          inbound:
+            - label: allow-ssh
+              protocol: TCP
+              ports: '22'
+              addresses:
+                ipv4: ['0.0.0.0/0']
+                ipv6: ['::/0']
+              action: ACCEPT
+            - label: allow-http
+              protocol: TCP
+              ports: '80'
+              addresses:
+                ipv4: ['0.0.0.0/0']
+                ipv6: ['::/0']
+              action: ACCEPT
+            - label: allow-https
+              protocol: TCP
+              ports: '443'
+              addresses:
+                ipv4: ['0.0.0.0/0']
+                ipv6: ['::/0']
+              action: ACCEPT
+            - label: allow-testing-ports
+              protocol: TCP
+              ports: '8000-8999'
+              addresses:
+                ipv4: ['0.0.0.0/0']
+                ipv6: ['::/0']
+              action: ACCEPT
+        devices:
+          - id: "{{ testing_instance.instance.id | int }}"
+        state: present
+      delegate_to: localhost
+      when: testing_instance.changed
+
+    - name: Set instance IP variable for debug tasks
+      set_fact:
+        instance_ip: "{{ testing_instance.instance.ipv4[0] }}"
+      when: testing_instance is defined and testing_instance.changed and testing_instance.instance.ipv4 is defined
+      tags: [debug, verification, instance]
+      
+    - name: Prepare debug information
+      set_fact:
+        system_commands: []
+        services: []
+        security_commands: ["ufw status"]
+        success_message: "Testing instance has been successfully provisioned!"
+      when: testing_instance.changed and debug_tasks.stat.exists
+      tags: [debug, verification]
+      
+    - name: Include common debug tasks
+      include_tasks: "{{ playbook_dir }}/../../playbooks/common/debug_tasks.yml"
+      vars:
+        success_message: "Testing instance has been successfully provisioned at IP: {{ testing_instance.instance.ipv4[0] }}"
+      when: testing_instance.changed and debug_tasks.stat.exists
+      tags: [debug, verification]
+
+    - name: Display Testing Instance IP (fallback if debug_tasks.yml is missing)
+      debug:
+        msg: "Testing instance created with IP: {{ testing_instance.instance.ipv4[0] }}"
+      when: testing_instance.changed and not debug_tasks.stat.exists
+      tags: [instance, verification]
+
+    - name: Update inventory with new instance IP
+      tags: [instance, inventory, update]
+      shell: "./tools/update_inventory.sh testing {{ testing_instance.instance.ipv4[0] }}"
+      args:
+        chdir: "{{ playbook_dir }}/../../.."
+      delegate_to: localhost
+      when: testing_instance.changed

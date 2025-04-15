@@ -31,6 +31,6 @@
       Host *
         StrictHostKeyChecking no
         UserKnownHostsFile /dev/null
-        IdentityFile ~/.ssh/id_ed25519
+        IdentityFile /Users/unixthat/.ssh/id_ed25519
     dest: "{{ ansible_env.HOME }}/.ssh/config"
     mode: '0600' 

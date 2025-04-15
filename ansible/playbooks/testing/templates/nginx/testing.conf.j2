@@ -1,0 +1,49 @@
+server {
+    listen 80;
+    server_name testing;
+
+    # Root directory for the testing site
+    root /opt/oo-acs/src;
+
+    # Log files
+    access_log /var/log/nginx/testing-access.log;
+    error_log /var/log/nginx/testing-error.log;
+
+    # Default location block
+    location / {
+        # Default HTML file to serve
+        index index.html;
+        try_files $uri $uri/ =404;
+    }
+
+    # Test API endpoint
+    location /api {
+        # Simple "Hello World" message for API testing
+        return 200 '{"message": "Hello from OO-ACS Testing Environment"}';
+        add_header Content-Type application/json;
+    }
+
+    # Static files
+    location /static {
+        # Serve static files from this directory
+        alias /opt/oo-acs/src/static;
+        autoindex on;
+    }
+
+    # Health check endpoint
+    location /health {
+        return 200 'OK';
+        add_header Content-Type text/plain;
+    }
+
+    # Error pages
+    error_page 404 /404.html;
+    location = /404.html {
+        root /usr/share/nginx/html;
+    }
+
+    error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
+        root /usr/share/nginx/html;
+    }
+} 

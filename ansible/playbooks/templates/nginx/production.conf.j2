@@ -1,0 +1,28 @@
+server {
+    listen 80;
+    listen [::]:80;
+
+    root /opt/oo-acs/static;
+    index index.html index.htm;
+
+    server_name 45.79.236.250;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    # API endpoint
+    location /api {
+        default_type application/json;
+        return 200 '{"message": "Hello from OO-ACS Production Environment"}';
+    }
+    
+    # Health check endpoint
+    location /health {
+        default_type text/plain;
+        return 200 'OK';
+    }
+
+    access_log /var/log/nginx/production-access.log;
+    error_log /var/log/nginx/production-error.log;
+} 

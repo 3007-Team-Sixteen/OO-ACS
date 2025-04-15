@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Script to update Ansible inventory files with new server IPs
+# Script to update Ansible inventory files and SSH config with new server IPs
 # Usage: ./update_inventory.sh <environment> <new_ip>
 
 ENV=$1
@@ -23,7 +23,7 @@ TEMP_HOSTS=$(mktemp)
 while IFS= read -r line; do
     if [[ "$line" =~ ^\[$ENV\]$ ]]; then
         echo "$line" >> "$TEMP_HOSTS"
-        echo "${ENV}-server ansible_host=${NEW_IP} ansible_user=root ansible_ssh_private_key_file=/Users/unixthat/.ssh/linodeKey" >> "$TEMP_HOSTS"
+        echo "${ENV}-server ansible_host=oo-acs-${ENV} ansible_user=root" >> "$TEMP_HOSTS"
         read -r _ # skip the next line
     else
         echo "$line" >> "$TEMP_HOSTS"
@@ -37,7 +37,7 @@ TEMP_ENV=$(mktemp)
 while IFS= read -r line; do
     if [[ "$line" =~ ^\[$ENV\]$ ]]; then
         echo "$line" >> "$TEMP_ENV"
-        echo "${ENV}-server ansible_host=${NEW_IP} ansible_user=root ansible_ssh_private_key_file=/Users/unixthat/.ssh/linodeKey" >> "$TEMP_ENV"
+        echo "${ENV}-server ansible_host=oo-acs-${ENV} ansible_user=root" >> "$TEMP_ENV"
         read -r _ # skip the next line
     else
         echo "$line" >> "$TEMP_ENV"
@@ -45,7 +45,48 @@ while IFS= read -r line; do
 done < "$ENV_FILE"
 mv "$TEMP_ENV" "$ENV_FILE"
 
-echo "Updated IP address for $ENV environment to $NEW_IP"
+# Update SSH config
+SSH_CONFIG="$HOME/.ssh/config"
+TEMP_SSH=$(mktemp)
+IN_HOST_BLOCK=0
+UPDATED=0
+
+while IFS= read -r line || [ -n "$line" ]; do
+    if [[ "$line" =~ ^Host[[:space:]]+oo-acs-$ENV$ ]]; then
+        IN_HOST_BLOCK=1
+        UPDATED=1
+        echo "$line" >> "$TEMP_SSH"
+    elif [[ "$line" =~ ^Host[[:space:]] ]]; then
+        IN_HOST_BLOCK=0
+        echo "$line" >> "$TEMP_SSH"
+    elif [ $IN_HOST_BLOCK -eq 1 ]; then
+        if [[ "$line" =~ ^[[:space:]]*HostName ]]; then
+            echo "    HostName $NEW_IP" >> "$TEMP_SSH"
+        elif [[ "$line" =~ ^[[:space:]]*IdentityFile ]]; then
+            echo "    IdentityFile $HOME/.ssh/oo-acs-$ENV" >> "$TEMP_SSH"
+        else
+            echo "$line" >> "$TEMP_SSH"
+        fi
+    else
+        echo "$line" >> "$TEMP_SSH"
+    fi
+done < "$SSH_CONFIG"
+
+# If the host block wasn't found, add it
+if [ $UPDATED -eq 0 ]; then
+    echo "" >> "$TEMP_SSH"
+    echo "Host oo-acs-$ENV" >> "$TEMP_SSH"
+    echo "    HostName $NEW_IP" >> "$TEMP_SSH"
+    echo "    User root" >> "$TEMP_SSH"
+    echo "    IdentityFile $HOME/.ssh/oo-acs-$ENV" >> "$TEMP_SSH"
+    echo "    StrictHostKeyChecking no" >> "$TEMP_SSH"
+    echo "    UserKnownHostsFile /dev/null" >> "$TEMP_SSH"
+fi
+
+mv "$TEMP_SSH" "$SSH_CONFIG"
+chmod 600 "$SSH_CONFIG"
+
+echo "Updated IP address for $ENV environment to $NEW_IP in both inventory and SSH config"
 
 # Clean up backup files
 rm -f ansible/inventory/hosts.bak "ansible/inventory/$ENV.bak" 

@@ -1,0 +1,31 @@
+---
+- name: Create backup directory
+  file:
+    path: /opt/backups
+    state: directory
+    mode: '0755'
+
+- name: Create backup script
+  template:
+    src: backup.sh.j2
+    dest: /opt/backups/backup.sh
+    mode: '0755'
+
+- name: Create backup service
+  template:
+    src: backup.service.j2
+    dest: /etc/systemd/system/backup.service
+    mode: '0644'
+
+- name: Create backup timer
+  template:
+    src: backup.timer.j2
+    dest: /etc/systemd/system/backup.timer
+    mode: '0644'
+
+- name: Enable and start backup timer
+  systemd:
+    name: backup.timer
+    state: started
+    enabled: yes
+    daemon_reload: yes 

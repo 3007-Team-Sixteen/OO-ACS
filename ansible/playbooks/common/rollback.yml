@@ -1,0 +1,55 @@
+---
+- name: Rollback Environment
+  hosts: all
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Find most recent backup
+      tags: [backup, rollback, find]
+      shell: ls -t /opt/backups/pre_playbook_*.tar.gz | head -n 1
+      register: latest_backup
+      changed_when: false
+      failed_when: false
+
+    - name: Check if backup exists
+      tags: [backup, rollback, validation]
+      stat:
+        path: "{{ latest_backup.stdout }}"
+      register: backup_file
+      when: latest_backup.stdout is defined and latest_backup.stdout != ""
+
+    - name: Fail if no backup found
+      tags: [backup, rollback, validation]
+      fail:
+        msg: "No backup file found to rollback to"
+      when: backup_file is not defined or not backup_file.stat.exists
+
+    - name: Perform rollback
+      tags: [backup, rollback, restore]
+      block:
+        - name: Restore from backup
+          tags: [backup, rollback, restore]
+          shell: |
+            cd /opt/backups
+            tar -xzf "{{ latest_backup.stdout }}" -C /
+          register: restore_result
+          failed_when: restore_result.rc != 0
+
+        - name: Restart services after rollback
+          tags: [services, rollback]
+          service:
+            name: "{{ item }}"
+            state: restarted
+          loop:
+            - nginx
+            - ufw
+            - fail2ban
+            - ssh
+          ignore_errors: yes
+
+        - name: Display rollback status
+          tags: [backup, rollback, verification]
+          debug:
+            msg: "System has been rolled back to {{ latest_backup.stdout }}"
+      when: backup_file.stat.exists 

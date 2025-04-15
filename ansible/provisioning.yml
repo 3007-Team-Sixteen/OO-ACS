@@ -1,0 +1,9 @@
+---
+- name: Configure system locale
+  import_playbook: playbooks/locale.yml
+
+- name: Configure Prometheus
+  hosts: prometheus
+  become: yes
+  roles:
+    - prometheus 
