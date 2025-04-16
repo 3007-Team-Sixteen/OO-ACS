@@ -1,0 +1,33 @@
+name: Testing Environment CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.TESTING_SSH_KEY }}
+          known_hosts: ${{ secrets.TESTING_KNOWN_HOSTS }}
+          if_key_exists: fail
+          
+      - name: Deploy to Testing
+        run: |
+          ssh -o StrictHostKeyChecking=no oo-acs-deploy@${{ secrets.TESTING_HOST }} "cd /var/www/oo-acs && \
+            sudo git fetch origin && \
+            sudo git checkout main && \
+            sudo git pull origin main && \
+            sudo make clean && \
+            sudo make && \
+            sudo make test && \
+            sudo make install && \
+            sudo apt update && \
+            sudo apt upgrade -y" 

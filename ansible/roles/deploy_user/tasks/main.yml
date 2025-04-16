@@ -1,0 +1,63 @@
+---
+- name: Create deploy user
+  user:
+    name: oo-acs-deploy
+    shell: /bin/bash
+    create_home: yes
+    home: /home/oo-acs-deploy
+    groups: sudo
+    append: yes
+    state: present
+
+- name: Ensure .ssh directory exists
+  file:
+    path: /home/oo-acs-deploy/.ssh
+    state: directory
+    mode: '0700'
+    owner: oo-acs-deploy
+    group: oo-acs-deploy
+
+- name: Remove any existing SSH keys
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /home/oo-acs-deploy/.ssh/id_ed25519
+    - /home/oo-acs-deploy/.ssh/id_ed25519.pub
+    - /home/oo-acs-deploy/.ssh/authorized_keys
+  ignore_errors: yes
+
+- name: Generate new SSH key pair for deploy user
+  community.crypto.openssh_keypair:
+    path: /home/oo-acs-deploy/.ssh/id_ed25519
+    type: ed25519
+    size: 256
+    mode: '0600'
+    owner: oo-acs-deploy
+    group: oo-acs-deploy
+    comment: "oo-acs-deploy@{{ ansible_hostname }} deploy key"
+    force: yes
+  register: deploy_ssh_key
+
+- name: Display public key for GitHub
+  debug:
+    msg: "Add this public key to GitHub Secrets for {{ inventory_hostname }}: {{ lookup('file', '/home/oo-acs-deploy/.ssh/id_ed25519.pub') }}"
+  when: deploy_ssh_key.changed
+
+- name: Configure sudo access
+  copy:
+    dest: /etc/sudoers.d/oo-acs-deploy
+    content: |
+      oo-acs-deploy ALL=(ALL) NOPASSWD: /usr/bin/systemctl restart oo-acs
+      oo-acs-deploy ALL=(ALL) NOPASSWD: /usr/bin/make install
+      oo-acs-deploy ALL=(ALL) NOPASSWD: /usr/bin/make test
+    mode: '0440'
+    validate: 'visudo -cf %s'
+
+- name: Set up deployment directory
+  file:
+    path: /opt/oo-acs
+    state: directory
+    owner: oo-acs-deploy
+    group: oo-acs-deploy
+    mode: '0755' 

@@ -64,7 +64,7 @@ while IFS= read -r line || [ -n "$line" ]; do
             echo "    HostName $NEW_IP" >> "$TEMP_SSH"
         elif [[ "$line" =~ ^[[:space:]]*IdentityFile ]]; then
             echo "    IdentityFile $HOME/.ssh/oo-acs-$ENV" >> "$TEMP_SSH"
-        else
+        elif [[ ! "$line" =~ ^[[:space:]]*(StrictHostKeyChecking|UserKnownHostsFile) ]]; then
             echo "$line" >> "$TEMP_SSH"
         fi
     else
@@ -79,8 +79,6 @@ if [ $UPDATED -eq 0 ]; then
     echo "    HostName $NEW_IP" >> "$TEMP_SSH"
     echo "    User root" >> "$TEMP_SSH"
     echo "    IdentityFile $HOME/.ssh/oo-acs-$ENV" >> "$TEMP_SSH"
-    echo "    StrictHostKeyChecking no" >> "$TEMP_SSH"
-    echo "    UserKnownHostsFile /dev/null" >> "$TEMP_SSH"
 fi
 
 mv "$TEMP_SSH" "$SSH_CONFIG"

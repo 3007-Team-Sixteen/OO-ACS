@@ -1,0 +1,74 @@
+---
+- name: Set up deploy user on production server
+  hosts: production
+  become: yes
+  vars:
+    deploy_user: oo-acs-deploy
+    deploy_home: /home/oo-acs-deploy
+    deploy_dir: /opt/oo-acs
+
+  tasks:
+    - name: Create deploy user
+      user:
+        name: "{{ deploy_user }}"
+        shell: /bin/bash
+        create_home: yes
+        home: "{{ deploy_home }}"
+        state: present
+
+    - name: Create .ssh directory
+      file:
+        path: "{{ deploy_home }}/.ssh"
+        state: directory
+        mode: '0700'
+        owner: "{{ deploy_user }}"
+        group: "{{ deploy_user }}"
+
+    - name: Copy deployment key
+      copy:
+        src: "{{ lookup('env', 'HOME') }}/.ssh/deployment-production"
+        dest: "{{ deploy_home }}/.ssh/id_ed25519"
+        mode: '0600'
+        owner: "{{ deploy_user }}"
+        group: "{{ deploy_user }}"
+
+    - name: Copy deployment public key
+      copy:
+        src: "{{ lookup('env', 'HOME') }}/.ssh/deployment-production.pub"
+        dest: "{{ deploy_home }}/.ssh/id_ed25519.pub"
+        mode: '0644'
+        owner: "{{ deploy_user }}"
+        group: "{{ deploy_user }}"
+
+    - name: Set up authorized_keys
+      copy:
+        content: "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/deployment-production.pub') }}"
+        dest: "{{ deploy_home }}/.ssh/authorized_keys"
+        mode: '0600'
+        owner: "{{ deploy_user }}"
+        group: "{{ deploy_user }}"
+
+    - name: Create deployment directory
+      file:
+        path: "{{ deploy_dir }}"
+        state: directory
+        mode: '0755'
+        owner: "{{ deploy_user }}"
+        group: "{{ deploy_user }}"
+
+    - name: Configure sudo access
+      copy:
+        dest: /etc/sudoers.d/oo-acs-deploy
+        content: |
+          {{ deploy_user }} ALL=(ALL) NOPASSWD: /usr/bin/make test
+          {{ deploy_user }} ALL=(ALL) NOPASSWD: /usr/bin/make install
+          {{ deploy_user }} ALL=(ALL) NOPASSWD: /usr/bin/systemctl restart oo-acs
+          {{ deploy_user }} ALL=(ALL) NOPASSWD: /usr/bin/make verify-production
+        mode: '0440'
+        validate: 'visudo -cf %s'
+
+    - name: Ensure deploy user can access git
+      shell: |
+        su - {{ deploy_user }} -c "git config --global --add safe.directory {{ deploy_dir }}"
+      args:
+        creates: "{{ deploy_home }}/.gitconfig" 
